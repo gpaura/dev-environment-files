@@ -1,0 +1,10 @@
+2024-11-21 09:06:49,011 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2024-11-21 09:06:49,011 DEBUG    root            Running [gcloud.version] with arguments: [--format: "json"]
+2024-11-21 09:06:49,104 DEBUG    root            Chosen display Format:flattened[no-pad,separator=" "] json
+2024-11-21 09:06:49,104 INFO     root            Display format: "flattened[no-pad,separator=" "] json"
+2024-11-21 09:06:49,131 INFO     ___FILE_ONLY___ {
+  "Google Cloud SDK": "501.0.0",
+  "core": "2024.11.08"
+}
+2024-11-21 09:06:49,131 INFO     ___FILE_ONLY___ 
+

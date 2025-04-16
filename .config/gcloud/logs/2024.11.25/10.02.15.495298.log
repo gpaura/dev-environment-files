@@ -1,0 +1,24 @@
+2024-11-25 10:02:15,495 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2024-11-25 10:02:15,496 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2024-11-25 10:02:15,496 DEBUG    root            Running [gcloud.version] with arguments: [--format: "json"]
+2024-11-25 10:02:15,497 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2024-11-25 10:02:15,498 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2024-11-25 10:02:15,499 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2024-11-25 10:02:15,500 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2024-11-25 10:02:15,500 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2024-11-25 10:02:15,511 INFO     ___FILE_ONLY___ 
+
+2024-11-25 10:02:15,550 DEBUG    root            Chosen display Format:flattened[no-pad,separator=" "] json
+2024-11-25 10:02:15,550 INFO     root            Display format: "flattened[no-pad,separator=" "] json"
+2024-11-25 10:02:15,561 INFO     ___FILE_ONLY___ {
+  "Google Cloud SDK": "502.0.0",
+  "alpha": "2024.11.15",
+  "beta": "2024.11.15",
+  "core": "2024.11.15",
+  "gke-gcloud-auth-plugin": "0.5.9",
+  "kubectl": "1.30.5",
+  "minikube": "1.34.0",
+  "skaffold": "2.13.1"
+}
+2024-11-25 10:02:15,561 INFO     ___FILE_ONLY___ 
+
