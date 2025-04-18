@@ -9,7 +9,7 @@ return {
     lazy = false, -- Load immediately
     config = function()
       require("catppuccin").setup({
-        flavour = "mocha",
+        flavour = "latte", -- latte, frappe, macchiato, mocha
         transparent_background = true,
         integrations = {
           cmp = true,
