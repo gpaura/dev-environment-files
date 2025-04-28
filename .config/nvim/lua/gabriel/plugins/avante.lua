@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/gabriel/plugins/avante.lua
--- Enhanced Avante AI configuration with customized themes
+-- Enhanced Avante AI configuration with customized themes and Claude API
 
 return {
   "yetone/avante.nvim",
@@ -47,16 +47,15 @@ return {
     local theme_colors = colors[current_theme]
 
     require("avante").setup({
-      -- AI Service provider configuration
-      provider = "openai",
-      openai = {
-        endpoint = "https://api.openai.com/v1",
-        model = "gpt-4o",
-        timeout = 30000,
-        temperature = 0,
-        max_completion_tokens = 8192,
+      -- AI Service provider configuration - Using Claude (built-in provider)
+      provider = "claude",
+      claude = {
+        model = "claude-3-5-sonnet-latest", -- Claude 3.5 Sonnet is recommended
+        timeout = 60000, -- Increased timeout for Claude
+        temperature = 0, -- Keeping temperature at 0 for deterministic responses
+        max_tokens = 4096, -- Claude token limit
       },
-
+      system_prompt = "You are a helpful coding assistant integrated with Neovim. Please respond in English.", -- Custom system prompt
       -- UI Customization
       ui = {
         -- Window appearance
@@ -98,10 +97,10 @@ return {
           button_bg_hover = theme_colors.secondary,
         },
 
-        -- Icons
+        -- Icons - Using Anthropic-themed icon for assistant
         icons = {
           user = "󰀄 ", -- User icon
-          assistant = "󰚩 ", -- AI assistant icon
+          assistant = "󱙺 ", -- Updated AI assistant icon for Claude
           thinking = "󰔟 ", -- Thinking animation
           error = " ", -- Error icon
           success = "󰄬 ", -- Success icon
@@ -111,7 +110,7 @@ return {
       -- Keymappings for Avante
       keymaps = {
         -- Toggle Avante window
-        toggle = "<leader>av",
+        toggle = "<leader>aa",
         -- Submit prompt
         submit = "<C-Enter>",
         -- Close window
@@ -122,7 +121,7 @@ return {
         clear = "cc",
       },
 
-      -- File type specific prompts
+      -- File type specific prompts - Adapted for Claude
       filetype_prompts = {
         lua = "You are an expert Lua programmer specializing in Neovim plugins.",
         python = "You are a Python expert focusing on clean and efficient code.",
@@ -131,6 +130,7 @@ return {
         go = "You are a Go expert who follows idiomatic practices.",
         rust = "You are a Rust expert focused on safety and performance.",
         markdown = "You are an expert at writing clear and concise documentation.",
+        sql = "You are an expert SQL DBA expert focusing on clean and efficient query",
         -- Add more as needed
       },
 
