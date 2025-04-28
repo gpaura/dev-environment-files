@@ -1,0 +1,12 @@
+2024-12-02 11:49:46,758 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2024-12-02 11:49:46,758 DEBUG    root            Running [gcloud.version] with arguments: [--format: "json"]
+2024-12-02 11:49:46,808 DEBUG    root            Chosen display Format:flattened[no-pad,separator=" "] json
+2024-12-02 11:49:46,808 INFO     root            Display format: "flattened[no-pad,separator=" "] json"
+2024-12-02 11:49:46,936 INFO     ___FILE_ONLY___ {
+  "Google Cloud SDK": "502.0.0",
+  "core": "2024.11.15",
+  "minikube": "1.34.0"
+}
+2024-12-02 11:49:46,937 INFO     ___FILE_ONLY___ 
+
+2024-12-02 11:49:46,975 DEBUG    root            Metrics reporting process started...

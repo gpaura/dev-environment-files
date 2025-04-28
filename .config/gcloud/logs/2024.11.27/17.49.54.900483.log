@@ -1,0 +1,468 @@
+2024-11-27 17:49:54,901 DEBUG    root            Loaded Command Group: ['gcloud', 'meta']
+2024-11-27 17:49:54,903 DEBUG    root            Loaded Command Group: ['gcloud', 'meta', 'list_commands']
+2024-11-27 17:49:54,904 DEBUG    root            Running [gcloud.meta.list-commands] with arguments: []
+2024-11-27 17:49:54,905 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/terraform]
+2024-11-27 17:49:54,905 DEBUG    root            Loaded Command Group: ['gcloud', 'billing']
+2024-11-27 17:49:54,907 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'projects']
+2024-11-27 17:49:54,909 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'projects', 'unlink']
+2024-11-27 17:49:54,909 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'projects', 'link']
+2024-11-27 17:49:54,910 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'projects', 'list']
+2024-11-27 17:49:54,910 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'projects', 'describe']
+2024-11-27 17:49:54,910 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets']
+2024-11-27 17:49:54,922 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets', 'delete']
+2024-11-27 17:49:54,945 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets', 'update']
+2024-11-27 17:49:54,950 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets', 'list']
+2024-11-27 17:49:54,968 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets', 'create']
+2024-11-27 17:49:54,972 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'budgets', 'describe']
+2024-11-27 17:49:54,974 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts']
+2024-11-27 17:49:54,987 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'set_iam_policy']
+2024-11-27 17:49:54,991 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'get_iam_policy']
+2024-11-27 17:49:54,993 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'list']
+2024-11-27 17:49:54,995 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'remove_iam_policy_binding']
+2024-11-27 17:49:54,999 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'add_iam_policy_binding']
+2024-11-27 17:49:55,001 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/billing/accounts/projects]
+2024-11-27 17:49:55,001 DEBUG    root            Loaded Command Group: ['gcloud', 'billing', 'accounts', 'describe']
+2024-11-27 17:49:55,002 DEBUG    root            Loaded Command Group: ['gcloud', 'access_context_manager']
+2024-11-27 17:49:55,003 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'supported_services']
+2024-11-27 17:49:55,005 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'supported-services', 'list']
+2024-11-27 17:49:55,013 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'supported-services', 'describe']
+2024-11-27 17:49:55,016 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized_orgs']
+2024-11-27 17:49:55,020 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized-orgs', 'delete']
+2024-11-27 17:49:55,024 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized-orgs', 'update']
+2024-11-27 17:49:55,027 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized-orgs', 'list']
+2024-11-27 17:49:55,033 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized-orgs', 'create']
+2024-11-27 17:49:55,038 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'authorized-orgs', 'describe']
+2024-11-27 17:49:55,041 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters']
+2024-11-27 17:49:55,043 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'delete']
+2024-11-27 17:49:55,052 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'replace_all']
+2024-11-27 17:49:55,054 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry_run']
+2024-11-27 17:49:55,055 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'delete']
+2024-11-27 17:49:55,056 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'drop']
+2024-11-27 17:49:55,056 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'enforce_all']
+2024-11-27 17:49:55,056 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'describe']
+2024-11-27 17:49:55,057 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'enforce']
+2024-11-27 17:49:55,058 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'update']
+2024-11-27 17:49:55,059 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'list']
+2024-11-27 17:49:55,059 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'dry-run', 'create']
+2024-11-27 17:49:55,062 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'describe']
+2024-11-27 17:49:55,065 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'update']
+2024-11-27 17:49:55,066 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/access_context_manager/perimeters/config]
+2024-11-27 17:49:55,068 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'list']
+2024-11-27 17:49:55,078 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'perimeters', 'create']
+2024-11-27 17:49:55,081 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud_bindings']
+2024-11-27 17:49:55,083 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud-bindings', 'delete']
+2024-11-27 17:49:55,093 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud-bindings', 'update']
+2024-11-27 17:49:55,100 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud-bindings', 'list']
+2024-11-27 17:49:55,114 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud-bindings', 'create']
+2024-11-27 17:49:55,116 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'cloud-bindings', 'describe']
+2024-11-27 17:49:55,118 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels']
+2024-11-27 17:49:55,121 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'delete']
+2024-11-27 17:49:55,127 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'replace_all']
+2024-11-27 17:49:55,129 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'conditions']
+2024-11-27 17:49:55,131 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'conditions', 'list']
+2024-11-27 17:49:55,136 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'describe']
+2024-11-27 17:49:55,138 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'update']
+2024-11-27 17:49:55,139 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/access_context_manager/levels/config]
+2024-11-27 17:49:55,141 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'list']
+2024-11-27 17:49:55,148 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'levels', 'create']
+2024-11-27 17:49:55,150 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies']
+2024-11-27 17:49:55,153 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'delete']
+2024-11-27 17:49:55,158 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'set_iam_policy']
+2024-11-27 17:49:55,162 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'remove_iam_policy_binding']
+2024-11-27 17:49:55,164 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/access_context_manager/policies/quotas]
+2024-11-27 17:49:55,166 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'describe']
+2024-11-27 17:49:55,168 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'update']
+2024-11-27 17:49:55,168 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/access_context_manager/policies/config]
+2024-11-27 17:49:55,171 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'get_iam_policy']
+2024-11-27 17:49:55,175 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'list']
+2024-11-27 17:49:55,179 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'add_iam_policy_binding']
+2024-11-27 17:49:55,184 DEBUG    root            Loaded Command Group: ['gcloud', 'access-context-manager', 'policies', 'create']
+2024-11-27 17:49:55,185 DEBUG    root            Loaded Command Group: ['gcloud', 'database_migration']
+2024-11-27 17:49:55,187 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'objects']
+2024-11-27 17:49:55,192 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'objects', 'list']
+2024-11-27 17:49:55,204 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'objects', 'lookup']
+2024-11-27 17:49:55,205 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'operations']
+2024-11-27 17:49:55,229 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'operations', 'delete']
+2024-11-27 17:49:55,235 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'operations', 'list']
+2024-11-27 17:49:55,238 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'operations', 'describe']
+2024-11-27 17:49:55,242 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration_jobs']
+2024-11-27 17:49:55,244 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'delete']
+2024-11-27 17:49:55,249 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'verify']
+2024-11-27 17:49:55,255 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'resume']
+2024-11-27 17:49:55,260 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'start']
+2024-11-27 17:49:55,273 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'promote']
+2024-11-27 17:49:55,277 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'stop']
+2024-11-27 17:49:55,282 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'describe']
+2024-11-27 17:49:55,289 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'generate_ssh_script']
+2024-11-27 17:49:55,294 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'update']
+2024-11-27 17:49:55,297 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'fetch_source_objects']
+2024-11-27 17:49:55,301 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'list']
+2024-11-27 17:49:55,304 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'demote_destination']
+2024-11-27 17:49:55,308 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'restart']
+2024-11-27 17:49:55,310 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'migration-jobs', 'create']
+2024-11-27 17:49:55,322 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion_workspaces']
+2024-11-27 17:49:55,324 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'rollback']
+2024-11-27 17:49:55,326 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'apply']
+2024-11-27 17:49:55,328 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'seed']
+2024-11-27 17:49:55,333 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'describe']
+2024-11-27 17:49:55,352 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'list']
+2024-11-27 17:49:55,355 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'import_rules']
+2024-11-27 17:49:55,357 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'create']
+2024-11-27 17:49:55,358 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'delete']
+2024-11-27 17:49:55,360 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'convert_application_code']
+2024-11-27 17:49:55,364 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'list_background_jobs']
+2024-11-27 17:49:55,368 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'describe_entities']
+2024-11-27 17:49:55,369 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'commit']
+2024-11-27 17:49:55,371 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'convert']
+2024-11-27 17:49:55,373 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'update']
+2024-11-27 17:49:55,375 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'describe_ddls']
+2024-11-27 17:49:55,377 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'conversion-workspaces', 'describe_issues']
+2024-11-27 17:49:55,378 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'private_connections']
+2024-11-27 17:49:55,381 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'private-connections', 'delete']
+2024-11-27 17:49:55,383 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'private-connections', 'describe']
+2024-11-27 17:49:55,388 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'private-connections', 'list']
+2024-11-27 17:49:55,391 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'private-connections', 'create']
+2024-11-27 17:49:55,396 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection_profiles']
+2024-11-27 17:49:55,399 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'delete']
+2024-11-27 17:49:55,407 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'update']
+2024-11-27 17:49:55,409 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'test']
+2024-11-27 17:49:55,411 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'list']
+2024-11-27 17:49:55,413 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'describe']
+2024-11-27 17:49:55,417 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create']
+2024-11-27 17:49:55,418 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'oracle']
+2024-11-27 17:49:55,422 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'cloudsql']
+2024-11-27 17:49:55,427 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'sqlserver']
+2024-11-27 17:49:55,429 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'alloydb']
+2024-11-27 17:49:55,433 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'postgresql']
+2024-11-27 17:49:55,435 DEBUG    root            Loaded Command Group: ['gcloud', 'database-migration', 'connection-profiles', 'create', 'mysql']
+2024-11-27 17:49:55,437 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache']
+2024-11-27 17:49:55,437 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'operations']
+2024-11-27 17:49:55,451 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'operations', 'delete']
+2024-11-27 17:49:55,455 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'operations', 'list']
+2024-11-27 17:49:55,459 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'operations', 'describe']
+2024-11-27 17:49:55,462 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'regions']
+2024-11-27 17:49:55,464 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'regions', 'list']
+2024-11-27 17:49:55,467 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'regions', 'describe']
+2024-11-27 17:49:55,469 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances']
+2024-11-27 17:49:55,471 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'delete']
+2024-11-27 17:49:55,477 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'describe']
+2024-11-27 17:49:55,489 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'update']
+2024-11-27 17:49:55,492 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/memcache/instances/config]
+2024-11-27 17:49:55,494 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'list']
+2024-11-27 17:49:55,498 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'apply_parameters']
+2024-11-27 17:49:55,512 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'apply_software_update']
+2024-11-27 17:49:55,519 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'reschedule_maintenance']
+2024-11-27 17:49:55,525 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'upgrade']
+2024-11-27 17:49:55,536 DEBUG    root            Loaded Command Group: ['gcloud', 'memcache', 'instances', 'create']
+2024-11-27 17:49:55,539 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner']
+2024-11-27 17:49:55,541 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'operations']
+2024-11-27 17:49:55,554 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'operations', 'list']
+2024-11-27 17:49:55,554 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'operations', 'cancel']
+2024-11-27 17:49:55,555 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'operations', 'describe']
+2024-11-27 17:49:55,555 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/instance_partitions]
+2024-11-27 17:49:55,555 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases']
+2024-11-27 17:49:55,556 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'roles']
+2024-11-27 17:49:55,557 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'roles', 'list']
+2024-11-27 17:49:55,558 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'sessions']
+2024-11-27 17:49:55,565 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'sessions', 'delete']
+2024-11-27 17:49:55,565 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'sessions', 'list']
+2024-11-27 17:49:55,566 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'restore']
+2024-11-27 17:49:55,566 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/databases/splits]
+2024-11-27 17:49:55,567 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'execute_sql']
+2024-11-27 17:49:55,567 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'describe']
+2024-11-27 17:49:55,568 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/databases/config]
+2024-11-27 17:49:55,568 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'list']
+2024-11-27 17:49:55,568 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'change_quorum']
+2024-11-27 17:49:55,569 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'create']
+2024-11-27 17:49:55,570 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'delete']
+2024-11-27 17:49:55,571 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'set_iam_policy']
+2024-11-27 17:49:55,578 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'remove_iam_policy_binding']
+2024-11-27 17:49:55,582 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'update']
+2024-11-27 17:49:55,583 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'get_iam_policy']
+2024-11-27 17:49:55,584 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'ddl']
+2024-11-27 17:49:55,584 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'ddl', 'update']
+2024-11-27 17:49:55,585 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'ddl', 'describe']
+2024-11-27 17:49:55,587 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'databases', 'add_iam_policy_binding']
+2024-11-27 17:49:55,591 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance_configs']
+2024-11-27 17:49:55,592 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance-configs', 'delete']
+2024-11-27 17:49:55,592 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance-configs', 'update']
+2024-11-27 17:49:55,593 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance-configs', 'list']
+2024-11-27 17:49:55,593 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance-configs', 'create']
+2024-11-27 17:49:55,594 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instance-configs', 'describe']
+2024-11-27 17:49:55,594 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'rows']
+2024-11-27 17:49:55,595 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'rows', 'delete']
+2024-11-27 17:49:55,596 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'rows', 'update']
+2024-11-27 17:49:55,596 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'rows', 'insert']
+2024-11-27 17:49:55,597 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups']
+2024-11-27 17:49:55,602 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'delete']
+2024-11-27 17:49:55,607 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'set_iam_policy']
+2024-11-27 17:49:55,613 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'update_metadata']
+2024-11-27 17:49:55,617 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'copy']
+2024-11-27 17:49:55,620 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'remove_iam_policy_binding']
+2024-11-27 17:49:55,625 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'describe']
+2024-11-27 17:49:55,630 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'get_iam_policy']
+2024-11-27 17:49:55,637 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'list']
+2024-11-27 17:49:55,641 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'add_iam_policy_binding']
+2024-11-27 17:49:55,645 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backups', 'create']
+2024-11-27 17:49:55,646 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/migrate]
+2024-11-27 17:49:55,646 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/ssd_caches]
+2024-11-27 17:49:55,646 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup_schedules']
+2024-11-27 17:49:55,647 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'delete']
+2024-11-27 17:49:55,649 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'set_iam_policy']
+2024-11-27 17:49:55,656 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'remove_iam_policy_binding']
+2024-11-27 17:49:55,661 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'describe']
+2024-11-27 17:49:55,661 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'update']
+2024-11-27 17:49:55,663 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'get_iam_policy']
+2024-11-27 17:49:55,668 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'list']
+2024-11-27 17:49:55,670 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'add_iam_policy_binding']
+2024-11-27 17:49:55,675 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'backup-schedules', 'create']
+2024-11-27 17:49:55,676 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances']
+2024-11-27 17:49:55,677 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'delete']
+2024-11-27 17:49:55,679 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'set_iam_policy']
+2024-11-27 17:49:55,682 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'get_locations']
+2024-11-27 17:49:55,684 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'remove_iam_policy_binding']
+2024-11-27 17:49:55,687 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'move']
+2024-11-27 17:49:55,687 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'describe']
+2024-11-27 17:49:55,688 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'update']
+2024-11-27 17:49:55,688 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/spanner/instances/config]
+2024-11-27 17:49:55,690 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'get_iam_policy']
+2024-11-27 17:49:55,693 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'list']
+2024-11-27 17:49:55,695 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'add_iam_policy_binding']
+2024-11-27 17:49:55,698 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'instances', 'create']
+2024-11-27 17:49:55,699 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples']
+2024-11-27 17:49:55,707 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples', 'init']
+2024-11-27 17:49:55,707 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples', 'workload']
+2024-11-27 17:49:55,708 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples', 'list']
+2024-11-27 17:49:55,709 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples', 'run']
+2024-11-27 17:49:55,709 DEBUG    root            Loaded Command Group: ['gcloud', 'spanner', 'samples', 'backend']
+2024-11-27 17:49:55,710 DEBUG    root            Loaded Command Group: ['gcloud', 'edge_cloud']
+2024-11-27 17:49:55,711 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container']
+2024-11-27 17:49:55,712 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'operations']
+2024-11-27 17:49:55,722 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'operations', 'wait']
+2024-11-27 17:49:55,727 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'operations', 'describe']
+2024-11-27 17:49:55,730 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'machines']
+2024-11-27 17:49:55,732 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'machines', 'list']
+2024-11-27 17:49:55,736 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'machines', 'describe']
+2024-11-27 17:49:55,741 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'get_server_config']
+2024-11-27 17:49:55,743 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'vpn_connections']
+2024-11-27 17:49:55,745 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'vpn-connections', 'delete']
+2024-11-27 17:49:55,751 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'vpn-connections', 'describe']
+2024-11-27 17:49:55,755 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'vpn-connections', 'list']
+2024-11-27 17:49:55,761 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'vpn-connections', 'create']
+2024-11-27 17:49:55,764 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'zones']
+2024-11-27 17:49:55,767 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'zones', 'list']
+2024-11-27 17:49:55,770 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'zones', 'describe']
+2024-11-27 17:49:55,773 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters']
+2024-11-27 17:49:55,775 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'delete']
+2024-11-27 17:49:55,869 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'get_credentials']
+2024-11-27 17:49:55,871 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'describe']
+2024-11-27 17:49:55,882 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'update']
+2024-11-27 17:49:55,885 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node_pools']
+2024-11-27 17:49:55,887 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node-pools', 'delete']
+2024-11-27 17:49:55,891 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node-pools', 'update']
+2024-11-27 17:49:55,894 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node-pools', 'list']
+2024-11-27 17:49:55,897 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node-pools', 'create']
+2024-11-27 17:49:55,899 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'node-pools', 'describe']
+2024-11-27 17:49:55,905 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'list']
+2024-11-27 17:49:55,907 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'print_access_token']
+2024-11-27 17:49:55,907 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'upgrade']
+2024-11-27 17:49:55,908 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'clusters', 'create']
+2024-11-27 17:49:55,909 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'regions']
+2024-11-27 17:49:55,911 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'regions', 'list']
+2024-11-27 17:49:55,913 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'container', 'regions', 'describe']
+2024-11-27 17:49:55,916 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'networking']
+2024-11-27 17:49:55,917 DEBUG    root            No implementation for release track [GA] for element: [/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/edge_cloud/networking/routes]
+2024-11-27 17:49:55,917 DEBUG    root            Loaded Command Group: ['gcloud', 'edge-cloud', 'networking', 'operations']
+2024-11-27 17:49:55,926 DEBUG    root            unterminated triple-quoted string literal (detected at line 633) (edgenetwork_v1_messages.py, line 623)
+Traceback (most recent call last):
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 998, in Execute
+    resources = calliope_command.Run(cli=self, args=args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 843, in Run
+    resources = command_instance.Run(args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/meta/list_commands.py", line 181, in Run
+    return walker_util.CommandTreeGenerator(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/walker_util.py", line 470, in __init__
+    super(CommandTreeGenerator, self).__init__(cli, **kwargs)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/walker.py", line 71, in __init__
+    self._num_nodes += 1.0 + root.LoadAllSubElements(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 643, in LoadAllSubElements
+    element = self.LoadSubElement(name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 692, in LoadSubElement
+    element = Command(
+              ^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 805, in __init__
+    common_type = command_loading.LoadCommonType(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/command_loading.py", line 167, in LoadCommonType
+    return _ExtractReleaseTrackImplementation(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/command_loading.py", line 657, in <lambda>
+    (lambda i=i: yaml_command_translator.Translate(path, i),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 62, in Translate
+    return CommandBuilder().Generate(spec, path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 156, in Generate
+    generator = self.GetCommandGenerator(spec, path)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 143, in GetCommandGenerator
+    return self.command_generators[spec.command_type](spec)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 310, in __init__
+    self.InitializeGeneratorForCommand()
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 319, in InitializeGeneratorForCommand
+    self.methods = self._GetMethods()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 329, in _GetMethods
+    methods.append(registry.GetMethod(
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 572, in GetMethod
+    methods = GetMethods(
+              ^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 611, in GetMethods
+    client = _GetApiClient(api_collection.api_name, api_collection.api_version)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 589, in _GetApiClient
+    client = apis.GetClientInstance(api_name, api_version, no_http=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis.py", line 270, in GetClientInstance
+    return apis_internal._GetClientInstance(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 173, in _GetClientInstance
+    client_class = _GetClientClass(api_name, api_version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 122, in _GetClientClass
+    return _GetClientClassFromDef(api_def)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 136, in _GetClientClassFromDef
+    module_obj = __import__(module_path, fromlist=[client_class_name])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/generated_clients/apis/edgenetwork/v1/edgenetwork_v1_client.py", line 7, in <module>
+    from googlecloudsdk.generated_clients.apis.edgenetwork.v1 import edgenetwork_v1_messages as messages
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/generated_clients/apis/edgenetwork/v1/edgenetwork_v1_messages.py", line 623
+    r"""A EdgenetworkProjectsLocationsZonesSubnetsDeleteRequest object.
+    ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 633)
+2024-11-27 17:49:55,931 ERROR    ___FILE_ONLY___ BEGIN CRASH STACKTRACE
+Traceback (most recent call last):
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/crash_handling.py", line 199, in Wrapper
+    target_function(*args, **kwargs)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/gcloud_main.py", line 199, in main
+    gcloud_cli.Execute()
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 1024, in Execute
+    self._HandleAllErrors(exc, command_path_string, specified_arg_names)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 1061, in _HandleAllErrors
+    exceptions.HandleError(exc, command_path_string, self.__known_error_handler)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/exceptions.py", line 557, in HandleError
+    core_exceptions.reraise(exc)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/core/exceptions.py", line 149, in reraise
+    six.reraise(type(exc_value), exc_value, tb)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/third_party/six/__init__.py", line 719, in reraise
+    raise value
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 998, in Execute
+    resources = calliope_command.Run(cli=self, args=args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 843, in Run
+    resources = command_instance.Run(args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/surface/meta/list_commands.py", line 181, in Run
+    return walker_util.CommandTreeGenerator(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/walker_util.py", line 470, in __init__
+    super(CommandTreeGenerator, self).__init__(cli, **kwargs)
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/walker.py", line 71, in __init__
+    self._num_nodes += 1.0 + root.LoadAllSubElements(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 652, in LoadAllSubElements
+    total += element.LoadAllSubElements(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 643, in LoadAllSubElements
+    element = self.LoadSubElement(name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 692, in LoadSubElement
+    element = Command(
+              ^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 805, in __init__
+    common_type = command_loading.LoadCommonType(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/command_loading.py", line 167, in LoadCommonType
+    return _ExtractReleaseTrackImplementation(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/calliope/command_loading.py", line 657, in <lambda>
+    (lambda i=i: yaml_command_translator.Translate(path, i),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 62, in Translate
+    return CommandBuilder().Generate(spec, path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 156, in Generate
+    generator = self.GetCommandGenerator(spec, path)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 143, in GetCommandGenerator
+    return self.command_generators[spec.command_type](spec)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 310, in __init__
+    self.InitializeGeneratorForCommand()
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 319, in InitializeGeneratorForCommand
+    self.methods = self._GetMethods()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/yaml_command_translator.py", line 329, in _GetMethods
+    methods.append(registry.GetMethod(
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 572, in GetMethod
+    methods = GetMethods(
+              ^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 611, in GetMethods
+    client = _GetApiClient(api_collection.api_name, api_collection.api_version)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/command_lib/util/apis/registry.py", line 589, in _GetApiClient
+    client = apis.GetClientInstance(api_name, api_version, no_http=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis.py", line 270, in GetClientInstance
+    return apis_internal._GetClientInstance(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 173, in _GetClientInstance
+    client_class = _GetClientClass(api_name, api_version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 122, in _GetClientClass
+    return _GetClientClassFromDef(api_def)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/apis_internal.py", line 136, in _GetClientClassFromDef
+    module_obj = __import__(module_path, fromlist=[client_class_name])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/generated_clients/apis/edgenetwork/v1/edgenetwork_v1_client.py", line 7, in <module>
+    from googlecloudsdk.generated_clients.apis.edgenetwork.v1 import edgenetwork_v1_messages as messages
+  File "/Users/gabrielpaura/Library/Application Support/cloud-code/installer/google-cloud-sdk/lib/googlecloudsdk/generated_clients/apis/edgenetwork/v1/edgenetwork_v1_messages.py", line 623
+    r"""A EdgenetworkProjectsLocationsZonesSubnetsDeleteRequest object.
+    ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 633)
+2024-11-27 17:49:55,934 ERROR    root            gcloud crashed (SyntaxError): unterminated triple-quoted string literal (detected at line 633) (edgenetwork_v1_messages.py, line 623)
+2024-11-27 17:49:55,941 INFO     ___FILE_ONLY___ 
+If you would like to report this issue, please run the following command:
+
+2024-11-27 17:49:55,941 INFO     ___FILE_ONLY___   gcloud feedback
+
+2024-11-27 17:49:55,941 INFO     ___FILE_ONLY___ 
+To check gcloud for common problems, please run the following command:
+
+2024-11-27 17:49:55,941 INFO     ___FILE_ONLY___   gcloud info --run-diagnostics
+

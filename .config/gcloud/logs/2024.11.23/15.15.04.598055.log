@@ -1,0 +1,6 @@
+2024-11-23 15:15:04,598 DEBUG    root            Loaded Command Group: ['gcloud', 'components']
+2024-11-23 15:15:04,599 DEBUG    root            Loaded Command Group: ['gcloud', 'components', 'post_process']
+2024-11-23 15:15:04,600 DEBUG    root            Running [gcloud.components.post-process] with arguments: [--no-compile-python: "False"]
+2024-11-23 15:15:04,600 DEBUG    root            Chosen display Format:none
+2024-11-23 15:15:04,600 INFO     root            Display format: "none"
+2024-11-23 15:15:04,602 DEBUG    root            Metrics reporting process started...

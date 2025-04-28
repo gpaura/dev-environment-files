@@ -1,0 +1,17 @@
+2024-11-15 11:18:51,221 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2024-11-15 11:18:51,221 DEBUG    root            Running [gcloud.version] with arguments: [--format: "json"]
+2024-11-15 11:18:51,223 DEBUG    root            Chosen display Format:flattened[no-pad,separator=" "] json
+2024-11-15 11:18:51,223 INFO     root            Display format: "flattened[no-pad,separator=" "] json"
+2024-11-15 11:18:51,232 INFO     ___FILE_ONLY___ {
+  "Google Cloud SDK": "501.0.0",
+  "alpha": "2024.11.08",
+  "beta": "2024.11.08",
+  "core": "2024.11.08",
+  "gke-gcloud-auth-plugin": "0.5.9",
+  "kubectl": "1.30.5",
+  "minikube": "1.34.0",
+  "skaffold": "2.13.1"
+}
+2024-11-15 11:18:51,232 INFO     ___FILE_ONLY___ 
+
+2024-11-15 11:18:51,235 DEBUG    root            Metrics reporting process started...

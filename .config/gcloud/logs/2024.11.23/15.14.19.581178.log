@@ -1,0 +1,21 @@
+2024-11-23 15:14:19,581 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2024-11-23 15:14:19,582 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2024-11-23 15:14:19,582 DEBUG    root            Running [gcloud.version] with arguments: [--format: "json"]
+2024-11-23 15:14:19,583 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2024-11-23 15:14:19,584 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2024-11-23 15:14:19,585 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2024-11-23 15:14:19,585 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2024-11-23 15:14:19,586 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2024-11-23 15:14:19,596 INFO     ___FILE_ONLY___ 
+
+2024-11-23 15:14:19,632 DEBUG    root            Checking for updates...
+2024-11-23 15:14:19,632 DEBUG    root            Chosen display Format:flattened[no-pad,separator=" "] json
+2024-11-23 15:14:19,632 INFO     root            Display format: "flattened[no-pad,separator=" "] json"
+2024-11-23 15:14:19,643 INFO     ___FILE_ONLY___ {
+  "Google Cloud SDK": "502.0.0",
+  "core": "2024.11.15"
+}
+2024-11-23 15:14:19,643 INFO     ___FILE_ONLY___ 
+
+2024-11-23 15:14:19,655 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2024-11-23 15:14:19,802 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 227816
