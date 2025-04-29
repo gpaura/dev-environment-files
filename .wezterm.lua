@@ -202,7 +202,7 @@ end
 
 -- Font configuration - Make everything bold
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Bold" })
-config.font_size = 19
+config.font_size = 16
 
 -- Font rules to ensure all text renders as bold
 config.font_rules = {
