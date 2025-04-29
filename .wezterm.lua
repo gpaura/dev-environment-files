@@ -114,7 +114,7 @@ local light_theme = {
 	ansi = {
 		"#5A5257", -- Black (0): Darker purple-gray for better visibility
 		"#FF0F60", -- Red (1): More intense red
-		"#3D8A0C", -- Green (2): Much darker forest green for visibility
+		"#0000FF", -- Bright blue --"#3D8A0C", -- Green (2): Much darker forest green for visibility
 		STATUS_PINK, -- Yellow (3): Changed to pink (was amber/brown)
 		"#9D50FF", -- Blue (4): Intensified purple
 		"#FF3388", -- Magenta (5): Stronger pink
@@ -204,27 +204,53 @@ end
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Bold" })
 config.font_size = 16
 
--- Font rules to ensure all text renders as bold
+-- NEW: Font rules to ensure ALL text renders as bold, including input/output text
 config.font_rules = {
+	-- Rule for normal text (make it bold)
 	{
 		intensity = "Normal",
+		italic = false,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
-			weight = "Bold",
+			weight = "Bold", -- Make normal text bold
 		}),
 	},
+	-- Rule for half-intensity text (make it bold too)
 	{
 		intensity = "Half",
+		italic = false,
+		font = wezterm.font({
+			family = "JetBrainsMono Nerd Font",
+			weight = "Bold", -- Keep half-intensity text bold
+		}),
+	},
+	-- Rule for already bold text (make it extra bold)
+	{
+		intensity = "Bold",
+		italic = false,
+		font = wezterm.font({
+			family = "JetBrainsMono Nerd Font",
+			weight = "ExtraBold", -- Make bold text even bolder
+		}),
+	},
+	-- Rule for italic text (make it bold italic)
+	{
+		intensity = "Normal",
+		italic = true,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
 			weight = "Bold",
+			italic = true,
 		}),
 	},
+	-- Rule for bold italic text
 	{
 		intensity = "Bold",
+		italic = true,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
-			weight = "ExtraBold", -- Even bolder for bold text
+			weight = "ExtraBold",
+			italic = true,
 		}),
 	},
 }
@@ -232,6 +258,10 @@ config.font_rules = {
 -- Force bold settings
 config.bold_brightens_ansi_colors = false
 config.allow_square_glyphs_to_overflow_width = "Always"
+
+-- NEW: Set normal text to bold without changing color
+config.font_shaper = "Harfbuzz" -- Use the most capable text shaper
+config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1" } -- Enable all ligatures
 
 -- Window settings
 config.enable_tab_bar = false

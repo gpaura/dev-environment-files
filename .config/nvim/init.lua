@@ -3,9 +3,8 @@ require("gabriel.core") -- Or however you load your core.lua
 require("gabriel.lazy")
 
 -- CSV settings
-
 vim.g.csv_autocmd_arrange = 1 -- Autoajustar colunas ao abrir arquivos CSV
-vim.g.csv_no_conceal = 1      -- Exibir separadores reais como vírgulas etc.
+vim.g.csv_no_conceal = 1 -- Exibir separadores reais como vírgulas etc.
 
 -- Create a more robust method for dealing with CSV files
 vim.api.nvim_create_autocmd("FileType", {
@@ -13,13 +12,23 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     -- Set CSV delimiter locally to ensure proper formatting
     vim.b.csv_delimiter = ","
-    
+
     -- Try to arrange columns with ArrangeColumn command if available
     pcall(function()
       if vim.fn.exists(":ArrangeColumn") > 0 then
         vim.cmd("ArrangeColumn")
       end
     end)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*",
+  callback = function()
+    local ok, colorizer = pcall(require, "colorizer")
+    if ok then
+      pcall(colorizer.attach_to_buffer, 0)
+    end
   end,
 })
 
@@ -31,26 +40,26 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.defer_fn(function()
       -- Mark buffer as unmodified after auto-formatting
       vim.cmd("set nomodified")
-    end, 100)  -- Small delay to ensure it runs after formatting
-  end
+    end, 100) -- Small delay to ensure it runs after formatting
+  end,
 })
 
 -- Improved detection for extensionless CSV files
-vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   pattern = "*",
   callback = function()
     local fname = vim.fn.expand("%:t")
-    
+
     -- Only process files without extensions
     if fname == "" or fname:match("%..+$") then
       return
     end
-    
+
     -- Check first 10 lines for CSV patterns
     local lines = vim.api.nvim_buf_get_lines(0, 0, 10, false)
     local comma_count = 0
     local examined = 0
-    
+
     for _, line in ipairs(lines) do
       if line and #line > 0 then
         examined = examined + 1
@@ -58,13 +67,13 @@ vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
         comma_count = comma_count + select(2, line:gsub(",", ""))
       end
     end
-    
+
     -- If we have a decent number of commas, it's likely a CSV
     if examined > 0 and (comma_count / examined) >= 2 then
       -- Set filetype to CSV
       vim.bo.filetype = "csv"
       vim.b.csv_delimiter = ","
-      
+
       -- Apply rainbow highlighting with a slight delay to ensure filetype is applied
       vim.defer_fn(function()
         -- Try to find a comma for highlighting
@@ -82,20 +91,20 @@ vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
             break
           end
         end
-        
+
         -- Mark buffer as unmodified after formatting
         vim.cmd("set nomodified")
       end, 100)
     end
   end,
-  group = vim.api.nvim_create_augroup("CSVExtensionless", { clear = true })
+  group = vim.api.nvim_create_augroup("CSVExtensionless", { clear = true }),
 })
 
 return {
   "obsidian-nvim/obsidian.nvim",
-  version = "*",  -- Use latest release instead of latest commit
+  version = "*", -- Use latest release instead of latest commit
   lazy = true,
-  ft = "markdown", 
+  ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },

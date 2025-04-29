@@ -5,6 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export PROMPT='%B'"$PROMPT"'%b'
+export RPROMPT='%B'"$RPROMPT"'%b'
+
+
 # Set EZA_COLORS environment variable to make directories purple
 export EZA_COLORS="di=35:$EZA_COLORS"
 
@@ -122,3 +126,4 @@ alias ..='cd ..'
 alias ll='ls -l'
 alias theme='~/theme.sh'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/opt/homebrew/bin:$PATH"
