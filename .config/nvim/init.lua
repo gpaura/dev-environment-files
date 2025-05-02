@@ -2,6 +2,19 @@
 require("gabriel.core") -- Or however you load your core.lua
 require("gabriel.lazy")
 
+-- Function to close Neovim when closing the last tab
+vim.api.nvim_create_user_command("SmartTabClose", function()
+  if vim.fn.tabpagenr("$") == 1 then
+    vim.cmd("quit")
+  else
+    vim.cmd("tabclose")
+  end -- Changed from 'endif' to 'end'
+end, {})
+
+-- Create a key mapping for the smart tab close (optional)
+-- You can change <leader>tc to any key combination you prefer
+vim.keymap.set("n", "<leader>tc", ":SmartTabClose<CR>", { noremap = true, silent = true })
+
 -- CSV settings
 vim.g.csv_autocmd_arrange = 1 -- Autoajustar colunas ao abrir arquivos CSV
 vim.g.csv_no_conceal = 1 -- Exibir separadores reais como vírgulas etc.

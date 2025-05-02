@@ -110,12 +110,12 @@ local light_theme = {
 	selection_bg = "#E0E0E0", -- Slightly darker selection for better visibility
 	selection_fg = "#2D2A2E", -- Same as foreground
 
-	-- ANSI Colors (0-7) - Strengthened with darker yellow and green
+	-- ANSI Colors (0-7)
 	ansi = {
 		"#5A5257", -- Black (0): Darker purple-gray for better visibility
-		"#FF0F60", -- Red (1): More intense red
-		"#0000FF", -- Bright blue --"#3D8A0C", -- Green (2): Much darker forest green for visibility
-		STATUS_PINK, -- Yellow (3): Changed to pink (was amber/brown)
+		"#AA7800", --"#FF0F60",
+		"#0000FF", -- Bright Blue
+		STATUS_PINK,
 		"#9D50FF", -- Blue (4): Intensified purple
 		"#FF3388", -- Magenta (5): Stronger pink
 		"#19B3CD", -- Cyan (6): Deeper blue
@@ -201,8 +201,8 @@ else
 end
 
 -- Font configuration - Make everything bold
-config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Bold" })
-config.font_size = 16
+config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "ExtraBold" })
+config.font_size = 19
 
 -- NEW: Font rules to ensure ALL text renders as bold, including input/output text
 config.font_rules = {
@@ -212,7 +212,7 @@ config.font_rules = {
 		italic = false,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
-			weight = "Bold", -- Make normal text bold
+			weight = "ExtraBold", -- Make normal text bold
 		}),
 	},
 	-- Rule for half-intensity text (make it bold too)
@@ -221,7 +221,7 @@ config.font_rules = {
 		italic = false,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
-			weight = "Bold", -- Keep half-intensity text bold
+			weight = "ExtraBold", -- Keep half-intensity text bold
 		}),
 	},
 	-- Rule for already bold text (make it extra bold)
@@ -239,7 +239,7 @@ config.font_rules = {
 		italic = true,
 		font = wezterm.font({
 			family = "JetBrainsMono Nerd Font",
-			weight = "Bold",
+			weight = "ExtraBold",
 			italic = true,
 		}),
 	},
@@ -266,7 +266,7 @@ config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1" } -- Enable 
 -- Window settings
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.9
+config.window_background_opacity = 0.85
 config.macos_window_background_blur = 10
 
 -- Make theme switching more responsive
