@@ -32,13 +32,13 @@ return {
           { "gray", "#808080" }, -- Standard gray
           -- Use numbers for additional colors
           { 1, "#FF5555" }, -- light red
-          { 2, "#55FF55" }, -- light green
+          { 2, "#118399" }, -- light green
           { 3, "#FFFF55" }, -- light yellow
           { 4, "#5555FF" }, -- light blue
           { 5, "#FF55FF" }, -- light magenta
           { 6, "#55FFFF" }, -- light cyan
           { 9, "#FF8800" }, -- bright red/orange
-          { 10, "#88FF00" }, -- bright green
+          { 10, "Black" }, -- bright green
           { 11, "#FFAA00" }, -- bright yellow
           { 12, "#8800FF" }, -- bright blue/purple
           { 13, "#FF0088" }, -- bright magenta

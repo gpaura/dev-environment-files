@@ -113,7 +113,7 @@ local light_theme = {
 	-- ANSI Colors (0-7)
 	ansi = {
 		"#5A5257", -- Black (0): Darker purple-gray for better visibility
-		"#AA7800", --"#FF0F60",
+		"#F26F22", --#AA7800", --"#FF0F60",
 		"#0000FF", -- Bright Blue
 		STATUS_PINK,
 		"#9D50FF", -- Blue (4): Intensified purple
