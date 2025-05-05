@@ -1,91 +1,164 @@
-# This is a demo config to showcase some of the most important commands.
-# It is meant to be changed and configured, as it is intentionally kept sparse.
-# For a (much) more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
+#!/bin/bash
 
-PLUGIN_DIR="$CONFIG_DIR/plugins"
+# Filename: ~/github/dotfiles-latest/sketchybar/felixkratz/sketchybarrc
 
-##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+source "$CONFIG_DIR/icons.sh"  # Loads all defined icons
 
-sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
+ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
+PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
 
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
+# Needs to have Regular, Bold, Semibold, Heavy and Black variants
+# FONT="SF Pro"
+FONT="JetBrainsMono Nerd Font"
+# FONT="MesloLGM Nerd Font"
 
-default=(
-  padding_left=5
-  padding_right=5
-  icon.font="Hack Nerd Font:Bold:17.0"
-  label.font="Hack Nerd Font:Bold:14.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
-  icon.padding_left=4
-  icon.padding_right=4
-  label.padding_left=4
-  label.padding_right=4
+# All paddings use this value (icon, label, background), default is 3 but I
+# decreased it
+PADDINGS=1
+
+# Setting up and starting the helper process
+HELPER=git.felix.helper
+killall helper
+(cd $CONFIG_DIR/helper && make)
+$CONFIG_DIR/helper/helper $HELPER >/dev/null 2>&1 &
+
+# Unload the macOS on screen indicator overlay for volume change
+launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/dev/null 2>&1 &
+
+# Setting up the general bar appearance of the bar
+bar=(
+  height=45
+  color=$BAR_COLOR
+  border_width=2
+  border_color=$BAR_BORDER_COLOR
+  shadow=off
+  position=top
+  sticky=on
+  padding_right=10
+  padding_left=10
+  y_offset=-5
+  margin=-2
+  topmost=window
 )
-sketchybar --default "${default[@]}"
 
-##### Adding Mission Control Space Indicators #####
-# Let's add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces.
+sketchybar --bar "${bar[@]}"
 
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-for i in "${!SPACE_ICONS[@]}"
-do
-  sid="$(($i+1))"
-  space=(
-    space="$sid"
-    icon="${SPACE_ICONS[i]}"
-    icon.padding_left=7
-    icon.padding_right=7
-    background.color=0x40ffffff
-    background.corner_radius=5
-    background.height=25
-    label.drawing=off
-    script="$PLUGIN_DIR/space.sh"
-    click_script="yabai -m space --focus $sid"
-  )
-  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
-done
+# Setting up default values
+defaults=(
+  updates=when_shown
+  icon.font="$FONT:Bold:14.0"
+  icon.color=$ICON_COLOR
+  icon.padding_left=$PADDINGS
+  icon.padding_right=$PADDINGS
+  label.font="$FONT:Semibold:13.0"
+  label.color=$LABEL_COLOR
+  label.padding_left=$PADDINGS
+  label.padding_right=$PADDINGS
+  padding_right=$PADDINGS
+  padding_left=$PADDINGS
+  background.height=26
+  background.corner_radius=9
+  background.border_width=2
+  popup.background.border_width=2
+  popup.background.corner_radius=9
+  popup.background.border_color=$POPUP_BORDER_COLOR
+  popup.background.color=$POPUP_BACKGROUND_COLOR
+  popup.blur_radius=20
+  popup.background.shadow.drawing=on
+  scroll_texts=on
+)
 
-##### Adding Left Items #####
-# We add some regular items to the left side of the bar, where
-# only the properties deviating from the current defaults need to be set
+sketchybar --default "${defaults[@]}"
 
-sketchybar --add item chevron left \
-           --set chevron icon= label.drawing=off \
-           --add item front_app left \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+###############################################################################
+#                                Left side
+###############################################################################
 
-##### Adding Right Items #####
-# In the same way as the left items we can add items to the right side.
-# Additional position (e.g. center) are available, see:
-# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
+# Shows the apple logo, you can change it's color in "items/apple.sh"
+# If you click on it, you can see preferences, activity and lock screen
+source "$ITEM_DIR/apple.sh"
 
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
+# source "$ITEM_DIR/spaces.sh"
 
-sketchybar --add item clock right \
-           --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
-           --add item volume right \
-           --set volume script="$PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change \
-           --add item battery right \
-           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-           --subscribe battery system_woke power_source_change
+# I use yabai, but not sure what this does, I don't see a difference
+# Not sure if related to "skhd shortcuts should trigger the sketchybar event" in
+# the owner dotfiles
+# source "$ITEM_DIR/yabai.sh"
 
-##### Force all scripts to run the first time (never do this in a script) #####
+# Shows the name and icon of the app currently focused
+# Clicking it opens mission control (can be customized)
+source "$ITEM_DIR/front_app.sh"
+
+# Community plugin that I modified, so that it shows you the mic name
+# If you right click it you can change the mic.
+# Shows you the value of the input volume level
+source "$ITEM_DIR/mic.sh"
+
+###############################################################################
+#                                 Center
+###############################################################################
+
+# Shows album art and song name, I prefer this as it give me useful info
+# Disabled this as it always kept it in the middle even if nothing was playing
+# source "$ITEM_DIR/media.sh"
+
+# Shows floating window when spotify is playing a song
+# source "$ITEM_DIR/spotify.sh"
+
+###############################################################################
+#                               Right side
+###############################################################################
+
+# If calendar is clicked, will run zen.sh which hides everything, but you can
+# customize it to your liking
+source "$ITEM_DIR/calendar.sh"
+
+# Runs "brew outdated" command and shows you amount of outdated packages
+# Will install an old package so you can see the number increase
+# `brew install ~/Downloads/wezterm.rb`
+# `https://github.com/wez/wezterm/releases`
+# `brew update && brew upgrade` updates the package and clears the counter
+# -----> Make sure to add the section to the .zshrc file, so that package count is
+# updated automatically after running brew commands
+# `https://github.com/linkarzu/dotfiles-latest/blob/8fd9af824fc1db73de185b3733dac5d8514f9fb0/zshrc/zshrc-file.sh#L225-L247`
+source "$ITEM_DIR/brew.sh"
+
+# DND not working with sonoma, will figure it out later (hopefully)
+source "$ITEM_DIR/dnd.sh"
+
+# Shows github notifications via gh cli, mine aren't working properly
+# `gh api notifications` shows nothing but `gh status` does
+source "$ITEM_DIR/github.sh"
+
+# Shows the SSID you're connected to, and the IP address assigned
+source "$ITEM_DIR/wifi.sh"
+
+# By default the icon will only show when on battery and if it's 50% or less,
+# you can change "plugins/battery.sh" if needed to modify the behavior
+source "$ITEM_DIR/battery.sh"
+
+# left click to change volume
+# right click to switch audio sources, you need switchaudio-osx
+source "$ITEM_DIR/volume.sh"
+
+# CPU usage indicator
+source "$ITEM_DIR/cpu.sh"
+
+source "$ITEM_DIR/timer.sh"
+
+###############################################################################
+#                            Community plugins
+###############################################################################
+
+source "$ITEM_DIR/custom_text.sh"
+source "$ITEM_DIR/notification.sh"
+
+###############################################################################
+
+sketchybar --hotload on
+
+# Forcing all item scripts to run (never do this outside of sketchybarrc)
 sketchybar --update
+
+echo "sketchybar configuration loaded.."
