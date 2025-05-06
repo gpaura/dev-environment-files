@@ -4,7 +4,7 @@
 # ~/github/dotfiles-latest/sketchybar/felixkratz-linkarzu/colors.sh
 
 # Source the colorscheme file
-source "$HOME/github/dotfiles-latest/colorscheme/active/active-colorscheme.sh"
+source "$HOME/.config/sketchybar/colorscheme.sh"
 
 ### Sonokai
 # export BLACK=0xff181819

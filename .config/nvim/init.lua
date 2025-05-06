@@ -113,6 +113,14 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = vim.api.nvim_create_augroup("CSVExtensionless", { clear = true }),
 })
 
+-- Add to your init.lua to track startup time
+vim.g.start_time = vim.loop.hrtime()
+vim.api.nvim_create_autocmd("UIEnter", {
+  callback = function()
+    vim.g.startuptime = (vim.loop.hrtime() - vim.g.start_time) / 1000000
+  end,
+})
+
 return {
   "obsidian-nvim/obsidian.nvim",
   version = "*", -- Use latest release instead of latest commit
