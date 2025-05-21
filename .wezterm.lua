@@ -119,7 +119,7 @@ local light_theme = {
 		"#9D50FF", -- Blue (4): Intensified purple
 		"#FF3388", -- Magenta (5): Stronger pink
 		"#19B3CD", -- Cyan (6): Deeper blue
-		"#F8F8F2", -- White (7): Slightly off-white
+		"#A64DFF", --"#FF9000", --"#50FA7B", --"#AA7800", --"#F8F8F2", -- White (7): Slightly off-white
 	},
 
 	-- Bright Colors (8-15) - Strengthened with darker yellow and green

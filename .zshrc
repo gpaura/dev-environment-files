@@ -193,6 +193,7 @@ eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
+alias nu='nu --config ~/.config/nushell/config.nu'
 alias cd='z'
 alias ..='cd ..'
 alias ll='ls -l'
