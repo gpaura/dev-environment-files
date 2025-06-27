@@ -1,0 +1,11 @@
+2024-11-27 17:49:49,048 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2024-11-27 17:49:49,051 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2024-11-27 17:49:49,054 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2024-11-27 17:49:49,056 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2024-11-27 17:49:49,057 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2024-11-27 17:49:49,057 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2024-11-27 17:49:49,076 INFO     ___FILE_ONLY___ 
+
+2024-11-27 17:49:49,152 DEBUG    root            Checking for updates...
+2024-11-27 17:49:49,185 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2024-11-27 17:49:49,338 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 227816
