@@ -1,0 +1,68 @@
+# Ignore everything by default
+*
+
+# But track these specific dotfiles and config directories
+!.gitignore
+!.config/
+!.oh-my-zsh/
+!.p10k.zsh
+!.tmux.conf
+!.wezterm.lua
+!.zprofile
+!.zshrc
+!coolnight.itermcolors
+!theme.sh
+!fzf-git.sh/
+
+# Keep .config contents but ignore some subdirectories that might have sensitive data
+.config/*/cache/
+.config/*/logs/
+.config/*/tmp/
+
+# Keep .oh-my-zsh but ignore cache and logs
+.oh-my-zsh/cache/
+.oh-my-zsh/log/
+.oh-my-zsh/.git/
+
+# Ignore temporary and system files
+.DS_Store
+.lesshst
+.zhistory
+Thumbs.db
+*.tmp
+*.log
+*.swp
+*.swo
+*~
+
+# Ignore standard macOS user directories
+Desktop/
+Documents/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+Public/
+.Trash/
+
+# Ignore development and app directories
+.cursor/
+.local/
+.thinkorswim/
+.vscode/
+go/
+node_modules/
+.npm/
+.yarn/
+
+# Ignore any hidden files/directories not explicitly included
+.*
+!.gitignore
+!.config/
+!.oh-my-zsh/
+!.p10k.zsh
+!.tmux.conf
+!.wezterm.lua
+!.zprofile
+!.zshrc
