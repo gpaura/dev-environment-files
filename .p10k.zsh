@@ -366,14 +366,18 @@
   typeset -g POWERLEVEL9K_VCS_LOADING_ICON='⟳'              # Loading / async status
 
   typeset -g POWERLEVEL9K_VCS_CLEAN_ICON='✔'                # Clean status
-  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=2            # Green foreground
-  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=0            # Transparent background
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=0            # Green foreground
   typeset -g POWERLEVEL9K_VCS_CLEAN_VISUAL_IDENTIFIER_COLOR=2 # Green color
   typeset -g POWERLEVEL9K_VCS_CLEAN_VISUAL_IDENTIFIER_EXPANSION='✔' # Green check mark
   typeset -g POWERLEVEL9K_VCS_CLEAN_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
   typeset -g POWERLEVEL9K_VCS_CLEAN_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
-  typeset -g POWERLEVEL9K_VCS_BACKGROUND=
-  typeset -g POWERLEVEL9K_VCS_FOREGROUND=
+  typeset -g POWERLEVEL9K_VCS_BACKGROUND=""
+  typeset -g POWERLEVEL9K_VCS_FOREGROUND="#FAFAFA"
+  typeset -g POWERLEVEL9K_VCS_LOADING_BACKGROUND=""
+  # Additional VCS states that might exist
+  typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=""
+  typeset -g POWERLEVEL9K_VCS_STAGED_BACKGROUND=""
+  typeset -g POWERLEVEL9K_VCS_UNSTAGED_BACKGROUND=""
       # Pink branch name
   # Untracked files icon. It's really a question mark, your font isn't broken.
   # Change the value of this parameter to show a different icon.
@@ -529,19 +533,20 @@ typeset -g POWERLEVEL9K_TIME_FOREGROUND=198
 
 # Change the Git clean status colors
 typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=2
-typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=0
+typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=""
 typeset -g POWERLEVEL9K_VCS_CLEAN_VISUAL_IDENTIFIER_COLOR=2
 
 # Change the Git modified status colors
-typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=0
+typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=""
 typeset -g POWERLEVEL9K_VCS_MODIFIED_VISUAL_IDENTIFIER_COLOR=3
 
 # Change the Git untracked status colors
 typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=4
-typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=0
+typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=""
 typeset -g POWERLEVEL9K_VCS_UNTRACKED_VISUAL_IDENTIFIER_COLOR=4
   # Multiple patterns can be combined with '|': '~(|/foo)|/bar/baz/*'.
-  typeset -g POWERLEVEL9K_VCS_DISABLED_WORKDIR_PATTERN='~'
+  # If you want to disable Git status for all repositories, set this to an empty string.
+  #typeset -g POWERLEVEL9K_VCS_DISABLED_WORKDIR_PATTERN='~'
   # Git icon color ()
   typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=201  # pink/magenta or pick another
 
