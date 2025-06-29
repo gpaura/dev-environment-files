@@ -57,32 +57,38 @@ command = zsh --login -c "if command -v tmux >/dev/null 2>&1; then tmux attach |
 window-padding-x = 4,2
 window-padding-y = 6,0
 
-# Font settings - Force Bold for Everything
-font-family = "JetBrainsMono Nerd Font ExtraBold"
+# ============================================================================
+# FONT CONFIGURATION - NUCLEAR BOLD OPTION WITH ICON FIX
+# ============================================================================
+# Use the exact font name from your system
+font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
 font-size = 19
-
-# Additional font settings to force boldness
-font-feature = +liga,+calt
 bold-is-bright = false
 
-# Force synthetic bold if needed
-font-synthetic-style = bold
-font-style = bold
-font-style-bold = bold
-font-style-italic = bold-italic
-font-style-bold-italic = bold-italic
+# Font features - enable ligatures and better icon rendering
+font-feature = +liga,+calt,+ss01,+ss02,+ss03
 
-# Force bold rendering for all text
-font-feature = +liga,+calt
-bold-is-bright = false
+# Try these additional experimental settings
+font-thicken = true
 
+# ============================================================================
+# WINDOW CONFIGURATION
+# ============================================================================
 # Window decoration
 macos-titlebar-style = hidden
 window-decoration = true
 
+# Background effects
+background-opacity = 0.75
+background-blur-radius = 20
+
 # Behavior
 confirm-close-surface = false
+mouse-hide-while-typing = true
 
+# ============================================================================
+# KEYBINDS AND SHORTCUTS
+# ============================================================================
 # Quick terminal
 keybind = cmd+s=toggle_quick_terminal
 quick-terminal-animation-duration = 0.08
@@ -96,7 +102,3 @@ keybind = super+r=reload_config
 
 # macOS icon
 macos-icon = official
-
-# Background effects
-background-blur-radius = 20
-mouse-hide-while-typing = true

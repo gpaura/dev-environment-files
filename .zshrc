@@ -77,7 +77,9 @@ alias lt="eza --tree --level=2 --long --icons --git"
 alias ltree="eza --tree --level=2  --icons --git"
 
 # Set EZA_COLORS environment variable to make directories purple
-export EZA_COLORS="di=35:$EZA_COLORS"
+# export EZA_COLORS="di=35:$EZA_COLORS"
+# export EZA_COLORS="di=1;35:fi=1;37:ln=1;36:$EZA_COLORS"
+export EZA_COLORS="di=1;35:fi=1;37:ln=1;36:pi=1;33:so=1;35:bd=1;33:cd=1;33:or=1;31:mi=1;31:ex=1;32:$EZA_COLORS"
 
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
