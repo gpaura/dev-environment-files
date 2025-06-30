@@ -1,4 +1,4 @@
-# Ghostty Configuration - Clean Version
+# Ghostty Configuration - Clean Version with Bold Text and Exact WezTerm Colors
 # No config-file includes to avoid cycles
 
 # ============================================================================
@@ -6,45 +6,40 @@
 # ============================================================================
 # ============================================================================
 # THEME_START
-# Light theme settings
-foreground = "#2D2A2E"
-background = "#FAFAFA"
-cursor-color = "#FF2D76"
-cursor-text = "#FFFFFF"
-selection-background = "#E0E0E0"
-selection-foreground = "#2D2A2E"
+# Dark theme settings - EXACT WEZTERM MATCH
+foreground = "#F8F8F2"
+background = "#1A1B26"
 
-# ANSI Colors (0-7)
-palette = 0=#5A5257
-palette = 1=#FF0F60
-palette = 2=#3D8A0C
+# Cursor
+cursor-color = "#FF79C6"
+cursor-text = "#282A36"
+
+# Selection
+selection-background = "#44475A"
+selection-foreground = "#F8F8F2"
+
+# ANSI Colors (0-7) - Exact WezTerm Match with enhanced readability
+palette = 0=#414868
+palette = 1=#FF5555
+palette = 2=#50FA7B
 palette = 3=#FF40A3
-palette = 4=#9D50FF
-palette = 5=#FF3388
-palette = 6=#19B3CD
-palette = 7=#F8F8F2
+palette = 4=#7AA2F7
+palette = 5=#FF79C6
+palette = 6=#8BE9FD
+palette = 7=#ACAAB6
 
-# Bright Colors (8-15)
-palette = 8=#7A686E
-palette = 9=#F5623D
-palette = 10=#4E9F2F
+# Bright Colors (8-15) - Exact WezTerm Match with enhanced readability
+palette = 8=#565F89
+palette = 9=#F7768E
+palette = 10=#A9FF68
 palette = 11=#FF66C7
-palette = 12=#B77BFF
-palette = 13=#FF66C7
-palette = 14=#58DDEF
-palette = 15=#FFFFFF
+palette = 12=#BD93F9
+palette = 13=#FC9867
+palette = 14=#78DCE8
+palette = 15=#F8F8F2
 
-# Indexed colors (16-25)
-palette = 16=#FF9000
-palette = 17=#C49E3F
-palette = 18=#AA7800
-palette = 19=#FF42A1
-palette = 20=#A64DFF
-palette = 21=#8F95A0
-palette = 22=#845AC7
-palette = 23=#097CCD
-palette = 24=#FF6200
-palette = 25=#45C7FF
+# Note: Ghostty only supports palette colors 0-15
+# Extended colors are handled through the base 16 ANSI colors
 # THEME_END
 
 # Shader configuration
@@ -58,25 +53,32 @@ window-padding-x = 4,2
 window-padding-y = 6,0
 
 # ============================================================================
-# FONT CONFIGURATION - NUCLEAR BOLD OPTION WITH ICON FIX
+# FONT CONFIGURATION - BOLD EVERYTHING LIKE WEZTERM
 # ============================================================================
-# Use the exact font name from your system
+# Primary font - use ExtraBold for everything
 font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
 font-size = 19
-bold-is-bright = false
 
-# Font features - enable ligatures and better icon rendering
+# Additional font settings for better rendering
 font-feature = +liga,+calt,+ss01,+ss02,+ss03
-
-# Try these additional experimental settings
 font-thicken = true
 
-# ============================================================================
+# Force bold rendering for all text types
+bold-is-bright = false
+
+# Use font-thicken for maximum boldness
+font-thicken = true
+
+# Try using a bolder font variant if available
+font-family-bold = "JetBrainsMono Nerd Font Mono Black"
+font-family-italic = "JetBrainsMono Nerd Font Mono ExtraBold"
+font-family-bold-italic = "JetBrainsMono Nerd Font Mono Black"
+
 # WINDOW CONFIGURATION
 # ============================================================================
 # Window decoration
 macos-titlebar-style = hidden
-window-decoration = true
+window-decoration = false
 
 # Background effects
 background-opacity = 0.75

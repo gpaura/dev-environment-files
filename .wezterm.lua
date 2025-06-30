@@ -1,6 +1,8 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+config.automatically_reload_config = true
+
 -- Function to read the theme from a file
 local function read_theme()
 	local success, file = pcall(io.open, os.getenv("HOME") .. "/.config/wezterm/theme", "r")

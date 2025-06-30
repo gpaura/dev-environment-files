@@ -33,7 +33,27 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-      -- Then set up mason-lspconfig with the correct server names
+      -- Modern approach for setting diagnostic signs
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰠠 ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
+        virtual_text = {
+          prefix = "●", -- Could be '■', '▎', 'x'
+        },
+        float = {
+          border = "rounded",
+        },
+        severity_sort = true,
+        update_in_insert = false,
+      })
+
+      -- Set up mason-lspconfig with handlers inline
       require("mason-lspconfig").setup({
         -- Make sure these server names match what lspconfig uses
         ensure_installed = {
@@ -56,121 +76,96 @@ return {
           "prismals",
         },
         automatic_installation = true,
-      })
-
-      -- Modern approach for setting diagnostic signs
-      vim.diagnostic.config({
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = "󰠠 ",
-            [vim.diagnostic.severity.INFO] = " ",
-          },
-        },
-        virtual_text = {
-          prefix = "●", -- Could be '■', '▎', 'x'
-        },
-        float = {
-          border = "rounded",
-        },
-        severity_sort = true,
-        update_in_insert = false,
-      })
-
-      -- Define handlers for LSP servers
-      local server_handlers = {
-        -- Default handler for all servers
-        function(server_name)
-          lspconfig[server_name].setup({
-            capabilities = capabilities,
-          })
-        end,
-      }
-
-      -- Add specific server configurations
-      server_handlers["omnisharp"] = function()
-        lspconfig.omnisharp.setup({
-          capabilities = capabilities,
-          cmd = { "omnisharp" },
-          filetypes = { "cs", "csx", "razor" },
-          root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
-          settings = {
-            omnisharp = {
-              useModernNet = true,
-              enableRoslynAnalyzers = true,
-              enableEditorConfigSupport = true,
-              enableImportCompletion = true,
-              organizeImportsOnFormat = true,
-            },
-          },
-        })
-      end
-
-      server_handlers["pyright"] = function()
-        lspconfig.pyright.setup({
-          capabilities = capabilities,
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = "workspace",
-              },
-            },
-          },
-        })
-      end
-
-      server_handlers["lua_ls"] = function()
-        require("lspconfig").lua_ls.setup({
-          capabilities = capabilities,
-          -- Prevent runtime file scanning
-          before_init = function(params, config)
-            -- Redirect workspace to a temp directory for wezterm files
-            if params.rootUri and params.rootUri:match("wezterm%.lua$") then
-              -- Create a temporary directory structure just for this file
-              local tmp_dir = vim.fn.stdpath("cache") .. "/wezterm_lsp"
-              vim.fn.mkdir(tmp_dir, "p")
-              params.rootUri = "file://" .. tmp_dir
-
-              -- Copy just this file to the temp dir for analysis
-              local current_file = vim.fn.expand("%:p")
-              local dest_file = tmp_dir .. "/wezterm.lua"
-              vim.fn.system({ "cp", current_file, dest_file })
-            end
-            return true
+        handlers = {
+          -- Default handler for all servers
+          function(server_name)
+            lspconfig[server_name].setup({
+              capabilities = capabilities,
+            })
           end,
-          settings = {
-            Lua = {
-              runtime = { version = "LuaJIT" },
-              diagnostics = { globals = { "vim", "wezterm" } },
-              workspace = {
-                checkThirdParty = false,
-                -- Use very small limits
-                maxPreload = 10,
-                preloadFileSize = 5000,
-              },
-              telemetry = { enable = false },
-            },
-          },
-          flags = {
-            debounce_text_changes = 150,
-          },
-          -- Focus only on the current file
-          root_dir = function(fname)
-            if fname:match("wezterm%.lua$") then
-              return vim.fn.stdpath("cache") .. "/wezterm_lsp"
-            end
-            return lspconfig.util.find_git_ancestor(fname)
-              or lspconfig.util.root_pattern("init.lua", ".luarc.json", ".git")(fname)
-              or lspconfig.util.path.dirname(fname)
-          end,
-        })
-      end
 
-      -- Set up the handlers after servers are installed
-      require("mason-lspconfig").setup_handlers(server_handlers)
+          -- Specific server configurations
+          ["omnisharp"] = function()
+            lspconfig.omnisharp.setup({
+              capabilities = capabilities,
+              cmd = { "omnisharp" },
+              filetypes = { "cs", "csx", "razor" },
+              root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
+              settings = {
+                omnisharp = {
+                  useModernNet = true,
+                  enableRoslynAnalyzers = true,
+                  enableEditorConfigSupport = true,
+                  enableImportCompletion = true,
+                  organizeImportsOnFormat = true,
+                },
+              },
+            })
+          end,
+
+          ["pyright"] = function()
+            lspconfig.pyright.setup({
+              capabilities = capabilities,
+              settings = {
+                python = {
+                  analysis = {
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    diagnosticMode = "workspace",
+                  },
+                },
+              },
+            })
+          end,
+
+          ["lua_ls"] = function()
+            lspconfig.lua_ls.setup({
+              capabilities = capabilities,
+              -- Prevent runtime file scanning
+              before_init = function(params, config)
+                -- Redirect workspace to a temp directory for wezterm files
+                if params.rootUri and params.rootUri:match("wezterm%.lua$") then
+                  -- Create a temporary directory structure just for this file
+                  local tmp_dir = vim.fn.stdpath("cache") .. "/wezterm_lsp"
+                  vim.fn.mkdir(tmp_dir, "p")
+                  params.rootUri = "file://" .. tmp_dir
+
+                  -- Copy just this file to the temp dir for analysis
+                  local current_file = vim.fn.expand("%:p")
+                  local dest_file = tmp_dir .. "/wezterm.lua"
+                  vim.fn.system({ "cp", current_file, dest_file })
+                end
+                return true
+              end,
+              settings = {
+                Lua = {
+                  runtime = { version = "LuaJIT" },
+                  diagnostics = { globals = { "vim", "wezterm" } },
+                  workspace = {
+                    checkThirdParty = false,
+                    -- Use very small limits
+                    maxPreload = 10,
+                    preloadFileSize = 5000,
+                  },
+                  telemetry = { enable = false },
+                },
+              },
+              flags = {
+                debounce_text_changes = 150,
+              },
+              -- Focus only on the current file
+              root_dir = function(fname)
+                if fname:match("wezterm%.lua$") then
+                  return vim.fn.stdpath("cache") .. "/wezterm_lsp"
+                end
+                return lspconfig.util.find_git_ancestor(fname)
+                  or lspconfig.util.root_pattern("init.lua", ".luarc.json", ".git")(fname)
+                  or lspconfig.util.path.dirname(fname)
+              end,
+            })
+          end,
+        },
+      })
     end,
   },
 

@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/gabriel/plugins/avante.lua
--- Enhanced Avante AI configuration with customized themes and Claude API
+-- Enhanced Avante AI configuration with updated providers format
 
 return {
   "yetone/avante.nvim",
@@ -47,15 +47,22 @@ return {
     local theme_colors = colors[current_theme]
 
     require("avante").setup({
-      -- AI Service provider configuration - Using Claude (built-in provider)
+      -- Updated provider configuration using the new format
       provider = "claude",
-      claude = {
-        model = "claude-3-5-sonnet-latest", -- Claude 3.5 Sonnet is recommended
-        timeout = 60000, -- Increased timeout for Claude
-        temperature = 0, -- Keeping temperature at 0 for deterministic responses
-        max_tokens = 4096, -- Claude token limit
+      providers = {
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-3-5-sonnet-20241022", -- Updated to latest Claude model
+          timeout = 30000,
+          extra_request_body = {
+            temperature = 0,
+            max_tokens = 4096,
+          },
+        },
       },
+      
       system_prompt = "You are a helpful coding assistant integrated with Neovim. Please respond in English.", -- Custom system prompt
+      
       -- UI Customization
       ui = {
         -- Window appearance
@@ -130,7 +137,7 @@ return {
         go = "You are a Go expert who follows idiomatic practices.",
         rust = "You are a Rust expert focused on safety and performance.",
         markdown = "You are an expert at writing clear and concise documentation.",
-        sql = "You are an expert SQL DBA expert focusing on clean and efficient query",
+        sql = "You are an expert SQL DBA expert focusing on clean and efficient queries",
         -- Add more as needed
       },
 
