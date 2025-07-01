@@ -120,21 +120,3 @@ vim.api.nvim_create_autocmd("UIEnter", {
     vim.g.startuptime = (vim.loop.hrtime() - vim.g.start_time) / 1000000
   end,
 })
-
-return {
-  "obsidian-nvim/obsidian.nvim",
-  version = "*", -- Use latest release instead of latest commit
-  lazy = true,
-  ft = "markdown",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
-  opts = {
-    workspaces = {
-      {
-        name = "personal",
-        path = "~/vaults/personal",
-      },
-    },
-  },
-}
