@@ -3,6 +3,26 @@ local config = wezterm.config_builder()
 
 config.automatically_reload_config = true
 
+config.window_close_confirmation = "NeverPrompt"
+config.quit_when_all_windows_are_closed = true
+
+-- Remove or comment out initial_cols/rows if using this method
+wezterm.on('gui-startup', function(cmd)
+	local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+	
+	-- Set exact size in pixels
+	local window_width = 2100   -- Adjust this
+	local window_height = 1350   -- Adjust this
+	
+	-- Center on screen
+	local screen = wezterm.gui.screens().active
+	local x = (screen.width - window_width) / 2
+	local y = (screen.height - window_height) / 2
+	
+	window:gui_window():set_inner_size(window_width, window_height)
+	window:gui_window():set_position(x, y)
+  end)
+
 -- Function to read the theme from a file
 local function read_theme()
 	local success, file = pcall(io.open, os.getenv("HOME") .. "/.config/wezterm/theme", "r")
