@@ -1,12 +1,12 @@
 return {
   "goolord/alpha-nvim",
-  event = "vimenter",
+  event = "VimEnter",
   config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
-    -- define the frames for the animation
+
+    -- Cache frames and highlights for better performance
     local frames = {
-      -- frame 1: neo
       {
         " ",
         " ███╗   ██╗███████╗ ██████╗  ",
@@ -17,7 +17,6 @@ return {
         " ╚═╝  ╚═══╝╚══════╝ ╚═════╝  ",
         " ",
       },
-      -- frame 2: vim
       {
         " ",
         " ██╗   ██╗██╗███╗   ███╗ ",
@@ -28,7 +27,6 @@ return {
         "   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
         " ",
       },
-      -- frame 3: neovim
       {
         " ",
         " ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -40,101 +38,132 @@ return {
         " ",
       },
     }
-    -- define the highlight groups
-    vim.cmd([[ hi alphaheader1 guifg=#61afef gui=bold ]]) -- blue for neo
-    vim.cmd([[ hi alphaheader2 guifg=#ff69b4 gui=bold ]]) -- pink for vim
-    vim.cmd([[ hi alphaheader3 guifg=#b267e6 gui=bold ]]) -- purple for neovim
 
-    -- create highlight groups for button icons
-    vim.cmd([[ hi alphabuttonicon1 guifg=#61afef ]]) -- blue for icons
-    vim.cmd([[ hi alphabuttonicon2 guifg=#ff69b4 ]]) -- pink for icons
-    vim.cmd([[ hi alphabuttonicon3 guifg=#b267e6 ]]) -- purple for icons
+    -- Pre-define highlight groups once
+    local highlights = {
+      { name = "AlphaHeader1", fg = "#61afef", bold = true },
+      { name = "AlphaHeader2", fg = "#ff69b4", bold = true },
+      { name = "AlphaHeader3", fg = "#b267e6", bold = true },
+      { name = "AlphaButtonIcon1", fg = "#61afef" },
+      { name = "AlphaButtonIcon2", fg = "#ff69b4" },
+      { name = "AlphaButtonIcon3", fg = "#b267e6" },
+    }
 
-    -- set the header
-    dashboard.section.header.val = frames[1]
-    -- important: set the header highlight group based on current frame
-    dashboard.section.header.opts.hl = "alphaheader1"
+    -- Set all highlights at once
+    for _, hl in ipairs(highlights) do
+      vim.api.nvim_set_hl(0, hl.name, { fg = hl.fg, bold = hl.bold })
+    end
 
-    -- define button creator function with icon highlighting
-    local function create_button(sc, txt, keybind)
-      local button = dashboard.button(sc, txt, keybind)
-      -- set default highlight for the icon part
-      button.opts = {
-        position = "center",
-        shortcut = sc,
-        cursor = 5,
-        width = 50,
-        align_shortcut = "right",
-        hl_shortcut = "alphaheader1",
-        hl = {
-          { "alphabuttonicon1", 0, 1 }, -- default to first frame color
-        },
-      }
+    -- Cache button data for faster updates
+    local button_configs = {
+      { shortcut = "e", icon = "", label = "New file", cmd = "<cmd>ene<cr>" },
+      { shortcut = "SPC ee", icon = "", label = "Toggle file explorer", cmd = "<cmd>NvimTreeToggle<cr>" },
+      { shortcut = "SPC ff", icon = "󰱼", label = "Find file", cmd = "<cmd>Telescope find_files<cr>" },
+      { shortcut = "SPC fs", icon = "", label = "Find word", cmd = "<cmd>Telescope live_grep<cr>" },
+      { shortcut = "SPC wr", icon = "󰁯", label = "Restore session", cmd = "<cmd>SessionRestore<cr>" },
+      { shortcut = "q", icon = "", label = "Quit Neovim", cmd = "<cmd>qa<cr>" },
+    }
+
+    -- Pre-calculate icon lengths for performance
+    for _, config in ipairs(button_configs) do
+      config.icon_len = vim.fn.strchars(config.icon)
+    end
+
+    -- Create buttons efficiently
+    local function create_button(config)
+      local txt = config.icon .. "  " .. config.label
+      local button = dashboard.button(config.shortcut, txt, config.cmd)
+      button.opts.hl = {{ "AlphaButtonIcon1", 0, config.icon_len }}
+      button.opts.hl_shortcut = "AlphaHeader1"
       return button
     end
 
-    -- set menu with custom button function
-    dashboard.section.buttons.val = {
-      dashboard.button("e", "  > new file", "<cmd>ene<cr>"),
-      dashboard.button("spc ee", "  > toggle file explorer", "<cmd>nvimtreetoggle<cr>"),
-      dashboard.button("spc ff", "󰱼  > find file", "<cmd>telescope find_files<cr>"),
-      dashboard.button("spc fs", "  > find word", "<cmd>telescope live_grep<cr>"),
-      dashboard.button("spc wr", "󰁯  > restore session for current directory", "<cmd>sessionrestore<cr>"),
-      dashboard.button("q", "  > quit nvim", "<cmd>qa<cr>"),
-    }
+    -- Initialize dashboard
+    dashboard.section.header.val = frames[1]
+    dashboard.section.header.opts.hl = "AlphaHeader1"
+    
+    dashboard.section.buttons.val = {}
+    for _, config in ipairs(button_configs) do
+      table.insert(dashboard.section.buttons.val, create_button(config))
+    end
 
-    -- add a message quote to the footer
-    local function get_plugin_stats()
+    dashboard.section.footer.val = function()
       local stats = require("lazy").stats()
-      local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+      local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
       return string.format("⚡ Neovim loaded %d/%d plugins in %.2f ms", stats.loaded, stats.count, ms)
     end
 
-    dashboard.section.footer.val = get_plugin_stats
-    dashboard.section.footer.opts.hl = "alphaheader1"
+    dashboard.section.footer.opts.hl = "AlphaHeader1"
 
-    -- Define a function that returns stats as a string
-
-    -- send config to alpha
+    -- Setup Alpha
     alpha.setup(dashboard.opts)
 
-    -- disable folding on alpha buffer
-    vim.cmd([[autocmd filetype alpha setlocal nofoldenable]])
+    -- Disable folding efficiently
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "alpha",
+      callback = function()
+        vim.opt_local.foldenable = false
+      end,
+    })
 
-    -- animation logic
+    -- Smart animation with timer management
     local current_frame = 1
-    local function animate_dashboard()
-      -- update the dashboard header and its highlight group
-      pcall(function()
-        if dashboard and dashboard.section and dashboard.section.header then
-          dashboard.section.header.val = frames[current_frame]
-          dashboard.section.header.opts.hl = "alphaheader" .. current_frame
-          dashboard.section.footer.opts.hl = "alphaheader" .. current_frame
+    local timer = nil
+    local is_animating = false
 
-          -- update button icon highlights
-          for _, button in ipairs(dashboard.section.buttons.val) do
-            button.opts.hl = {
-              { "alphabuttonicon" .. current_frame, 0, 1 },
-            }
-            button.opts.hl_shortcut = "alphaheader" .. current_frame
-          end
+    local function animate()
+      if vim.bo.filetype ~= "alpha" or is_animating then
+        return
+      end
+      
+      is_animating = true
 
-          pcall(vim.cmd, "redraw")
-          pcall(require("alpha").redraw)
-        end
-      end)
+      -- Batch updates for better performance
+      dashboard.section.header.val = frames[current_frame]
+      dashboard.section.header.opts.hl = "AlphaHeader" .. current_frame
+      dashboard.section.footer.opts.hl = "AlphaHeader" .. current_frame
 
-      -- advance frame
-      current_frame = current_frame + 1
-      if current_frame > #frames then
-        current_frame = 1
+      -- Update all buttons at once
+      local hl_name = "AlphaButtonIcon" .. current_frame
+      local shortcut_hl = "AlphaHeader" .. current_frame
+      
+      for i, button in ipairs(dashboard.section.buttons.val) do
+        button.opts.hl = {{ hl_name, 0, button_configs[i].icon_len }}
+        button.opts.hl_shortcut = shortcut_hl
       end
 
-      -- schedule next frame
-      vim.defer_fn(animate_dashboard, 800)
+      -- Single redraw call
+      vim.schedule(function()
+        if vim.bo.filetype == "alpha" then
+          pcall(alpha.redraw)
+        end
+        is_animating = false
+      end)
+
+      current_frame = current_frame % #frames + 1
     end
 
-    -- start the animation after a slight delay to let dashboard load
-    vim.defer_fn(animate_dashboard, 500)
+    -- Start animation only when on alpha buffer
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "alpha",
+      callback = function()
+        if timer then
+          timer:stop()
+        end
+        timer = vim.loop.new_timer()
+        timer:start(500, 800, vim.schedule_wrap(animate))
+      end,
+    })
+
+    -- Stop animation when leaving alpha
+    vim.api.nvim_create_autocmd("BufLeave", {
+      pattern = "*",
+      callback = function()
+        if timer and vim.bo.filetype == "alpha" then
+          timer:stop()
+          timer = nil
+        end
+      end,
+    })
   end,
 }

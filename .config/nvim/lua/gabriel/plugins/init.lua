@@ -63,7 +63,7 @@ return {
   -- Obsidian plugin
   {
     "epwalsh/obsidian.nvim",
-    version = "*",  -- recommended, use latest release instead of latest commit
+    version = "*",
     lazy = true,
     ft = "markdown",
     dependencies = {
@@ -76,9 +76,13 @@ return {
           path = "~/vaults/personal",
         },
         {
-          name = "work",
+          name = "work", 
           path = "~/vaults/work",
         },
+      },
+      -- Disable UI to avoid conflicts with render-markdown
+      ui = { 
+        enable = false 
       },
     },
   },
@@ -149,6 +153,10 @@ return {
         'MeanderingProgrammer/render-markdown.nvim',
         opts = {
           file_types = { "markdown", "Avante" },
+          -- Disable LaTeX support to avoid warnings
+          latex = { 
+            enabled = false 
+          },
         },
         ft = { "markdown", "Avante" },
       },

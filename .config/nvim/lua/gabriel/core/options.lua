@@ -2,6 +2,13 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt
 
+-- Set Python path for Neovim to use the venv
+vim.g.python3_host_prog = vim.fn.expand('~/.config/nvim/venv/bin/python')
+
+-- Disable providers you don't use to reduce warnings
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 opt.relativenumber = true
 opt.number = true
 
@@ -41,3 +48,22 @@ opt.swapfile = false
 -- enable syntax and filetype plugins
 vim.opt.syntax = "on"
 vim.cmd("filetype plugin indent on")
+
+-- Set up filetype mappings for React files
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.jsx" },
+    callback = function()
+      vim.bo.filetype = "javascriptreact"
+    end,
+  })
+  
+  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.tsx" },
+    callback = function()
+      vim.bo.filetype = "typescriptreact"
+    end,
+  })
+  
+  -- Ensure TreeSitter uses the correct parsers for React filetypes
+  vim.treesitter.language.register('javascript', 'javascriptreact')
+  vim.treesitter.language.register('tsx', 'typescriptreact')
