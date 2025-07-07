@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/gabriel/plugins/csv.lua
+-- Updated to work with perfect Magic command in init.lua
 return {
   {
     "mechatroner/rainbow_csv",
@@ -7,6 +8,9 @@ return {
       -- Core configuration - keep it simple
       vim.g.disable_rainbow_csv_autodetect = 0  -- Enable autodetection (0 means enabled)
       vim.g.rcsv_max_columns = 50               -- Increase max columns for detection
+      
+      -- No auto-alignment - Magic command in init.lua handles this perfectly
+      local auto_align = false  -- Always false - Magic command handles alignment
       
       -- Handle Windows-style line endings in CSV files
       vim.api.nvim_create_autocmd("BufReadPost", {
@@ -30,6 +34,9 @@ return {
             vim.fn.cursor(1, comma_pos)
             vim.cmd("RainbowDelim")
             vim.fn.setpos(".", cursor_pos)
+            
+            -- NO automatic alignment - only colorization
+            -- Use Magic command for alignment
           else
             -- Fallback to simple delimiter detection without cursor movement
             vim.cmd("RainbowDelimSimple")
@@ -70,7 +77,7 @@ return {
             -- Apply basic CSV settings for extensionless files
             vim.b.csv_delimiter = ","
             
-            -- Find first comma and use it for rainbow highlighting
+            -- Find first comma and use it for rainbow highlighting ONLY
             for i, line in ipairs(lines) do
               local comma_pos = string.find(line, ",")
               if comma_pos then
@@ -78,16 +85,22 @@ return {
                 local cursor_pos = vim.fn.getcurpos()
                 -- Move to comma position
                 vim.fn.cursor(i, comma_pos)
-                -- Apply rainbow highlighting
+                -- Apply rainbow highlighting ONLY
                 vim.cmd("RainbowDelim")
                 -- Restore cursor position
                 vim.fn.setpos(".", cursor_pos)
+                
+                -- NO automatic alignment - only colorization
+                -- Use Magic command for alignment
                 break
               end
             end
           end
         end,
       })
+
+      -- NOTE: Magic and Unmagic commands are now defined in init.lua with perfect mechanism
+      -- No need to duplicate them here
 
       -- Keymaps for CSV navigation
       vim.api.nvim_create_autocmd("FileType", {
@@ -99,8 +112,14 @@ return {
           vim.keymap.set("n", "<leader>cu", ":RainbowCellGoUp<CR>", { buffer = true, desc = "Cell above" })
           vim.keymap.set("n", "<leader>cd", ":RainbowCellGoDown<CR>", { buffer = true, desc = "Cell below" })
           
-          -- Column operations
-          vim.keymap.set("n", "<leader>ca", ":RainbowAlign<CR>", { buffer = true, desc = "Align CSV columns" })
+          -- Magic alignment command (defined in init.lua)
+          vim.keymap.set("n", "<leader>cm", ":Magic<CR>", { buffer = true, desc = "Magic CSV alignment (perfect)" })
+          
+          -- Manual alignment using RainbowAlign (less perfect)
+          vim.keymap.set("n", "<leader>ca", ":RainbowAlign<CR>", { buffer = true, desc = "Align CSV columns (basic)" })
+          
+          -- Remove alignment
+          vim.keymap.set("n", "<leader>cn", ":Unmagic<CR>", { buffer = true, desc = "Remove CSV alignment" })
           
           -- Other CSV operations
           vim.keymap.set("n", "<leader>cs", ":RainbowSortCSV<CR>", { buffer = true, desc = "Sort CSV by column" })
@@ -161,6 +180,14 @@ return {
           end
         end
       end, {})
+
+      -- Info command about Magic
+      vim.api.nvim_create_user_command("MagicInfo", function()
+        vim.notify("💡 Magic command uses perfect built-in CSV mechanism", vim.log.levels.INFO)
+        vim.notify("📍 Magic is defined in init.lua, not csv.lua", vim.log.levels.INFO)
+        vim.notify("🎯 Use :Magic for perfect alignment, :Unmagic to remove", vim.log.levels.INFO)
+        vim.notify("⚡ <leader>cm also triggers Magic command", vim.log.levels.INFO)
+      end, { desc = "Show info about Magic command" })
     end,
   }
 }
