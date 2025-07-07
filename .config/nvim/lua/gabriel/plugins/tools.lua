@@ -217,10 +217,4 @@ return {
       vim.g.table_mode_corner = "|"
     end,
   },
-
-  -- CSV handling
-  {
-    "chrisbra/csv.vim",
-    ft = { "csv" },
-  },
 }

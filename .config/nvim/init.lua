@@ -1,5 +1,5 @@
 -- ~/.config/nvim/init.lua
-require("gabriel.core")
+require("gabriel.core") -- Or however you load your core.lua
 require("gabriel.lazy")
 
 -- Function to close Neovim when closing the last tab
@@ -8,17 +8,17 @@ vim.api.nvim_create_user_command("SmartTabClose", function()
     vim.cmd("quit")
   else
     vim.cmd("tabclose")
-  end
+  end -- Changed from 'endif' to 'end'
 end, {})
 
 -- Create a key mapping for the smart tab close (optional)
+-- You can change <leader>tc to any key combination you prefer
 vim.keymap.set("n", "<leader>tc", ":SmartTabClose<CR>", { noremap = true, silent = true })
 
--- CSV settings - DISABLE auto-arrangement, enable Magic command instead
-vim.g.csv_autocmd_arrange = 0 -- Disable auto-alignment - use Magic command instead
-vim.g.csv_no_conceal = 1 -- Show real separators like commas etc.
+-- Disable csv.vim plugin to prevent conflicts with rainbow_csv
+vim.g.loaded_csv = 1
 
--- Colorizer for all files
+-- Colorizer autocmd
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*",
   callback = function()
@@ -29,148 +29,21 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Improved detection for extensionless CSV files (colorization only)
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  pattern = "*",
-  callback = function()
-    local fname = vim.fn.expand("%:t")
-
-    -- Only process files without extensions
-    if fname == "" or fname:match("%..+$") then
-      return
-    end
-
-    -- Check first 10 lines for CSV patterns
-    local lines = vim.api.nvim_buf_get_lines(0, 0, 10, false)
-    local comma_count = 0
-    local examined = 0
-
-    for _, line in ipairs(lines) do
-      if line and #line > 0 then
-        examined = examined + 1
-        -- Count commas in the line
-        comma_count = comma_count + select(2, line:gsub(",", ""))
-      end
-    end
-
-    -- If we have a decent number of commas, it's likely a CSV
-    if examined > 0 and (comma_count / examined) >= 2 then
-      -- Set filetype to CSV
-      vim.bo.filetype = "csv"
-      vim.b.csv_delimiter = ","
-
-      -- Apply rainbow highlighting ONLY (no alignment)
-      vim.defer_fn(function()
-        -- Try to find a comma for highlighting
-        for i, line in ipairs(lines) do
-          local comma_pos = string.find(line, ",")
-          if comma_pos then
-            -- Save cursor position
-            local cursor_pos = vim.fn.getcurpos()
-            -- Move to comma position
-            vim.fn.cursor(i, comma_pos)
-            -- Apply rainbow highlighting ONLY
-            pcall(vim.cmd, "RainbowDelim")
-            -- Restore cursor position
-            vim.fn.setpos(".", cursor_pos)
-            break
-          end
-        end
-
-        -- Mark buffer as unmodified (no formatting was applied)
-        vim.cmd("set nomodified")
-      end, 100)
-    end
-  end,
-  group = vim.api.nvim_create_augroup("CSVExtensionless", { clear = true }),
-})
-
--- Track startup time
-vim.g.start_time = vim.loop.hrtime()
-vim.api.nvim_create_autocmd("UIEnter", {
-  callback = function()
-    vim.g.startuptime = (vim.loop.hrtime() - vim.g.start_time) / 1000000
-  end,
-})
-
--- PERFECT MAGIC COMMAND - Uses the same mechanism as vim.g.csv_autocmd_arrange = 1
+-- Simple Magic command
 vim.api.nvim_create_user_command("Magic", function()
-  local ft = vim.bo.filetype
-  local fname = vim.fn.expand("%:t")
-  local has_csv_content = false
-  
-  -- Check if it's explicitly a CSV file or has CSV-like content
-  if ft == "csv" or fname:match("%.csv$") or fname:match("%.dat$") then
-    has_csv_content = true
-  else
-    -- Check if current buffer has comma-separated content
-    local lines = vim.api.nvim_buf_get_lines(0, 0, 5, false)
-    for _, line in ipairs(lines) do
-      if line:find(",") then
-        has_csv_content = true
-        break
-      end
+  if vim.bo.filetype == "csv" then
+    if vim.fn.exists(":RainbowAlign") > 0 then
+      vim.cmd("RainbowAlign")
+      vim.notify("✨ Magic! CSV aligned", vim.log.levels.INFO)
+    else
+      vim.notify("RainbowAlign not available", vim.log.levels.WARN)
     end
-  end
-  
-  if not has_csv_content then
-    vim.notify("Magic works on CSV files or comma-separated data!", vim.log.levels.WARN)
-    return
-  end
-  
-  -- Set filetype to csv if not already set
-  if ft ~= "csv" then
-    vim.bo.filetype = "csv"
-    vim.notify("Setting filetype to CSV", vim.log.levels.INFO)
-  end
-  
-  -- Save current state
-  local original_arrange = vim.g.csv_autocmd_arrange
-  local cursor_pos = vim.fn.getcurpos()
-  
-  -- Temporarily enable the PERFECT auto-arrangement mechanism
-  vim.g.csv_autocmd_arrange = 1
-  
-  -- Trigger the CSV plugin's built-in arrangement that works perfectly
-  -- This is the EXACT same mechanism that gives perfect alignment
-  vim.cmd("silent! doautocmd FileType csv")
-  
-  -- Restore cursor position
-  vim.fn.setpos(".", cursor_pos)
-  
-  -- Restore original setting and mark as unmodified
-  vim.defer_fn(function()
-    vim.g.csv_autocmd_arrange = original_arrange or 0
-    vim.cmd("set nomodified")
-    vim.notify("✨ Magic CSV alignment applied using PERFECT built-in mechanism!", vim.log.levels.INFO)
-  end, 300)
-  
-end, { desc = "Apply PERFECT CSV alignment using built-in mechanism" })
-
--- Unmagic command to remove alignment
-vim.api.nvim_create_user_command("Unmagic", function()
-  local success = pcall(function()
-    vim.cmd("RainbowNoAlign")
-  end)
-  
-  if success then
-    vim.notify("🔄 CSV alignment removed!", vim.log.levels.INFO)
   else
-    vim.notify("❌ Failed to remove alignment", vim.log.levels.ERROR)
+    vim.notify("Magic only works in CSV files!", vim.log.levels.WARN)
   end
-end, { desc = "Remove CSV column alignment" })
+end, { desc = "Magic CSV alignment" })
 
--- Test command to verify everything is working
-vim.api.nvim_create_user_command("TestMagic", function()
-  vim.notify("Testing Magic setup...", vim.log.levels.INFO)
-  vim.notify("Current filetype: " .. vim.bo.filetype, vim.log.levels.INFO)
-  vim.notify("csv_autocmd_arrange: " .. vim.g.csv_autocmd_arrange, vim.log.levels.INFO)
-  vim.notify("RainbowAlign exists: " .. vim.fn.exists(":RainbowAlign"), vim.log.levels.INFO)
-  vim.notify("RainbowDelim exists: " .. vim.fn.exists(":RainbowDelim"), vim.log.levels.INFO)
-  vim.notify("Magic exists: " .. vim.fn.exists(":Magic"), vim.log.levels.INFO)
-end, { desc = "Test Magic command setup" })
-
--- Details command for CSV file analysis
+-- Details command for comprehensive CSV file analysis
 vim.api.nvim_create_user_command("Details", function()
   local ft = vim.bo.filetype
   local fname = vim.fn.expand("%:t")
@@ -477,3 +350,11 @@ vim.api.nvim_create_user_command("SimpleDetails", function()
         format_bytes(file_size > 0 and file_size or total_chars) .. " | " .. delim_name)
   
 end, { desc = "Show simple CSV file stats" })
+
+-- Add this new autocmd to track startup time
+vim.g.start_time = vim.loop.hrtime()
+vim.api.nvim_create_autocmd("UIEnter", {
+  callback = function()
+    vim.g.startuptime = (vim.loop.hrtime() - vim.g.start_time) / 1000000
+  end,
+})
