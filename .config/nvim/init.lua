@@ -359,87 +359,89 @@ vim.api.nvim_create_autocmd("UIEnter", {
   end,
 })
 
--- Helper function to generate sample CSV data
-local function generate_csv_data(num_rows)
-  local data = {}
-  
-  -- Header row
-  table.insert(data, "id,name,email,department,salary,hire_date,active,score")
-  
-  -- Sample departments and names for variety
-  local departments = {"Engineering", "Marketing", "Sales", "HR", "Finance", "Operations", "Legal", "Support"}
-  local first_names = {"John", "Jane", "Mike", "Sarah", "David", "Lisa", "Chris", "Emma", "Alex", "Maria"}
-  local last_names = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"}
-  local domains = {"company.com", "business.org", "corp.net", "enterprise.com", "tech.io"}
-  
-  -- Generate data rows
-  for i = 1, num_rows do
-    local first_name = first_names[((i - 1) % #first_names) + 1]
-    local last_name = last_names[((i - 1) % #last_names) + 1]
-    local department = departments[((i - 1) % #departments) + 1]
-    local domain = domains[((i - 1) % #domains) + 1]
-    local email = string.lower(first_name .. "." .. last_name .. "@" .. domain)
-    local salary = 45000 + (i * 123) % 100000  -- Varied salary between 45k-145k
-    local hire_year = 2020 + (i % 5)
-    local hire_month = ((i - 1) % 12) + 1
-    local hire_day = ((i - 1) % 28) + 1
-    local hire_date = string.format("%04d-%02d-%02d", hire_year, hire_month, hire_day)
-    local active = (i % 7 ~= 0) and "true" or "false"  -- ~85% active
-    local score = 65 + (i * 7) % 35  -- Score between 65-100
-    
-    local row = string.format("%d,%s %s,%s,%s,%d,%s,%s,%.1f", 
-      i, first_name, last_name, email, department, salary, hire_date, active, score)
-    table.insert(data, row)
-  end
-  
-  return data
-end
 
--- Helper function to create and save temp CSV file
-local function create_temp_csv(num_rows, command_name)
-  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+-- CSV File Splitter Commands - Split current file into smaller chunks
+-- Helper function to split current CSV file
+local function split_current_csv(num_lines, command_name)
+  -- Check if current buffer has content
+  local current_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local total_lines = #current_lines
   
-  -- Create temp directory if it doesn't exist
-  if vim.fn.isdirectory(temp_dir) == 0 then
-    vim.fn.mkdir(temp_dir, "p")
+  if total_lines == 0 then
+    vim.notify("No content in current buffer to split!", vim.log.levels.WARN)
+    return
   end
   
-  -- Generate filename with timestamp
+  if total_lines <= num_lines then
+    vim.notify(string.format("Current file only has %d lines (requested %d lines)", total_lines, num_lines), vim.log.levels.WARN)
+    return
+  end
+  
+  -- Get current file info
+  local current_file = vim.fn.expand("%:p")
+  local current_name = vim.fn.expand("%:t:r") -- filename without extension
+  local current_ext = vim.fn.expand("%:e")   -- extension
+  
+  if current_name == "" then
+    current_name = "untitled"
+  end
+  if current_ext == "" then
+    current_ext = "csv"
+  end
+  
+  -- Create temp directory
+  local temp_dir = vim.fn.expand("~/.config/nvim/cache/csv_temp")
+  if vim.fn.isdirectory(temp_dir) == 0 then
+    local result = vim.fn.mkdir(temp_dir, "p")
+    if result == 0 then
+      vim.notify("Error: Could not create directory " .. temp_dir, vim.log.levels.ERROR)
+      return
+    end
+  end
+  
+  -- Generate new filename
   local timestamp = os.date("%Y%m%d_%H%M%S")
-  local filename = string.format("test_%dk_rows_%s.csv", math.floor(num_rows/1000), timestamp)
-  local filepath = temp_dir .. "/" .. filename
+  local new_filename = string.format("%s_first_%dk_%s.%s", current_name, math.floor(num_lines/1000), timestamp, current_ext)
+  local new_filepath = temp_dir .. "/" .. new_filename
   
-  -- Generate CSV data
-  vim.notify(string.format("Generating %d rows of CSV data...", num_rows), vim.log.levels.INFO)
-  local data = generate_csv_data(num_rows)
+  -- Extract the first num_lines from current buffer
+  vim.notify(string.format("Splitting first %d lines from %s (%d total lines)...", num_lines, current_name, total_lines), vim.log.levels.INFO)
   
-  -- Create new buffer
-  local buf = vim.api.nvim_create_buf(false, false)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, data)
+  local lines_to_save = {}
+  for i = 1, math.min(num_lines, total_lines) do
+    table.insert(lines_to_save, current_lines[i])
+  end
   
-  -- Set buffer name and save
-  vim.api.nvim_buf_set_name(buf, filepath)
-  vim.api.nvim_buf_set_option(buf, "buftype", "")
-  vim.api.nvim_buf_set_option(buf, "filetype", "csv")
+  -- Write directly to file
+  local file = io.open(new_filepath, "w")
+  if not file then
+    vim.notify("Error: Could not create file " .. new_filepath, vim.log.levels.ERROR)
+    return
+  end
   
-  -- Save the buffer
-  vim.api.nvim_buf_call(buf, function()
-    vim.cmd("write")
-  end)
+  for _, line in ipairs(lines_to_save) do
+    file:write(line .. "\n")
+  end
+  file:close()
   
-  -- Open the buffer in current window
-  vim.api.nvim_win_set_buf(0, buf)
+  -- Open the new file in a new tab
+  vim.cmd("tabnew " .. vim.fn.fnameescape(new_filepath))
+  
+  -- Set filetype explicitly
+  vim.bo.filetype = current_ext == "csv" and "csv" or 
+                   current_ext == "dat" and "csv" or 
+                   current_ext == "tsv" and "csv" or "csv"
   
   -- Success message
-  local file_size = vim.fn.getfsize(filepath)
+  local file_size = vim.fn.getfsize(new_filepath)
   local function format_bytes(bytes)
     if bytes < 1024 then return bytes .. "B"
     elseif bytes < 1024*1024 then return string.format("%.1fKB", bytes/1024)
     else return string.format("%.1fMB", bytes/(1024*1024)) end
   end
   
-  vim.notify(string.format("✅ Created %s with %d rows (%s)", 
-    filename, num_rows + 1, format_bytes(file_size)), vim.log.levels.INFO)
+  vim.notify(string.format("✅ Created %s with %d lines (%s)", 
+    new_filename, #lines_to_save, format_bytes(file_size)), vim.log.levels.INFO)
   
   -- Auto-run Details command if available
   vim.defer_fn(function()
@@ -449,47 +451,101 @@ local function create_temp_csv(num_rows, command_name)
   end, 500)
 end
 
--- Create the commands
+-- Create the split commands
 vim.api.nvim_create_user_command("Create1000", function()
-  create_temp_csv(1000, "Create1000")
-end, { desc = "Create temporary CSV file with 1,000 rows" })
+  split_current_csv(1000, "Create1000")
+end, { desc = "Split current CSV file - save first 1,000 lines to temp file" })
 
 vim.api.nvim_create_user_command("Create10000", function()
-  create_temp_csv(10000, "Create10000")
-end, { desc = "Create temporary CSV file with 10,000 rows" })
+  split_current_csv(10000, "Create10000")
+end, { desc = "Split current CSV file - save first 10,000 lines to temp file" })
 
 vim.api.nvim_create_user_command("Create50000", function()
-  create_temp_csv(50000, "Create50000")
-end, { desc = "Create temporary CSV file with 50,000 rows" })
+  split_current_csv(50000, "Create50000")
+end, { desc = "Split current CSV file - save first 50,000 lines to temp file" })
 
 vim.api.nvim_create_user_command("Create100000", function()
-  create_temp_csv(100000, "Create100000")
-end, { desc = "Create temporary CSV file with 100,000 rows" })
+  split_current_csv(100000, "Create100000")
+end, { desc = "Split current CSV file - save first 100,000 lines to temp file" })
+
+-- Additional command to split by percentage
+vim.api.nvim_create_user_command("CreatePercent", function(opts)
+  local percentage = tonumber(opts.args)
+  if not percentage or percentage <= 0 or percentage > 100 then
+    vim.notify("Usage: :CreatePercent <1-100> (e.g., :CreatePercent 25 for 25%)", vim.log.levels.ERROR)
+    return
+  end
+  
+  local current_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local total_lines = #current_lines
+  local target_lines = math.floor(total_lines * percentage / 100)
+  
+  if target_lines < 1 then
+    vim.notify("Calculated lines too small (less than 1 line)", vim.log.levels.WARN)
+    return
+  end
+  
+  split_current_csv(target_lines, "CreatePercent")
+end, { 
+  nargs = 1, 
+  desc = "Split current CSV file by percentage (e.g., :CreatePercent 25)" 
+})
+
+-- Command to create multiple splits at once
+vim.api.nvim_create_user_command("CreateAll", function()
+  local current_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local total_lines = #current_lines
+  
+  if total_lines == 0 then
+    vim.notify("No content in current buffer to split!", vim.log.levels.WARN)
+    return
+  end
+  
+  vim.notify(string.format("Creating multiple splits from %d total lines...", total_lines), vim.log.levels.INFO)
+  
+  local splits = {1000, 10000, 50000, 100000}
+  local created = 0
+  
+  for _, num_lines in ipairs(splits) do
+    if total_lines > num_lines then
+      split_current_csv(num_lines, "CreateAll")
+      created = created + 1
+      -- Small delay between operations
+      vim.defer_fn(function() end, 100)
+    end
+  end
+  
+  if created == 0 then
+    vim.notify("File too small to create any splits (needs > 1000 lines)", vim.log.levels.WARN)
+  else
+    vim.notify(string.format("✅ Created %d split files", created), vim.log.levels.INFO)
+  end
+end, { desc = "Create all possible splits (1k, 10k, 50k, 100k) from current file" })
 
 -- Bonus: Create a command to clean up temp files
 vim.api.nvim_create_user_command("CleanCSVTemp", function()
-  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  local temp_dir = vim.fn.expand("~/.config/nvim/cache/csv_temp")
   if vim.fn.isdirectory(temp_dir) == 1 then
-    local files = vim.fn.glob(temp_dir .. "/*.csv", false, true)
+    local files = vim.fn.glob(temp_dir .. "/*.{csv,dat,tsv}", false, true)
     local count = 0
     for _, file in ipairs(files) do
       if vim.fn.delete(file) == 0 then
         count = count + 1
       end
     end
-    vim.notify(string.format("🧹 Cleaned up %d temporary CSV files", count), vim.log.levels.INFO)
+    vim.notify(string.format("🧹 Cleaned up %d temporary files from %s", count, temp_dir), vim.log.levels.INFO)
   else
     vim.notify("No temporary CSV files to clean", vim.log.levels.INFO)
   end
-end, { desc = "Clean up temporary CSV test files" })
+end, { desc = "Clean up temporary CSV split files" })
 
 -- Command to list temp files
 vim.api.nvim_create_user_command("ListCSVTemp", function()
-  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  local temp_dir = vim.fn.expand("~/.config/nvim/cache/csv_temp")
   if vim.fn.isdirectory(temp_dir) == 1 then
-    local files = vim.fn.glob(temp_dir .. "/*.csv", false, true)
+    local files = vim.fn.glob(temp_dir .. "/*.{csv,dat,tsv}", false, true)
     if #files > 0 then
-      vim.notify("📂 Temporary CSV files:", vim.log.levels.INFO)
+      vim.notify("📂 Temporary split files in " .. temp_dir .. ":", vim.log.levels.INFO)
       for _, file in ipairs(files) do
         local name = vim.fn.fnamemodify(file, ":t")
         local size = vim.fn.getfsize(file)
@@ -499,42 +555,121 @@ vim.api.nvim_create_user_command("ListCSVTemp", function()
         print("  " .. name .. " (" .. size_str .. ")")
       end
     else
-      vim.notify("No temporary CSV files found", vim.log.levels.INFO)
+      vim.notify("No temporary split files found in " .. temp_dir, vim.log.levels.INFO)
     end
   else
-    vim.notify("No temporary CSV directory found", vim.log.levels.INFO)
+    vim.notify("Temporary CSV directory doesn't exist: " .. temp_dir, vim.log.levels.INFO)
   end
-end, { desc = "List temporary CSV test files" })
+end, { desc = "List temporary CSV split files" })
 
 -- Command to open temp directory in file explorer
 vim.api.nvim_create_user_command("OpenCSVTemp", function()
-  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  local temp_dir = vim.fn.expand("~/.config/nvim/cache/csv_temp")
   if vim.fn.isdirectory(temp_dir) == 1 then
-    vim.cmd("edit " .. temp_dir)
+    vim.cmd("edit " .. vim.fn.fnameescape(temp_dir))
   else
-    vim.notify("Temporary CSV directory doesn't exist yet", vim.log.levels.WARN)
+    vim.notify("Temporary CSV directory doesn't exist: " .. temp_dir, vim.log.levels.WARN)
   end
-end, { desc = "Open temporary CSV directory" })
+end, { desc = "Open temporary CSV split directory" })
 
--- Add helpful keymaps for CSV testing
+-- Command to quickly analyze current file size and suggest splits
+vim.api.nvim_create_user_command("AnalyzeSplits", function()
+  local current_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local total_lines = #current_lines
+  local current_name = vim.fn.expand("%:t")
+  
+  if total_lines == 0 then
+    vim.notify("No content in current buffer", vim.log.levels.WARN)
+    return
+  end
+  
+  local splits = {
+    {1000, "1k"},
+    {10000, "10k"}, 
+    {50000, "50k"},
+    {100000, "100k"}
+  }
+  
+  local report = {
+    "📊 SPLIT ANALYSIS FOR: " .. current_name,
+    "═══════════════════════════════════════════════════════════════",
+    "",
+    "📋 Current File:",
+    "   Total Lines: " .. total_lines,
+    "",
+    "✂️  Available Splits:",
+  }
+  
+  local available_splits = 0
+  for _, split in ipairs(splits) do
+    local lines, label = split[1], split[2]
+    if total_lines > lines then
+      table.insert(report, string.format("   ✅ :Create%d - First %s lines (%d lines)", lines, label, lines))
+      available_splits = available_splits + 1
+    else
+      table.insert(report, string.format("   ❌ :Create%d - Not enough lines (need >%d)", lines, lines))
+    end
+  end
+  
+  table.insert(report, "")
+  table.insert(report, "🎯 Quick Commands:")
+  if available_splits > 0 then
+    table.insert(report, "   :CreateAll - Create all available splits")
+    table.insert(report, "   :CreatePercent 25 - Create 25% split (" .. math.floor(total_lines * 0.25) .. " lines)")
+  else
+    table.insert(report, "   File too small for standard splits")
+    table.insert(report, "   Try :CreatePercent 50 for half the file")
+  end
+  
+  table.insert(report, "")
+  table.insert(report, "═══════════════════════════════════════════════════════════════")
+  
+  -- Display in floating window
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, report)
+  
+  local width = 70
+  local height = math.min(#report + 2, vim.o.lines - 4)
+  
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = (vim.o.columns - width) / 2,
+    row = (vim.o.lines - height) / 2,
+    style = "minimal",
+    border = "rounded",
+    title = " Split Analysis ",
+    title_pos = "center",
+  })
+  
+  vim.api.nvim_buf_set_option(buf, "modifiable", false)
+  vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
+  vim.api.nvim_win_set_option(win, "cursorline", true)
+  
+  -- Close window keymaps
+  local close_keys = { "q", "<Esc>", "<CR>" }
+  for _, key in ipairs(close_keys) do
+    vim.api.nvim_buf_set_keymap(buf, "n", key, "<cmd>close<CR>", 
+      { noremap = true, silent = true })
+  end
+  
+end, { desc = "Analyze current file and show available split options" })
+
+-- Add helpful keymaps for CSV splitting
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "csv",
+  pattern = {"csv", "dat", "tsv"},
   callback = function()
     local opts = { buffer = true, silent = true }
     
-    -- Quick commands for testing
-    vim.keymap.set("n", "<leader>ct", ":Details<CR>", 
-      vim.tbl_extend("force", opts, { desc = "CSV Details" }))
-    vim.keymap.set("n", "<leader>cT", ":SimpleDetails<CR>", 
-      vim.tbl_extend("force", opts, { desc = "Simple CSV Details" }))
-    vim.keymap.set("n", "<leader>cL", ":ListCSVTemp<CR>", 
-      vim.tbl_extend("force", opts, { desc = "List temp CSV files" }))
+    -- Quick split commands
+    vim.keymap.set("n", "<leader>cs", ":AnalyzeSplits<CR>", 
+      vim.tbl_extend("force", opts, { desc = "Analyze split options" }))
+    vim.keymap.set("n", "<leader>c1", ":Create1000<CR>", 
+      vim.tbl_extend("force", opts, { desc = "Split first 1k lines" }))
+    vim.keymap.set("n", "<leader>c2", ":Create10000<CR>", 
+      vim.tbl_extend("force", opts, { desc = "Split first 10k lines" }))
+    vim.keymap.set("n", "<leader>cA", ":CreateAll<CR>", 
+      vim.tbl_extend("force", opts, { desc = "Create all splits" }))
   end,
 })
-
--- Show available commands on startup (optional)
-vim.defer_fn(function()
-  if vim.g.csv_show_commands_on_startup then
-    vim.notify("CSV Test Commands: :Create1000 :Create10000 :Create50000 :Create100000", vim.log.levels.INFO)
-  end
-end, 2000)

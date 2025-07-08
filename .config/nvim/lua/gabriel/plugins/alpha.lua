@@ -115,33 +115,36 @@ return {
       if vim.bo.filetype ~= "alpha" or is_animating then
         return
       end
-      
+    
+      -- ✅ If in command line mode (":"), skip redraw but keep the timer ticking
+      if vim.fn.mode() == "c" then
+        return
+      end
+    
       is_animating = true
-
-      -- Batch updates for better performance
+    
       dashboard.section.header.val = frames[current_frame]
       dashboard.section.header.opts.hl = "AlphaHeader" .. current_frame
       dashboard.section.footer.opts.hl = "AlphaHeader" .. current_frame
-
-      -- Update all buttons at once
+    
       local hl_name = "AlphaButtonIcon" .. current_frame
       local shortcut_hl = "AlphaHeader" .. current_frame
-      
+    
       for i, button in ipairs(dashboard.section.buttons.val) do
         button.opts.hl = {{ hl_name, 0, button_configs[i].icon_len }}
         button.opts.hl_shortcut = shortcut_hl
       end
-
-      -- Single redraw call
+    
       vim.schedule(function()
         if vim.bo.filetype == "alpha" then
           pcall(alpha.redraw)
         end
         is_animating = false
       end)
-
+    
       current_frame = current_frame % #frames + 1
     end
+    
 
     -- Start animation only when on alpha buffer
     vim.api.nvim_create_autocmd("FileType", {
@@ -159,7 +162,7 @@ return {
     vim.api.nvim_create_autocmd("BufLeave", {
       pattern = "*",
       callback = function()
-        if timer and vim.bo.filetype == "alpha" then
+        if timer then
           timer:stop()
           timer = nil
         end
