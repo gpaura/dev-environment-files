@@ -2,6 +2,10 @@
 require("gabriel.core") -- Or however you load your core.lua
 require("gabriel.lazy")
 
+local function trim(s)
+  return s and s:match("^%s*(.-)%s*$") or s
+end
+
 -- Function to close Neovim when closing the last tab
 vim.api.nvim_create_user_command("SmartTabClose", function()
   if vim.fn.tabpagenr("$") == 1 then
@@ -106,7 +110,7 @@ vim.api.nvim_create_user_command("Details", function()
       local columns = {}
       if delimiter == "\t" then
         for field in line:gmatch("([^\t]*)\t?") do
-          table.insert(columns, field)
+          table.insert(columns, trim(field))
         end
       else
         -- Handle quoted fields properly
@@ -118,14 +122,14 @@ vim.api.nvim_create_user_command("Details", function()
           if char == '"' then
             in_quotes = not in_quotes
           elseif char == char_delim and not in_quotes then
-            table.insert(columns, current_field)
+            table.insert(columns, trim(current_field))
             current_field = ""
           else
             current_field = current_field .. char
           end
         end
         -- Add the last field
-        table.insert(columns, current_field)
+        table.insert(columns, trim(current_field))
       end
       
       local col_count = #columns
@@ -360,7 +364,9 @@ vim.api.nvim_create_autocmd("UIEnter", {
 })
 
 
+-- Add these commands to your ~/.config/nvim/init.lua file
 -- CSV File Splitter Commands - Split current file into smaller chunks
+
 -- Helper function to split current CSV file
 local function split_current_csv(num_lines, command_name)
   -- Check if current buffer has content
@@ -671,5 +677,15 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.tbl_extend("force", opts, { desc = "Split first 10k lines" }))
     vim.keymap.set("n", "<leader>cA", ":CreateAll<CR>", 
       vim.tbl_extend("force", opts, { desc = "Create all splits" }))
+  end,
+})
+
+-- Automatically un-align before saving
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.csv",
+  callback = function()
+    if vim.fn.exists(":RainbowAlign") > 0 then
+      vim.cmd("RainbowAlign!") -- disables alignment
+    end
   end,
 })
