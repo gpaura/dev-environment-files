@@ -358,3 +358,183 @@ vim.api.nvim_create_autocmd("UIEnter", {
     vim.g.startuptime = (vim.loop.hrtime() - vim.g.start_time) / 1000000
   end,
 })
+
+-- Helper function to generate sample CSV data
+local function generate_csv_data(num_rows)
+  local data = {}
+  
+  -- Header row
+  table.insert(data, "id,name,email,department,salary,hire_date,active,score")
+  
+  -- Sample departments and names for variety
+  local departments = {"Engineering", "Marketing", "Sales", "HR", "Finance", "Operations", "Legal", "Support"}
+  local first_names = {"John", "Jane", "Mike", "Sarah", "David", "Lisa", "Chris", "Emma", "Alex", "Maria"}
+  local last_names = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"}
+  local domains = {"company.com", "business.org", "corp.net", "enterprise.com", "tech.io"}
+  
+  -- Generate data rows
+  for i = 1, num_rows do
+    local first_name = first_names[((i - 1) % #first_names) + 1]
+    local last_name = last_names[((i - 1) % #last_names) + 1]
+    local department = departments[((i - 1) % #departments) + 1]
+    local domain = domains[((i - 1) % #domains) + 1]
+    local email = string.lower(first_name .. "." .. last_name .. "@" .. domain)
+    local salary = 45000 + (i * 123) % 100000  -- Varied salary between 45k-145k
+    local hire_year = 2020 + (i % 5)
+    local hire_month = ((i - 1) % 12) + 1
+    local hire_day = ((i - 1) % 28) + 1
+    local hire_date = string.format("%04d-%02d-%02d", hire_year, hire_month, hire_day)
+    local active = (i % 7 ~= 0) and "true" or "false"  -- ~85% active
+    local score = 65 + (i * 7) % 35  -- Score between 65-100
+    
+    local row = string.format("%d,%s %s,%s,%s,%d,%s,%s,%.1f", 
+      i, first_name, last_name, email, department, salary, hire_date, active, score)
+    table.insert(data, row)
+  end
+  
+  return data
+end
+
+-- Helper function to create and save temp CSV file
+local function create_temp_csv(num_rows, command_name)
+  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  
+  -- Create temp directory if it doesn't exist
+  if vim.fn.isdirectory(temp_dir) == 0 then
+    vim.fn.mkdir(temp_dir, "p")
+  end
+  
+  -- Generate filename with timestamp
+  local timestamp = os.date("%Y%m%d_%H%M%S")
+  local filename = string.format("test_%dk_rows_%s.csv", math.floor(num_rows/1000), timestamp)
+  local filepath = temp_dir .. "/" .. filename
+  
+  -- Generate CSV data
+  vim.notify(string.format("Generating %d rows of CSV data...", num_rows), vim.log.levels.INFO)
+  local data = generate_csv_data(num_rows)
+  
+  -- Create new buffer
+  local buf = vim.api.nvim_create_buf(false, false)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, data)
+  
+  -- Set buffer name and save
+  vim.api.nvim_buf_set_name(buf, filepath)
+  vim.api.nvim_buf_set_option(buf, "buftype", "")
+  vim.api.nvim_buf_set_option(buf, "filetype", "csv")
+  
+  -- Save the buffer
+  vim.api.nvim_buf_call(buf, function()
+    vim.cmd("write")
+  end)
+  
+  -- Open the buffer in current window
+  vim.api.nvim_win_set_buf(0, buf)
+  
+  -- Success message
+  local file_size = vim.fn.getfsize(filepath)
+  local function format_bytes(bytes)
+    if bytes < 1024 then return bytes .. "B"
+    elseif bytes < 1024*1024 then return string.format("%.1fKB", bytes/1024)
+    else return string.format("%.1fMB", bytes/(1024*1024)) end
+  end
+  
+  vim.notify(string.format("✅ Created %s with %d rows (%s)", 
+    filename, num_rows + 1, format_bytes(file_size)), vim.log.levels.INFO)
+  
+  -- Auto-run Details command if available
+  vim.defer_fn(function()
+    if vim.fn.exists(":Details") > 0 then
+      vim.cmd("Details")
+    end
+  end, 500)
+end
+
+-- Create the commands
+vim.api.nvim_create_user_command("Create1000", function()
+  create_temp_csv(1000, "Create1000")
+end, { desc = "Create temporary CSV file with 1,000 rows" })
+
+vim.api.nvim_create_user_command("Create10000", function()
+  create_temp_csv(10000, "Create10000")
+end, { desc = "Create temporary CSV file with 10,000 rows" })
+
+vim.api.nvim_create_user_command("Create50000", function()
+  create_temp_csv(50000, "Create50000")
+end, { desc = "Create temporary CSV file with 50,000 rows" })
+
+vim.api.nvim_create_user_command("Create100000", function()
+  create_temp_csv(100000, "Create100000")
+end, { desc = "Create temporary CSV file with 100,000 rows" })
+
+-- Bonus: Create a command to clean up temp files
+vim.api.nvim_create_user_command("CleanCSVTemp", function()
+  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  if vim.fn.isdirectory(temp_dir) == 1 then
+    local files = vim.fn.glob(temp_dir .. "/*.csv", false, true)
+    local count = 0
+    for _, file in ipairs(files) do
+      if vim.fn.delete(file) == 0 then
+        count = count + 1
+      end
+    end
+    vim.notify(string.format("🧹 Cleaned up %d temporary CSV files", count), vim.log.levels.INFO)
+  else
+    vim.notify("No temporary CSV files to clean", vim.log.levels.INFO)
+  end
+end, { desc = "Clean up temporary CSV test files" })
+
+-- Command to list temp files
+vim.api.nvim_create_user_command("ListCSVTemp", function()
+  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  if vim.fn.isdirectory(temp_dir) == 1 then
+    local files = vim.fn.glob(temp_dir .. "/*.csv", false, true)
+    if #files > 0 then
+      vim.notify("📂 Temporary CSV files:", vim.log.levels.INFO)
+      for _, file in ipairs(files) do
+        local name = vim.fn.fnamemodify(file, ":t")
+        local size = vim.fn.getfsize(file)
+        local size_str = size < 1024 and (size .. "B") or 
+                        size < 1024*1024 and string.format("%.1fKB", size/1024) or
+                        string.format("%.1fMB", size/(1024*1024))
+        print("  " .. name .. " (" .. size_str .. ")")
+      end
+    else
+      vim.notify("No temporary CSV files found", vim.log.levels.INFO)
+    end
+  else
+    vim.notify("No temporary CSV directory found", vim.log.levels.INFO)
+  end
+end, { desc = "List temporary CSV test files" })
+
+-- Command to open temp directory in file explorer
+vim.api.nvim_create_user_command("OpenCSVTemp", function()
+  local temp_dir = vim.fn.stdpath("cache") .. "/csv_temp"
+  if vim.fn.isdirectory(temp_dir) == 1 then
+    vim.cmd("edit " .. temp_dir)
+  else
+    vim.notify("Temporary CSV directory doesn't exist yet", vim.log.levels.WARN)
+  end
+end, { desc = "Open temporary CSV directory" })
+
+-- Add helpful keymaps for CSV testing
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "csv",
+  callback = function()
+    local opts = { buffer = true, silent = true }
+    
+    -- Quick commands for testing
+    vim.keymap.set("n", "<leader>ct", ":Details<CR>", 
+      vim.tbl_extend("force", opts, { desc = "CSV Details" }))
+    vim.keymap.set("n", "<leader>cT", ":SimpleDetails<CR>", 
+      vim.tbl_extend("force", opts, { desc = "Simple CSV Details" }))
+    vim.keymap.set("n", "<leader>cL", ":ListCSVTemp<CR>", 
+      vim.tbl_extend("force", opts, { desc = "List temp CSV files" }))
+  end,
+})
+
+-- Show available commands on startup (optional)
+vim.defer_fn(function()
+  if vim.g.csv_show_commands_on_startup then
+    vim.notify("CSV Test Commands: :Create1000 :Create10000 :Create50000 :Create100000", vim.log.levels.INFO)
+  end
+end, 2000)
