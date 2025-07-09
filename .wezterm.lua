@@ -1,6 +1,10 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- Tmux 
+-- config.term = "wezterm"
+config.enable_kitty_graphics = true
+
 config.automatically_reload_config = true
 
 config.window_close_confirmation = "NeverPrompt"
