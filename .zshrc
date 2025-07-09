@@ -1415,3 +1415,302 @@ echo "   test-widgets     - Check if custom widgets exist"
 echo "   check-mode       - Check current vi mode"
 echo ""
 echo "💡 Start with: test-basic"
+
+# ============================================================================
+# CORRECTED SELECTION WIDGETS
+# ============================================================================
+
+# Command+Shift+Left - Select to beginning (FIXED)
+cmd-shift-left-simple() {
+    local start_pos=$CURSOR
+    
+    # Move to beginning
+    zle beginning-of-line
+    local end_pos=$CURSOR
+    
+    # Calculate what would be selected (FIXED MATH)
+    if [[ $start_pos -gt 0 ]]; then
+        local selected_text="${BUFFER[1,$start_pos]}"
+        
+        # Copy to clipboard
+        if [[ -n "$selected_text" ]]; then
+            echo -n "$selected_text" | pbcopy
+            
+            # Quick visual feedback
+            echo -ne "\r\033[K"  # Clear line
+            echo -ne "\033[43;30m ← SELECTED: '$selected_text' \033[0m"
+            sleep 0.8
+            echo -ne "\r\033[K"  # Clear feedback
+            echo -n "$BUFFER"    # Restore line
+            echo -ne "\r"
+            # Position cursor at beginning
+            CURSOR=$end_pos
+        fi
+    fi
+}
+zle -N cmd-shift-left-simple
+
+# Command+Shift+Right - Select to end (FIXED)
+cmd-shift-right-simple() {
+    local start_pos=$CURSOR
+    local buffer_length=${#BUFFER}
+    
+    # Move to end
+    zle end-of-line
+    local end_pos=$CURSOR
+    
+    # Calculate what would be selected (FIXED MATH)
+    if [[ $start_pos -lt $buffer_length ]]; then
+        local selected_text="${BUFFER:$start_pos}"  # Using safer syntax
+        
+        # Copy to clipboard
+        if [[ -n "$selected_text" ]]; then
+            echo -n "$selected_text" | pbcopy
+            
+            # Quick visual feedback
+            echo -ne "\r\033[K"
+            echo -ne "\033[43;30m → SELECTED: '$selected_text' \033[0m"
+            sleep 0.8
+            echo -ne "\r\033[K"
+            echo -n "$BUFFER"
+            echo -ne "\r"
+            # Position cursor at end
+            CURSOR=$end_pos
+        fi
+    fi
+}
+zle -N cmd-shift-right-simple
+
+# Option+Shift+Left - Select word backward (FIXED)
+opt-shift-left-simple() {
+    local start_pos=$CURSOR
+    zle backward-word
+    local end_pos=$CURSOR
+    
+    # Calculate selection (FIXED MATH)
+    if [[ $end_pos -lt $start_pos ]]; then
+        local length=$((start_pos - end_pos))
+        local selected_text="${BUFFER:$end_pos:$length}"
+        
+        if [[ -n "$selected_text" ]]; then
+            echo -n "$selected_text" | pbcopy
+            echo -ne "\r\033[K"
+            echo -ne "\033[46;30m ← WORD: '$selected_text' \033[0m"
+            sleep 0.8
+            echo -ne "\r\033[K"
+            echo -n "$BUFFER"
+            echo -ne "\r"
+            CURSOR=$end_pos
+        fi
+    fi
+}
+zle -N opt-shift-left-simple
+
+# Option+Shift+Right - Select word forward (FIXED)
+opt-shift-right-simple() {
+    local start_pos=$CURSOR
+    zle forward-word
+    local end_pos=$CURSOR
+    
+    # Calculate selection (FIXED MATH)
+    if [[ $start_pos -lt $end_pos ]]; then
+        local length=$((end_pos - start_pos))
+        local selected_text="${BUFFER:$start_pos:$length}"
+        
+        if [[ -n "$selected_text" ]]; then
+            echo -n "$selected_text" | pbcopy
+            echo -ne "\r\033[K"
+            echo -ne "\033[46;30m → WORD: '$selected_text' \033[0m"
+            sleep 0.8
+            echo -ne "\r\033[K"
+            echo -n "$BUFFER"
+            echo -ne "\r"
+            CURSOR=$end_pos
+        fi
+    fi
+}
+zle -N opt-shift-right-simple
+
+# ============================================================================
+# ALTERNATIVE SIMPLE APPROACH (NO COMPLEX MATH)
+# ============================================================================
+
+# Even simpler versions that avoid complex string operations
+
+# Simple left selection - just copy everything before cursor
+simple-select-left() {
+    if [[ $CURSOR -gt 0 ]]; then
+        # Get text before cursor using parameter expansion
+        local before_cursor="${BUFFER:0:$CURSOR}"
+        
+        # Copy to clipboard
+        echo -n "$before_cursor" | pbcopy
+        
+        # Move to beginning
+        zle beginning-of-line
+        
+        # Show feedback
+        echo -ne "\033[43;30m ← COPIED: '$before_cursor' \033[0m"
+        sleep 1
+        zle reset-prompt
+    fi
+}
+zle -N simple-select-left
+
+# Simple right selection - just copy everything after cursor
+simple-select-right() {
+    local buffer_length=${#BUFFER}
+    if [[ $CURSOR -lt $buffer_length ]]; then
+        # Get text after cursor
+        local after_cursor="${BUFFER:$CURSOR}"
+        
+        # Copy to clipboard
+        echo -n "$after_cursor" | pbcopy
+        
+        # Move to end
+        zle end-of-line
+        
+        # Show feedback
+        echo -ne "\033[43;30m → COPIED: '$after_cursor' \033[0m"
+        sleep 1
+        zle reset-prompt
+    fi
+}
+zle -N simple-select-right
+
+# Simple word selection
+simple-select-word() {
+    # Save position
+    local orig_cursor=$CURSOR
+    
+    # Find word boundaries
+    zle backward-word
+    local word_start=$CURSOR
+    zle forward-word
+    local word_end=$CURSOR
+    
+    # Get the word
+    local word_length=$((word_end - word_start))
+    local word="${BUFFER:$word_start:$word_length}"
+    
+    # Copy word
+    echo -n "$word" | pbcopy
+    
+    # Restore position
+    CURSOR=$orig_cursor
+    
+    # Show feedback
+    echo -ne "\033[46;30m WORD: '$word' \033[0m"
+    sleep 1
+    zle reset-prompt
+}
+zle -N simple-select-word
+
+# ============================================================================
+# SAFE BINDING SETUP
+# ============================================================================
+
+setup-fixed-selection() {
+    echo "🔧 Setting up FIXED selection (no math errors)..."
+    
+    # Remove any existing bindings
+    bindkey -M viins -r '^[[1;6D' 2>/dev/null
+    bindkey -M viins -r '^[[1;6C' 2>/dev/null
+    bindkey -M viins -r '^[[1;4D' 2>/dev/null
+    bindkey -M viins -r '^[[1;4C' 2>/dev/null
+    
+    # Use the simpler, more reliable versions
+    bindkey -M viins '^[[1;6D' simple-select-left     # Cmd+Shift+Left
+    bindkey -M viins '^[[1;6C' simple-select-right    # Cmd+Shift+Right
+    bindkey -M viins '^[[1;4D' simple-select-word     # Opt+Shift+Left (word)
+    bindkey -M viins '^[[1;4C' simple-select-word     # Opt+Shift+Right (word)
+    
+    # Additional useful bindings
+    bindkey -M viins '^X^W' simple-select-word        # Ctrl+X, Ctrl+W
+    
+    echo "✅ Fixed selection bindings applied!"
+}
+
+# ============================================================================
+# TESTING FUNCTION
+# ============================================================================
+
+test-fixed-selection() {
+    echo "=== TESTING FIXED SELECTION (NO MATH ERRORS) ==="
+    echo ""
+    echo "Current mode: $KEYMAP"
+    echo ""
+    echo "Instructions:"
+    echo "1. Type: 'hello world test example'"
+    echo "2. Move cursor to middle (before 'test')"
+    echo "3. Try Command+Shift+Left - copies 'hello world '"
+    echo "4. Try Command+Shift+Right - copies 'test example'"
+    echo "5. Try Option+Shift+Left/Right - copies current word"
+    echo ""
+    echo "After selection, paste with Command+V to verify it worked!"
+    echo ""
+    
+    local test_input=""
+    echo -n "Type and test here: "
+    vared test_input
+    
+    echo ""
+    echo "Final text: '$test_input'"
+    echo "Current mode: $KEYMAP"
+    
+    # Test clipboard
+    echo ""
+    echo "Testing clipboard content:"
+    echo "Clipboard contains: '$(pbpaste)'"
+}
+
+# ============================================================================
+# VERY SIMPLE TEST
+# ============================================================================
+
+test-very-simple() {
+    echo "=== VERY SIMPLE TEST ==="
+    echo ""
+    echo "Let's test one thing at a time:"
+    echo ""
+    
+    # Test basic cursor position
+    echo "1. Testing cursor position detection..."
+    local simple_text="hello world"
+    BUFFER="$simple_text"
+    CURSOR=6  # Should be at 'w' in "world"
+    echo "Buffer: '$BUFFER'"
+    echo "Cursor position: $CURSOR"
+    echo "Character at cursor: '${BUFFER:$CURSOR:1}'"
+    echo ""
+    
+    # Test text before cursor
+    echo "2. Testing text extraction..."
+    local before="${BUFFER:0:$CURSOR}"
+    local after="${BUFFER:$CURSOR}"
+    echo "Before cursor: '$before'"
+    echo "After cursor: '$after'"
+    echo ""
+    
+    echo "If this works, the selection should work too!"
+}
+
+# ============================================================================
+# ALIASES
+# ============================================================================
+
+alias setup-fixed='setup-fixed-selection'
+alias test-fixed='test-fixed-selection'  
+alias test-simple='test-very-simple'
+
+# Apply the fixed version
+setup-fixed-selection
+
+echo ""
+echo "🛠️  FIXED SELECTION LOADED (No Math Errors)"
+echo ""
+echo "🧪 Available tests:"
+echo "   test-fixed  - Test the fixed selection"
+echo "   test-simple - Very simple functionality test"
+echo ""
+echo "💡 Uses safer string operations to avoid math expression errors"
