@@ -187,6 +187,21 @@ alias lta3="eza -lTag --level=3 --icons=always"
 #Tmux alias
 alias tks='tmux kill-session -t'
 alias ta='tmux attach -t'
+alias tls='tmux list-sessions'
+
+tkserver() {
+    echo "Current tmux sessions:"
+    tmux list-sessions 2>/dev/null || { echo "No tmux sessions found."; return; }
+    
+    echo ""
+    read -p "Kill all sessions? (y/N): " confirm
+    if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+        tmux kill-server
+        echo "All tmux sessions killed."
+    else
+        echo "Operation cancelled."
+    fi
+}
 
 # ---- TheFuck -----
 
