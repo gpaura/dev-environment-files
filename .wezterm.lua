@@ -295,6 +295,71 @@ config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.85
 config.macos_window_background_blur = 10
 
+-- macOS Command Key Configuration - IMPORTANT!
+config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = false
+
+-- Enable Command key support for macOS
+config.keys = {
+  -- Command+Left/Right for line navigation
+  {
+    key = 'LeftArrow',
+    mods = 'CMD',
+    action = wezterm.action.SendString('\x01'), -- Ctrl+A (beginning of line)
+  },
+  {
+    key = 'RightArrow', 
+    mods = 'CMD',
+    action = wezterm.action.SendString('\x05'), -- Ctrl+E (end of line)
+  },
+  
+  -- Command+Z for undo
+  {
+	key = 'z',
+	mods = 'CMD',
+	action = wezterm.action.SendString('\x1a\x03'),
+  },
+  
+  
+  -- Command+Delete for delete to beginning
+  {
+    key = 'Backspace',
+    mods = 'CMD', 
+    action = wezterm.action.SendString('\x15'), -- Ctrl+U (kill line backward)
+  },
+  {
+    key = 'Delete',
+    mods = 'CMD',
+    action = wezterm.action.SendString('\x15'), -- Ctrl+U (kill line backward)  
+  },
+  
+  -- Command+K for delete to end
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.SendString('\x0b'), -- Ctrl+K (kill line forward)
+  },
+  
+  -- Option+Left/Right for word navigation (keep existing behavior)
+  {
+    key = 'LeftArrow',
+    mods = 'ALT',
+    action = wezterm.action.SendString('\x1bb'), -- Alt+b (backward word)
+  },
+  {
+    key = 'RightArrow',
+    mods = 'ALT', 
+    action = wezterm.action.SendString('\x1bf'), -- Alt+f (forward word)
+  },
+  
+  -- Option+Delete for word deletion
+  {
+    key = 'Backspace',
+    mods = 'ALT',
+    action = wezterm.action.SendString('\x17'), -- Ctrl+W (kill word backward)
+  },
+}
+
 -- Make theme switching more responsive
 wezterm.on("window-config-reload", function(window, pane)
 	-- Force a redraw when config is reloaded

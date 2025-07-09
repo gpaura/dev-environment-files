@@ -70,8 +70,97 @@ alias cl='clear'
 # HTTP requests with xh!
 alias http="xh"
 
-# VI Mode!!!
-bindkey jj vi-cmd-mode
+# VI Mode!!! - Fixed to prevent Option+Delete conflicts
+# Enable vi mode
+set -o vi
+
+# Create a custom widget for jj that only triggers on consecutive j presses
+jj-to-cmd-mode() {
+    if [[ $LBUFFER =~ 'j$' ]]; then
+        # Remove the last 'j' and switch to command mode
+        LBUFFER=${LBUFFER%j}
+        zle vi-cmd-mode
+    else
+        # If not preceded by 'j', just insert 'j'
+        zle self-insert
+    fi
+}
+zle -N jj-to-cmd-mode
+
+# Bind only the 'j' key in insert mode to our custom function
+bindkey -M viins 'j' jj-to-cmd-mode
+
+# Keep normal macOS delete behavior
+bindkey '^[[3~' delete-char              # Delete key
+bindkey '^?' backward-delete-char        # Backspace
+bindkey '\e[3~' delete-char             # Alternative delete
+bindkey '^H' backward-delete-char        # Ctrl+H (backspace)
+
+# macOS specific key bindings - These prevent Option+Delete from triggering jj
+bindkey '\e^?' backward-kill-word        # Option+Delete (backward kill word)
+bindkey '\e\d' backward-kill-word        # Alt+Delete (alternative)
+bindkey '^W' backward-kill-word          # Ctrl+W (backward kill word)
+bindkey '^[^?' backward-kill-word        # Another Option+Delete variant
+bindkey '\e^H' backward-kill-word        # Option+Backspace
+
+# macOS Command key shortcuts (like in Mac text fields)
+# Command+Delete/Backspace - Delete to beginning of line
+bindkey '^[[3;2~' backward-kill-line     # Cmd+Delete 
+bindkey '\e[3;2~' backward-kill-line     # Cmd+Delete (alternative)
+bindkey '^[[127;2u' backward-kill-line   # Cmd+Backspace
+bindkey '^U' backward-kill-line          # Ctrl+U (universal alternative)
+
+# Command+Z - Undo last edit (WezTerm specific sequence)
+bindkey '^Z^C' undo                      # Cmd+Z - undo (WezTerm sends ^Z^C)
+bindkey '^Z' undo                        # Cmd+Z - undo (fallback)
+bindkey '^[[122;2u' undo                 # Cmd+Z (alternative sequence)
+bindkey '\e[122;2u' undo                 # Cmd+Z (another alternative)
+
+# Command+Arrow Keys - Navigation like macOS (WezTerm specific sequences)
+bindkey '^[[D' beginning-of-line         # Cmd+Left - go to beginning of line (WezTerm)
+bindkey '^[[C' end-of-line               # Cmd+Right - go to end of line (WezTerm)
+
+# Backup sequences for other terminals
+bindkey '^[[1;10D' beginning-of-line     # Cmd+Left (alternative)
+bindkey '^[[1;10C' end-of-line           # Cmd+Right (alternative)
+bindkey '^[[1;2D' beginning-of-line      # Cmd+Left (another alternative)
+bindkey '^[[1;2C' end-of-line            # Cmd+Right (another alternative)
+bindkey '\e[1;2D' beginning-of-line      # Cmd+Left (escape variant)
+bindkey '\e[1;2C' end-of-line            # Cmd+Right (escape variant)
+bindkey '^[[H' beginning-of-line         # Cmd+Left (Home key)
+bindkey '^[[F' end-of-line               # Cmd+Right (End key)
+
+# Command+Up/Down
+bindkey '^[[1;10A' beginning-of-buffer-or-history  # Cmd+Up - go to top
+bindkey '^[[1;10B' end-of-buffer-or-history        # Cmd+Down - go to bottom
+
+# Option+Arrow Keys - Word movement (setas + option)
+bindkey '^[[1;3D' backward-word          # Option+Left - move left by word
+bindkey '^[[1;3C' forward-word           # Option+Right - move right by word
+bindkey '\e[1;3D' backward-word          # Option+Left (alternative)
+bindkey '\e[1;3C' forward-word           # Option+Right (alternative)
+bindkey '\eb' backward-word              # Option+Left (universal)
+bindkey '\ef' forward-word               # Option+Right (universal)
+
+# Command+A/E - Line navigation
+bindkey '^A' beginning-of-line           # Cmd+A - go to beginning of line
+bindkey '^E' end-of-line                 # Cmd+E - go to end of line
+
+# Command+K - Delete to end of line
+bindkey '^K' kill-line                   # Cmd+K - kill to end of line
+
+# Better vi mode indicators (optional)
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]]; then
+    echo -ne '\e[1 q'  # Block cursor for normal mode
+  else
+    echo -ne '\e[5 q'  # Beam cursor for insert mode
+  fi
+}
+zle -N zle-keymap-select
+
+# Initialize with beam cursor
+echo -ne '\e[5 q'
 
 # Eza
 alias l="eza -l --icons --git -a"
