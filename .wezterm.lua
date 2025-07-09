@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+local act = wezterm.action
 
 -- Tmux 
 -- config.term = "wezterm"
@@ -295,68 +296,450 @@ config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.85
 config.macos_window_background_blur = 10
 
--- macOS Command Key Configuration - IMPORTANT!
+-- macOS Command Key Configuration - COMPLETE FIX
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 
--- Enable Command key support for macOS
+-- COMPLETE Command key bindings for macOS behavior
 config.keys = {
-  -- Command+Left/Right for line navigation
+  -- ============================================================================
+  -- TEXT EDITING - Standard macOS shortcuts
+  -- ============================================================================
+  
+  -- Command+A - Select All
+  {
+    key = 'a',
+    mods = 'CMD',
+    action = act.SendKey { key = 'a', mods = 'CTRL' }, -- Ctrl+A in terminal
+  },
+  
+  -- Command+C - Copy (let system handle this naturally)
+  {
+    key = 'c',
+    mods = 'CMD',
+    action = act.CopyTo 'Clipboard',
+  },
+  
+  -- Command+V - Paste
+  {
+    key = 'v',
+    mods = 'CMD',
+    action = act.PasteFrom 'Clipboard',
+  },
+  
+  -- Command+X - Cut (select all + copy + clear)
+  {
+    key = 'x',
+    mods = 'CMD',
+    action = act.Multiple {
+      act.SendKey { key = 'a', mods = 'CTRL' }, -- Select all
+      act.CopyTo 'Clipboard',                   -- Copy
+      act.SendKey { key = 'u', mods = 'CTRL' }, -- Clear line
+    },
+  },
+  
+  -- Command+Z - Undo
+  {
+    key = 'z',
+    mods = 'CMD',
+    action = act.SendKey { key = 'z', mods = 'CTRL' },
+  },
+  
+  -- Command+Y - Redo (or Shift+Command+Z)
+  {
+    key = 'y',
+    mods = 'CMD',
+    action = act.SendKey { key = 'y', mods = 'CTRL' },
+  },
+  {
+    key = 'z',
+    mods = 'CMD|SHIFT',
+    action = act.SendKey { key = 'y', mods = 'CTRL' },
+  },
+  
+  -- ============================================================================
+  -- CURSOR MOVEMENT - macOS style navigation
+  -- ============================================================================
+  
+  -- Command+Left Arrow - Beginning of line
   {
     key = 'LeftArrow',
     mods = 'CMD',
-    action = wezterm.action.SendString('\x01'), -- Ctrl+A (beginning of line)
+    action = act.SendKey { key = 'a', mods = 'CTRL' },
   },
+  
+  -- Command+Right Arrow - End of line
   {
-    key = 'RightArrow', 
+    key = 'RightArrow',
     mods = 'CMD',
-    action = wezterm.action.SendString('\x05'), -- Ctrl+E (end of line)
+    action = act.SendKey { key = 'e', mods = 'CTRL' },
   },
   
-  -- Command+Z for undo
+  -- Command+Up Arrow - Beginning of buffer/document
   {
-	key = 'z',
-	mods = 'CMD',
-	action = wezterm.action.SendString('\x1a\x03'),
+    key = 'UpArrow',
+    mods = 'CMD',
+    action = act.SendKey { key = 'Home' },
   },
   
+  -- Command+Down Arrow - End of buffer/document
+  {
+    key = 'DownArrow',
+    mods = 'CMD',
+    action = act.SendKey { key = 'End' },
+  },
   
-  -- Command+Delete for delete to beginning
+  -- Option+Left Arrow - Previous word
+  {
+    key = 'LeftArrow',
+    mods = 'ALT',
+    action = act.SendKey { key = 'b', mods = 'ALT' },
+  },
+  
+  -- Option+Right Arrow - Next word
+  {
+    key = 'RightArrow',
+    mods = 'ALT',
+    action = act.SendKey { key = 'f', mods = 'ALT' },
+  },
+  
+  -- ============================================================================
+  -- DELETION - macOS style deletion
+  -- ============================================================================
+  
+  -- Command+Backspace - Delete to beginning of line
+  -- Command+Backspace - Delete to beginning of line (send Ctrl+U)
   {
     key = 'Backspace',
-    mods = 'CMD', 
-    action = wezterm.action.SendString('\x15'), -- Ctrl+U (kill line backward)
+    mods = 'CMD',
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
   },
+  
+  -- Command+Delete - Delete to beginning of line (send Ctrl+U)
   {
     key = 'Delete',
     mods = 'CMD',
-    action = wezterm.action.SendString('\x15'), -- Ctrl+U (kill line backward)  
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
   },
   
-  -- Command+K for delete to end
+  -- Command+K - Delete to end of line (send Ctrl+K)
   {
     key = 'k',
     mods = 'CMD',
-    action = wezterm.action.SendString('\x0b'), -- Ctrl+K (kill line forward)
+    action = act.SendKey { key = 'k', mods = 'CTRL' },
   },
   
-  -- Option+Left/Right for word navigation (keep existing behavior)
+  -- Command+U - Also delete to beginning (alternative)
   {
-    key = 'LeftArrow',
-    mods = 'ALT',
-    action = wezterm.action.SendString('\x1bb'), -- Alt+b (backward word)
-  },
-  {
-    key = 'RightArrow',
-    mods = 'ALT', 
-    action = wezterm.action.SendString('\x1bf'), -- Alt+f (forward word)
+    key = 'u',
+    mods = 'CMD',
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
   },
   
-  -- Option+Delete for word deletion
+  -- Fn+Delete or Forward Delete - Delete to end of line
+  {
+    key = 'Delete',
+    mods = 'SHIFT',
+    action = act.SendKey { key = 'k', mods = 'CTRL' },
+  },
+  
+  -- Option+Backspace - Delete previous word
   {
     key = 'Backspace',
     mods = 'ALT',
-    action = wezterm.action.SendString('\x17'), -- Ctrl+W (kill word backward)
+    action = act.SendKey { key = 'w', mods = 'CTRL' },
+  },
+  
+  -- Option+Delete - Delete next word
+  {
+    key = 'Delete',
+    mods = 'ALT',
+    action = act.SendKey { key = 'd', mods = 'ALT' },
+  },
+  
+  -- ============================================================================
+  -- SEARCH AND FIND
+  -- ============================================================================
+  
+  -- Command+F - Find/Search (in applications that support it)
+  {
+    key = 'f',
+    mods = 'CMD',
+    action = act.SendKey { key = 'f', mods = 'CTRL' },
+  },
+  
+  -- Command+G - Find Next
+  {
+    key = 'g',
+    mods = 'CMD',
+    action = act.SendKey { key = 'g', mods = 'CTRL' },
+  },
+  
+  -- Command+Shift+G - Find Previous
+  {
+    key = 'g',
+    mods = 'CMD|SHIFT',
+    action = act.SendKey { key = 'g', mods = 'CTRL|SHIFT' },
+  },
+  
+  -- ============================================================================
+  -- TERMINAL SPECIFIC
+  -- ============================================================================
+  
+  -- Command+T - New Tab
+  {
+    key = 't',
+    mods = 'CMD',
+    action = act.SpawnTab 'CurrentPaneDomain',
+  },
+  
+  -- Command+W - Close Tab
+  {
+    key = 'w',
+    mods = 'CMD',
+    action = act.CloseCurrentTab { confirm = false },
+  },
+  
+  -- Command+N - New Window
+  {
+    key = 'n',
+    mods = 'CMD',
+    action = act.SpawnWindow,
+  },
+  
+  -- Command+Q - Quit Application
+  {
+    key = 'q',
+    mods = 'CMD',
+    action = act.QuitApplication,
+  },
+  
+  -- Command+R - Reload Configuration
+  {
+    key = 'r',
+    mods = 'CMD',
+    action = act.ReloadConfiguration,
+  },
+  
+  -- Command+Plus - Increase Font Size
+  {
+    key = '=',
+    mods = 'CMD',
+    action = act.IncreaseFontSize,
+  },
+  {
+    key = '+',
+    mods = 'CMD',
+    action = act.IncreaseFontSize,
+  },
+  
+  -- Command+Minus - Decrease Font Size
+  {
+    key = '-',
+    mods = 'CMD',
+    action = act.DecreaseFontSize,
+  },
+  
+  -- Command+0 - Reset Font Size
+  {
+    key = '0',
+    mods = 'CMD',
+    action = act.ResetFontSize,
+  },
+  
+  -- ============================================================================
+  -- TAB NAVIGATION
+  -- ============================================================================
+  
+  -- Command+1-9 - Switch to tab
+  {
+    key = '1',
+    mods = 'CMD',
+    action = act.ActivateTab(0),
+  },
+  {
+    key = '2',
+    mods = 'CMD',
+    action = act.ActivateTab(1),
+  },
+  {
+    key = '3',
+    mods = 'CMD',
+    action = act.ActivateTab(2),
+  },
+  {
+    key = '4',
+    mods = 'CMD',
+    action = act.ActivateTab(3),
+  },
+  {
+    key = '5',
+    mods = 'CMD',
+    action = act.ActivateTab(4),
+  },
+  {
+    key = '6',
+    mods = 'CMD',
+    action = act.ActivateTab(5),
+  },
+  {
+    key = '7',
+    mods = 'CMD',
+    action = act.ActivateTab(6),
+  },
+  {
+    key = '8',
+    mods = 'CMD',
+    action = act.ActivateTab(7),
+  },
+  {
+    key = '9',
+    mods = 'CMD',
+    action = act.ActivateTab(8),
+  },
+  
+  -- Command+Left/Right Bracket - Previous/Next Tab
+  {
+    key = '[',
+    mods = 'CMD',
+    action = act.ActivateTabRelative(-1),
+  },
+  {
+    key = ']',
+    mods = 'CMD',
+    action = act.ActivateTabRelative(1),
+  },
+  
+  -- Command+Shift+Left/Right Bracket - Move Tab
+  {
+    key = '[',
+    mods = 'CMD|SHIFT',
+    action = act.MoveTabRelative(-1),
+  },
+  {
+    key = ']',
+    mods = 'CMD|SHIFT',
+    action = act.MoveTabRelative(1),
+  },
+  
+  -- ============================================================================
+  -- PANE MANAGEMENT
+  -- ============================================================================
+  
+  -- Command+D - Split Horizontally (like in many terminal apps)
+  {
+    key = 'd',
+    mods = 'CMD',
+    action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  
+  -- Command+Shift+D - Split Vertically
+  {
+    key = 'd',
+    mods = 'CMD|SHIFT',
+    action = act.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+  
+  -- ============================================================================
+  -- TEXT SELECTION - VS Code style (FIXED to prevent vi mode)
+  -- ============================================================================
+  
+  -- Command+Shift+Left Arrow - Send the exact sequence we're expecting
+  {
+    key = 'LeftArrow',
+    mods = 'CMD|SHIFT',
+    action = act.SendString('\x1b[1;6D'),  -- Send exact escape sequence
+  },
+  
+  -- Command+Shift+Right Arrow - Send the exact sequence we're expecting
+  {
+    key = 'RightArrow', 
+    mods = 'CMD|SHIFT',
+    action = act.SendString('\x1b[1;6C'),  -- Send exact escape sequence
+  },
+  
+  -- Option+Shift+Left Arrow - Send exact sequence for word selection
+  {
+    key = 'LeftArrow',
+    mods = 'ALT|SHIFT',
+    action = act.SendString('\x1b[1;4D'),  -- Send exact escape sequence
+  },
+  
+  -- Option+Shift+Right Arrow - Send exact sequence for word selection  
+  {
+    key = 'RightArrow',
+    mods = 'ALT|SHIFT',
+    action = act.SendString('\x1b[1;4C'),  -- Send exact escape sequence
+  },
+  
+  -- Regular Shift+Arrow keys for character selection
+  {
+    key = 'LeftArrow',
+    mods = 'SHIFT',
+    action = act.SendString('\x1b[1;2D'),
+  },
+  
+  {
+    key = 'RightArrow',
+    mods = 'SHIFT', 
+    action = act.SendString('\x1b[1;2C'),
+  },
+  
+  {
+    key = 'UpArrow',
+    mods = 'SHIFT',
+    action = act.SendString('\x1b[1;2A'),
+  },
+  
+  {
+    key = 'DownArrow',
+    mods = 'SHIFT',
+    action = act.SendString('\x1b[1;2B'),
+  },
+  
+  -- ============================================================================
+  -- SPECIAL APPLICATIONS SUPPORT
+  -- ============================================================================
+  
+  -- Command+S - Save (pass through to application)
+  {
+    key = 's',
+    mods = 'CMD',
+    action = act.SendKey { key = 's', mods = 'CTRL' },
+  },
+  
+  -- Command+O - Open (pass through to application)
+  {
+    key = 'o',
+    mods = 'CMD',
+    action = act.SendKey { key = 'o', mods = 'CTRL' },
+  },
+  
+  -- Command+P - Print/Previous (pass through to application)
+  {
+    key = 'p',
+    mods = 'CMD',
+    action = act.SendKey { key = 'p', mods = 'CTRL' },
+  },
+}
+
+-- ============================================================================
+-- MOUSE SUPPORT
+-- ============================================================================
+
+-- Enable better mouse support
+config.mouse_bindings = {
+  -- Triple-click to select line
+  {
+    event = { Down = { streak = 3, button = 'Left' } },
+    action = act.SelectTextAtMouseCursor 'Line',
+  },
+  
+  -- Command+Click to open links
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'CMD',
+    action = act.OpenLinkAtMouseCursor,
   },
 }
 
