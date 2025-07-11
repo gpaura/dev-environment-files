@@ -648,6 +648,8 @@ config.mouse_bindings = {
   },
 }
 
+
+
 -- Make theme switching more responsive
 wezterm.on("window-config-reload", function(window, pane)
 	-- Force a redraw when config is reloaded
