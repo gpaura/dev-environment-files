@@ -34,18 +34,275 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 })
 
 -- Simple Magic command
+-- vim.api.nvim_create_user_command("Magic", function()
+--   if vim.bo.filetype == "csv" then
+--     if vim.fn.exists(":RainbowAlign") > 0 then
+--       vim.cmd("RainbowAlign")
+--       vim.notify("✨ Magic! CSV aligned", vim.log.levels.INFO)
+--     else
+--       vim.notify("RainbowAlign not available", vim.log.levels.WARN)
+--     end
+--   else
+--     vim.notify("Magic only works in CSV files!", vim.log.levels.WARN)
+--   end
+-- end, { desc = "Magic CSV alignment" })
+
+--- Add this to your init.lua file, replacing the existing Magic command
+
+-- Enhanced Magic command that works with multiple separators
 vim.api.nvim_create_user_command("Magic", function()
-  if vim.bo.filetype == "csv" then
-    if vim.fn.exists(":RainbowAlign") > 0 then
-      vim.cmd("RainbowAlign")
-      vim.notify("✨ Magic! CSV aligned", vim.log.levels.INFO)
-    else
-      vim.notify("RainbowAlign not available", vim.log.levels.WARN)
+  -- Check file size first
+  local line_count = vim.fn.line("$")
+  if line_count > 10000 then
+    local confirm = vim.fn.confirm(
+      string.format("Large file detected (%d lines). Magic alignment may cause slow scrolling. Continue?", line_count),
+      "&Yes\n&No", 2)
+    if confirm ~= 1 then
+      return
     end
-  else
-    vim.notify("Magic only works in CSV files!", vim.log.levels.WARN)
   end
-end, { desc = "Magic CSV alignment" })
+  
+  -- First check if it's a CSV file with comma separator - use original RainbowAlign
+  if vim.bo.filetype == "csv" then
+    -- Check if it's comma-separated
+    local lines = vim.api.nvim_buf_get_lines(0, 0, math.min(5, vim.fn.line("$")), false)
+    local has_comma = false
+    for _, line in ipairs(lines) do
+      if line:find(",") then
+        has_comma = true
+        break
+      end
+    end
+    
+    if has_comma and vim.fn.exists(":RainbowAlign") > 0 then
+      vim.cmd("RainbowAlign")
+      vim.bo.modified = false  -- Mark as not modified
+      vim.notify("✨ Magic! CSV aligned with RainbowAlign", vim.log.levels.INFO)
+      return
+    end
+  end
+  
+  -- For non-comma separators, use custom alignment
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  if #lines == 0 then
+    vim.notify("No content to align!", vim.log.levels.WARN)
+    return
+  end
+  
+  -- Function to detect separator (excluding comma since we handle it above)
+  local function detect_separator(sample_lines)
+    local separators = {
+      {char = ";", name = "semicolon"},
+      {char = "|", name = "pipe"},
+      {char = "\t", name = "tab"},
+      {char = " ", name = "space"}
+    }
+    
+    local max_count = 0
+    local detected_sep = nil
+    
+    -- Check first few lines
+    for _, sep in ipairs(separators) do
+      local count = 0
+      local consistent = true
+      local counts_per_line = {}
+      
+      for i = 1, math.min(5, #sample_lines) do
+        local line = sample_lines[i]
+        if line and #line > 0 then
+          local _, line_count = line:gsub(vim.pesc(sep.char), "")
+          table.insert(counts_per_line, line_count)
+          count = count + line_count
+        end
+      end
+      
+      -- Check consistency (all non-empty lines should have similar counts)
+      if #counts_per_line > 1 then
+        local first_count = counts_per_line[1]
+        for i = 2, #counts_per_line do
+          if math.abs(counts_per_line[i] - first_count) > 1 then
+            consistent = false
+            break
+          end
+        end
+      end
+      
+      if consistent and count > max_count then
+        max_count = count
+        detected_sep = sep
+      end
+    end
+    
+    return detected_sep
+  end
+  
+  -- Function to align content
+  local function align_content(lines, separator)
+    -- Parse all lines to find columns
+    local rows = {}
+    local max_cols = 0
+    
+    for _, line in ipairs(lines) do
+      local cols = {}
+      if separator.char == " " then
+        -- For space separator, split by one or more spaces
+        for col in line:gmatch("%S+") do
+          table.insert(cols, col)
+        end
+      else
+        -- For other separators, use split function
+        local pattern = separator.char
+        if separator.char == "|" then
+          pattern = "%|"  -- Escape pipe
+        end
+        
+        local remaining = line
+        while true do
+          local pos = remaining:find(pattern)
+          if pos then
+            table.insert(cols, remaining:sub(1, pos - 1))
+            remaining = remaining:sub(pos + 1)
+          else
+            table.insert(cols, remaining)
+            break
+          end
+        end
+      end
+      
+      table.insert(rows, cols)
+      max_cols = math.max(max_cols, #cols)
+    end
+    
+    -- Find maximum width for each column
+    local col_widths = {}
+    for i = 1, max_cols do
+      col_widths[i] = 0
+    end
+    
+    for _, row in ipairs(rows) do
+      for i, col in ipairs(row) do
+        col_widths[i] = math.max(col_widths[i], vim.fn.strdisplaywidth(col))
+      end
+    end
+    
+    -- Build aligned lines
+    local aligned_lines = {}
+    for _, row in ipairs(rows) do
+      local parts = {}
+      for i = 1, #row do
+        local col = row[i]
+        local width = col_widths[i]
+        local padding = width - vim.fn.strdisplaywidth(col)
+        
+        if i < #row then
+          -- Add padding after the column (except for last column)
+          table.insert(parts, col .. string.rep(" ", padding))
+        else
+          -- Last column doesn't need padding
+          table.insert(parts, col)
+        end
+      end
+      
+      -- Join with separator (add spaces around separator for readability)
+      local sep_with_space = separator.char
+      if separator.char ~= " " then
+        sep_with_space = " " .. separator.char .. " "
+      else
+        sep_with_space = "  "  -- Double space for space-separated
+      end
+      
+      table.insert(aligned_lines, table.concat(parts, sep_with_space))
+    end
+    
+    return aligned_lines
+  end
+  
+  -- Detect separator
+  local sep = detect_separator(lines)
+  
+  if not sep then
+    vim.notify("Could not detect a valid separator (tried: ; | tab space)", vim.log.levels.WARN)
+    return
+  end
+  
+  -- Create undo point
+  vim.cmd("normal! i")
+  vim.cmd("normal! u")
+  
+  -- Align the content
+  local aligned = align_content(lines, sep)
+  
+  -- Replace buffer content
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, aligned)
+  
+  -- Mark buffer as not modified since this is just visual formatting
+  vim.bo.modified = false
+  
+  vim.notify(string.format("✨ Magic! Aligned using '%s' separator", sep.name), vim.log.levels.INFO)
+end, { desc = "Align CSV/table data with auto-detected separator" })
+
+-- Create UnMagic command to remove alignment
+vim.api.nvim_create_user_command("UnMagic", function()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  if #lines == 0 then
+    vim.notify("No content to unalign!", vim.log.levels.WARN)
+    return
+  end
+  
+  -- Create undo point
+  vim.cmd("normal! i")
+  vim.cmd("normal! u")
+  
+  local unaligned_lines = {}
+  
+  for _, line in ipairs(lines) do
+    -- Remove multiple spaces (keep single spaces)
+    local unaligned = line:gsub("  +", " ")
+    
+    -- Remove spaces around common separators
+    unaligned = unaligned:gsub(" *| *", "|")
+    unaligned = unaligned:gsub(" *, *", ",")
+    unaligned = unaligned:gsub(" *; *", ";")
+    unaligned = unaligned:gsub(" *\t *", "\t")
+    
+    table.insert(unaligned_lines, unaligned)
+  end
+  
+  -- Replace buffer content
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, unaligned_lines)
+  
+  vim.notify("✨ Removed alignment!", vim.log.levels.INFO)
+end, { desc = "Remove alignment from CSV/table data" })
+
+-- Optional: Add keybindings for quick access
+vim.keymap.set("n", "<leader>ma", ":Magic<CR>", { desc = "Magic align CSV/table" })
+vim.keymap.set("n", "<leader>mu", ":UnMagic<CR>", { desc = "Remove Magic alignment" })
+
+-- Optional: Auto-detect and set filetype for common delimited files
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*",
+  callback = function()
+    local lines = vim.api.nvim_buf_get_lines(0, 0, math.min(5, vim.fn.line("$")), false)
+    
+    -- Skip if already has a filetype
+    if vim.bo.filetype ~= "" then
+      return
+    end
+    
+    -- Check for delimiter patterns
+    local has_delimiter = false
+    for _, line in ipairs(lines) do
+      if line:match("[,;|\t]") or (line:match("%S+%s+%S+") and not line:match("^%s*#")) then
+        has_delimiter = true
+        break
+      end
+    end
+    
+    if has_delimiter then
+      vim.bo.filetype = "csv"  -- This will trigger rainbow_csv
+    end
+  end,
+})
 
 -- Details command for comprehensive CSV file analysis
 vim.api.nvim_create_user_command("Details", function()
@@ -689,3 +946,96 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end
   end,
 })
+
+-- Add these commands to your init.lua for better CSV performance
+
+-- Quick quit command that ignores alignment changes
+vim.api.nvim_create_user_command("Q", function()
+  -- If buffer is modified only by alignment, quit without saving
+  if vim.bo.modified then
+    vim.bo.modified = false
+  end
+  vim.cmd("quit")
+end, { desc = "Quit without saving alignment changes" })
+
+-- MagicView: View-only alignment for large files (doesn't modify buffer)
+vim.api.nvim_create_user_command("MagicView", function()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  if #lines == 0 then
+    vim.notify("No content to view!", vim.log.levels.WARN)
+    return
+  end
+  
+  -- Create a new scratch buffer for viewing
+  local buf = vim.api.nvim_create_buf(false, true)
+  
+  -- Copy the aligned content to the scratch buffer
+  -- (reuse the alignment logic from Magic command)
+  vim.notify("Creating aligned view... This may take a moment for large files", vim.log.levels.INFO)
+  
+  -- TODO: Add the alignment logic here (same as Magic but output to new buffer)
+  
+  -- Open in a new split
+  vim.cmd("split")
+  vim.api.nvim_win_set_buf(0, buf)
+  
+  -- Set buffer options
+  vim.bo[buf].buftype = "nofile"
+  vim.bo[buf].bufhidden = "wipe"
+  vim.bo[buf].swapfile = false
+  vim.bo[buf].modifiable = false
+  
+  -- Add keybinding to close view
+  vim.api.nvim_buf_set_keymap(buf, "n", "q", ":close<CR>", { noremap = true, silent = true })
+  
+  vim.notify("View-only aligned buffer created. Press 'q' to close.", vim.log.levels.INFO)
+end, { desc = "Create view-only aligned version (better for large files)" })
+
+-- Auto-disable alignment before saving
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = {"*.csv", "*.tsv", "*.dat"},
+  callback = function()
+    -- Check if file has been aligned
+    local first_line = vim.fn.getline(1)
+    if first_line:match(" , ") or first_line:match(" | ") or first_line:match(" ; ") then
+      -- Temporarily remove alignment before saving
+      vim.cmd("silent! UnMagic")
+      vim.notify("Auto-removed alignment before saving", vim.log.levels.INFO)
+    end
+  end,
+})
+
+-- Performance-optimized settings for large CSV files
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = {"*.csv", "*.tsv", "*.dat"},
+  callback = function()
+    local line_count = vim.fn.line("$")
+    if line_count > 10000 then
+      -- Disable features that slow down large files
+      vim.wo.cursorline = false
+      vim.wo.cursorcolumn = false
+      vim.wo.relativenumber = false
+      vim.wo.foldmethod = "manual"
+      vim.bo.synmaxcol = 200  -- Limit syntax highlighting
+      
+      vim.notify(string.format("Large CSV detected (%d lines). Disabled some features for performance.", line_count), vim.log.levels.INFO)
+    end
+  end,
+})
+
+-- Keybindings for easier CSV handling
+vim.keymap.set("n", "<leader>Q", ":Q<CR>", { desc = "Quit ignoring alignment changes" })
+vim.keymap.set("n", "<leader>mv", ":MagicView<CR>", { desc = "Magic view-only alignment" })
+
+-- Toggle alignment command - switches between aligned and unaligned
+vim.api.nvim_create_user_command("MagicToggle", function()
+  local first_line = vim.fn.getline(1)
+  -- Check if aligned by looking for spaced separators
+  if first_line:match(" , ") or first_line:match(" | ") or first_line:match(" ; ") or first_line:match("  ") then
+    vim.cmd("UnMagic")
+  else
+    vim.cmd("Magic")
+  end
+end, { desc = "Toggle between aligned and unaligned" })
+
+vim.keymap.set("n", "<leader>mt", ":MagicToggle<CR>", { desc = "Toggle Magic alignment" })
