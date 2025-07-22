@@ -39,25 +39,90 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Also see: https://nikitabobko.github.io/AeroSpace/goodness#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
-# [[on-window-detected]]
-# if.app-id = 'com.apple.systempreferences'
-# if.app-name-regex-substring = 'settings'
-# if.window-title-regex-substring = 'substring'
-# if.workspace = 'workspace-name'
-# if.during-aerospace-startup = true
-# check-further-callbacks = true
-# run = ['layout floating', 'move-node-to-workspace S']  # The callback itself
+# Workspace 1: Browsers
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'telegram'
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = 'move-node-to-workspace 1'
+
+# Workspace 2: Development
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace 2'
+
+# Workspace 3: Communication
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = 'move-node-to-workspace 3'
+
+# Workspace 4: Productivity
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'notion.id'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = 'move-node-to-workspace 4'
+
+# Workspace 5: Media & Entertainment
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 5'
+
+# System and utility apps (floating)
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'finder'
+if.app-id = 'com.apple.systempreferences'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'safari'
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.rdc.macos'
 run = 'layout floating'
 
 [[on-window-detected]]
@@ -65,27 +130,7 @@ if.app-name-regex-substring = 'camera'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'elgato'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'dicord'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'mail'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'trello'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-name-regex-substring = 'quicktime'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'discord'
 run = 'layout floating'
 
 # Possible values: (qwerty|dvorak)
@@ -101,12 +146,12 @@ preset = 'qwerty'
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 20
-inner.vertical = 20
-outer.left = 20
-outer.bottom = 20
-outer.top = 10
-outer.right = 80
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 12
+outer.bottom = 12
+outer.top = 12
+outer.right = 12
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -167,16 +212,18 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
+alt-1 = 'workspace 1'  # Browsers
+alt-2 = 'workspace 2'  # Development
+alt-3 = 'workspace 3'  # Communication
+alt-4 = 'workspace 4'  # Productivity
+alt-5 = 'workspace 5'  # Media & Entertainment
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
 alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
 alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
 alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
@@ -185,13 +232,17 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-shift-semicolon = 'mode service'
 alt-shift-enter = 'mode apps'
 
-alt-t = 'exec-and-forget open -a /Applications/Telegram.app'
+# Quick app launchers
 alt-a = 'exec-and-forget open -a /Applications/Arc.app'
-alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
-alt-g = 'exec-and-forget open -a /Applications/Ghostty.app'
-alt-s = 'exec-and-forget open -a /Applications/Safari.app'
-alt-q = 'exec-and-forget open -a /System/Applications/QuickTime Player.app'
 alt-w = 'exec-and-forget open -a /Applications/WezTerm.app'
+alt-g = 'exec-and-forget open -a /Applications/Ghostty.app'
+alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
+alt-s = 'exec-and-forget open -a /Applications/Spotify.app'
+alt-d = 'exec-and-forget open -a /Applications/Discord.app'
+alt-z = 'exec-and-forget open -a /Applications/zoom.us.app'
+alt-n = 'exec-and-forget open -a /Applications/Notion.app'
+alt-c = 'exec-and-forget open -a /Applications/Google\ Chrome.app'
+alt-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 
 
 # 'service' binding mode declaration.
@@ -206,7 +257,34 @@ f = [
 backspace = ['close-all-windows-but-current', 'mode main']
 
 [mode.apps.binding]
-alt-w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
+# Development
+w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
+g = ['exec-and-forget open -a /Applications/Ghostty.app', 'mode main']
+v = ['exec-and-forget open -a /Applications/Visual\ Studio\ Code.app', 'mode main']
+c = ['exec-and-forget open -a /Applications/Cursor.app', 'mode main']
+
+# Browsers
+a = ['exec-and-forget open -a /Applications/Arc.app', 'mode main']
+h = ['exec-and-forget open -a /Applications/Google\ Chrome.app', 'mode main']
+b = ['exec-and-forget open -a /Applications/Brave\ Browser.app', 'mode main']
+
+# Communication
+d = ['exec-and-forget open -a /Applications/Discord.app', 'mode main']
+t = ['exec-and-forget open -a /Applications/Microsoft\ Teams.app', 'mode main']
+z = ['exec-and-forget open -a /Applications/zoom.us.app', 'mode main']
+alt-w = ['exec-and-forget open -a /Applications/WhatsApp.app', 'mode main']
+
+# Productivity
+o = ['exec-and-forget open -a /Applications/Obsidian.app', 'mode main']
+n = ['exec-and-forget open -a /Applications/Notion.app', 'mode main']
+m = ['exec-and-forget open -a /Applications/Microsoft\ Outlook.app', 'mode main']
+
+# Media
+s = ['exec-and-forget open -a /Applications/Spotify.app', 'mode main']
+
+# Utilities
+r = ['exec-and-forget open -a /Applications/Microsoft\ Remote\ Desktop.app', 'mode main']
+esc = 'mode main'
 
 # [workspace-to-monitor-force-assignment]
 #     1 = '^dell$'

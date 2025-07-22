@@ -108,6 +108,7 @@ return {
     },
   },
   
+
   -- Avante plugin
   {
     "yetone/avante.nvim",

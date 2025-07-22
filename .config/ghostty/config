@@ -56,18 +56,19 @@ window-padding-y = 6,0
 # FONT CONFIGURATION - BOLD EVERYTHING LIKE WEZTERM
 # ============================================================================
 # Primary font - use ExtraBold for everything
-font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
+# font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
+font-family = JetBrainsMono Nerd Font
+font-style = Black
 font-size = 19
-
+font-synthetic-style = bolder
 # Additional font settings for better rendering
 font-feature = +liga,+calt,+ss01,+ss02,+ss03
 font-thicken = true
+freetype-load-flags = no-hinting|force-autohint
 
 # Force bold rendering for all text types
 bold-is-bright = false
 
-# Use font-thicken for maximum boldness
-font-thicken = true
 
 # Try using a bolder font variant if available
 font-family-bold = "JetBrainsMono Nerd Font Mono Black"
