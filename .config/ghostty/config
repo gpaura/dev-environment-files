@@ -42,6 +42,10 @@ palette = 15=#F8F8F2
 # Extended colors are handled through the base 16 ANSI colors
 # THEME_END
 
+cursor-style-blink = true
+cursor-opacity = 1.0
+animation-fps = 60
+
 # Shader configuration
 custom-shader = shaders/bloom025.glsl
 
