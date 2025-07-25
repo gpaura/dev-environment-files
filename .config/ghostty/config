@@ -44,7 +44,6 @@ palette = 15=#F8F8F2
 
 cursor-style-blink = true
 cursor-opacity = 1.0
-animation-fps = 60
 
 # Shader configuration
 custom-shader = shaders/bloom025.glsl
@@ -64,14 +63,20 @@ window-padding-y = 6,0
 font-family = JetBrainsMono Nerd Font
 font-style = Black
 font-size = 19
-font-synthetic-style = bolder
 # Additional font settings for better rendering
 font-feature = +liga,+calt,+ss01,+ss02,+ss03
 font-thicken = true
-freetype-load-flags = no-hinting|force-autohint
-
-# Force bold rendering for all text types
+font-synthetic-style = bold
+freetype-load-flags = no-hinting 
+#Force bold rendering for all text types
 bold-is-bright = false
+
+cursor-style = block
+cursor-style-blink = true
+cursor-opacity = 1.0
+cursor-text = "#282A36"
+cursor-color = "#FF79C6"
+
 
 
 # Try using a bolder font variant if available
