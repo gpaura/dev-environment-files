@@ -42,9 +42,6 @@ palette = 15=#F8F8F2
 # Extended colors are handled through the base 16 ANSI colors
 # THEME_END
 
-cursor-style-blink = true
-cursor-opacity = 1.0
-
 # Shader configuration
 custom-shader = shaders/bloom025.glsl
 
@@ -59,25 +56,18 @@ window-padding-y = 6,0
 # FONT CONFIGURATION - BOLD EVERYTHING LIKE WEZTERM
 # ============================================================================
 # Primary font - use ExtraBold for everything
-# font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
-font-family = JetBrainsMono Nerd Font
-font-style = Black
+font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
 font-size = 19
+
 # Additional font settings for better rendering
 font-feature = +liga,+calt,+ss01,+ss02,+ss03
 font-thicken = true
-font-synthetic-style = bold
-freetype-load-flags = no-hinting 
-#Force bold rendering for all text types
+
+# Force bold rendering for all text types
 bold-is-bright = false
 
-cursor-style = block
-cursor-style-blink = true
-cursor-opacity = 1.0
-cursor-text = "#282A36"
-cursor-color = "#FF79C6"
-
-
+# Use font-thicken for maximum boldness
+font-thicken = true
 
 # Try using a bolder font variant if available
 font-family-bold = "JetBrainsMono Nerd Font Mono Black"
