@@ -42,9 +42,19 @@ return {
       highlight_bg = "#F0F0F0", -- Slightly darker background for highlighting
     }
 
-    -- Get current theme
+    -- Get current theme and map to available colors
     local current_theme = get_theme()
-    local theme_colors = colors[current_theme]
+    local theme_colors
+    
+    -- Map WezTerm themes to available color schemes
+    if current_theme == "dark" or current_theme == "lgbt_dark" then
+      theme_colors = colors.dark
+    elseif current_theme == "light" or current_theme == "lgbt_light" then
+      theme_colors = colors.light
+    else
+      -- Fallback: detect light/dark from theme name or default to dark
+      theme_colors = current_theme:match("light") and colors.light or colors.dark
+    end
 
     require("avante").setup({
       -- Updated provider configuration using the new format

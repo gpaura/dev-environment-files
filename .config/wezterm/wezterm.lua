@@ -39,14 +39,50 @@ local function read_theme()
     file:close()
     return theme:gsub("%s+", "") -- Trim whitespace
   else
-    return "dark"                -- Default to dark theme
+    return "dark" -- Default to dark theme
   end
 end
+
+-- LGBT Pride Rainbow Colors and Extended Palette
+local rainbow_extended = {
+  -- Core pride colors
+  pride_red = "#E40303",
+  pride_orange = "#FF8C00", 
+  pride_yellow = "#FFED00",
+  pride_green = "#008F11",
+  pride_blue = "#004CFF",
+  pride_purple = "#732982",
+  
+  -- Lighter variants for dark theme
+  light_red = "#FF6B6B",
+  light_orange = "#FFB347",
+  light_yellow = "#FFF176",
+  light_green = "#81C784",
+  light_blue = "#64B5F6",
+  light_purple = "#BA68C8",
+  
+  -- Darker variants for light theme
+  dark_red = "#C62828",
+  dark_orange = "#E65100",
+  dark_yellow = "#F57F17",
+  dark_green = "#2E7D32", 
+  dark_blue = "#1565C0",
+  dark_purple = "#4A148C",
+  
+  -- Neutral colors
+  bright_white = "#FFFFFF",
+  soft_white = "#F8F9FA",
+  light_gray = "#E0E0E0",
+  medium_gray = "#9E9E9E",
+  dark_gray = "#424242",
+  soft_black = "#212121",
+  deep_black = "#000000"
+}
 
 -- Define the pink color for status information (RGB: close to pink 198)
 local STATUS_PINK = "#FF40A3"
 
--- Define Dark Theme
+-- Define Dark Theme (your existing theme)
 local dark_theme = {
   -- Base colors
   foreground = "#F8F8F2", -- Bright off-white from Dracula for text
@@ -125,7 +161,7 @@ local dark_theme = {
   },
 }
 
--- Define Light Theme
+-- Define Light Theme (your existing theme)
 local light_theme = {
   -- Base colors
   foreground = "#2D2A2E", -- Darker gray for better contrast on light background
@@ -204,30 +240,236 @@ local light_theme = {
   },
 }
 
--- Set up status bar with date and time
+-- NEW: LGBT Dark Rainbow Theme
+local lgbt_dark_theme = {
+  -- Base colors - Dark background with excellent contrast
+  foreground = rainbow_extended.soft_white,   -- Soft white text
+  background = "#0A0A0F",                     -- Very dark blue-black
+  
+  -- Cursor - Bright rainbow accent
+  cursor_bg = rainbow_extended.pride_purple,
+  cursor_border = rainbow_extended.pride_purple,
+  cursor_fg = rainbow_extended.bright_white,
+  
+  -- Selection - Subtle rainbow gradient effect
+  selection_bg = "#2D1B4E",  -- Dark purple with transparency feel
+  selection_fg = rainbow_extended.soft_white,
+  
+  -- ANSI Colors (0-7) - Rainbow progression with excellent readability
+  ansi = {
+    rainbow_extended.dark_gray,     -- Black (0): Readable dark gray
+    rainbow_extended.light_red,     -- Red (1): Pride red, lightened for readability
+    rainbow_extended.light_green,   -- Green (2): Pride green, lightened
+    rainbow_extended.light_yellow,  -- Yellow (3): Pride yellow, lightened
+    rainbow_extended.light_blue,    -- Blue (4): Pride blue, lightened
+    rainbow_extended.light_purple,  -- Magenta (5): Pride purple, lightened
+    rainbow_extended.pride_orange,  -- Cyan (6): Pride orange as cyan substitute
+    rainbow_extended.light_gray,    -- White (7): Light gray for text
+  },
+  
+  -- Bright Colors (8-15) - Full intensity rainbow
+  brights = {
+    rainbow_extended.medium_gray,   -- Bright Black (8)
+    rainbow_extended.pride_red,     -- Bright Red (9): Full pride red
+    rainbow_extended.pride_green,   -- Bright Green (10): Full pride green  
+    rainbow_extended.pride_yellow,  -- Bright Yellow (11): Full pride yellow
+    rainbow_extended.pride_blue,    -- Bright Blue (12): Full pride blue
+    rainbow_extended.pride_purple,  -- Bright Magenta (13): Full pride purple
+    rainbow_extended.pride_orange,  -- Bright Cyan (14): Full pride orange
+    rainbow_extended.bright_white,  -- Bright White (15): Pure white
+  },
+  
+  -- Extended indexed colors - Rainbow spectrum
+  indexed = {
+    [16] = rainbow_extended.pride_red,
+    [17] = rainbow_extended.pride_orange, 
+    [18] = rainbow_extended.pride_yellow,
+    [19] = rainbow_extended.pride_green,
+    [20] = rainbow_extended.pride_blue,
+    [21] = rainbow_extended.pride_purple,
+    [22] = rainbow_extended.light_red,
+    [23] = rainbow_extended.light_orange,
+    [24] = rainbow_extended.light_yellow,
+    [25] = rainbow_extended.light_green,
+    [26] = rainbow_extended.light_blue,
+    [27] = rainbow_extended.light_purple,
+  },
+  
+  -- Tab bar - Rainbow gradient effect
+  tab_bar = {
+    background = "#0A0A0F",
+    active_tab = {
+      bg_color = rainbow_extended.pride_purple,
+      fg_color = rainbow_extended.bright_white,
+    },
+    inactive_tab = {
+      bg_color = "#1A1A2E",
+      fg_color = rainbow_extended.medium_gray,
+    },
+    inactive_tab_hover = {
+      bg_color = rainbow_extended.pride_blue,
+      fg_color = rainbow_extended.bright_white,
+    },
+    new_tab = {
+      bg_color = "#1A1A2E", 
+      fg_color = rainbow_extended.medium_gray,
+    },
+    new_tab_hover = {
+      bg_color = rainbow_extended.pride_green,
+      fg_color = rainbow_extended.bright_white,
+    },
+  },
+}
+
+-- NEW: LGBT Light Rainbow Theme
+local lgbt_light_theme = {
+  -- Base colors - Clean light background
+  foreground = "#1A1A1A",                     -- Very dark text for maximum readability
+  background = "#FEFEFE",                     -- Pure white background
+  
+  -- Cursor - Strong rainbow accent
+  cursor_bg = rainbow_extended.pride_purple,
+  cursor_border = rainbow_extended.pride_purple, 
+  cursor_fg = rainbow_extended.bright_white,
+  
+  -- Selection - Light rainbow accent
+  selection_bg = "#E1BEE7",  -- Light purple selection
+  selection_fg = "#1A1A1A",
+  
+  -- ANSI Colors (0-7) - Dark rainbow for excellent contrast on light background
+  ansi = {
+    rainbow_extended.soft_black,    -- Black (0): True black for contrast
+    rainbow_extended.dark_red,      -- Red (1): Dark pride red
+    rainbow_extended.dark_green,    -- Green (2): Dark pride green
+    rainbow_extended.dark_yellow,   -- Yellow (3): Dark pride yellow (more orange)
+    rainbow_extended.dark_blue,     -- Blue (4): Dark pride blue
+    rainbow_extended.dark_purple,   -- Magenta (5): Dark pride purple
+    rainbow_extended.dark_orange,   -- Cyan (6): Dark pride orange as cyan
+    rainbow_extended.dark_gray,     -- White (7): Dark gray
+  },
+  
+  -- Bright Colors (8-15) - Medium intensity rainbow for balance
+  brights = {
+    rainbow_extended.medium_gray,   -- Bright Black (8)
+    rainbow_extended.pride_red,     -- Bright Red (9): Standard pride red
+    rainbow_extended.pride_green,   -- Bright Green (10): Standard pride green
+    "#FFD700",                      -- Bright Yellow (11): Gold for better light visibility
+    rainbow_extended.pride_blue,    -- Bright Blue (12): Standard pride blue
+    rainbow_extended.pride_purple,  -- Bright Magenta (13): Standard pride purple
+    rainbow_extended.pride_orange,  -- Bright Cyan (14): Standard pride orange
+    rainbow_extended.soft_black,    -- Bright White (15): Black text on light background
+  },
+  
+  -- Extended indexed colors - Rainbow spectrum adapted for light theme
+  indexed = {
+    [16] = rainbow_extended.dark_red,
+    [17] = rainbow_extended.dark_orange,
+    [18] = rainbow_extended.dark_yellow, 
+    [19] = rainbow_extended.dark_green,
+    [20] = rainbow_extended.dark_blue,
+    [21] = rainbow_extended.dark_purple,
+    [22] = rainbow_extended.pride_red,
+    [23] = rainbow_extended.pride_orange,
+    [24] = "#FFD700", -- Gold instead of yellow for visibility
+    [25] = rainbow_extended.pride_green,
+    [26] = rainbow_extended.pride_blue,
+    [27] = rainbow_extended.pride_purple,
+  },
+  
+  -- Tab bar - Clean with rainbow accents
+  tab_bar = {
+    background = "#F5F5F5",
+    active_tab = {
+      bg_color = rainbow_extended.bright_white,
+      fg_color = rainbow_extended.pride_purple,
+    },
+    inactive_tab = {
+      bg_color = "#F5F5F5",
+      fg_color = rainbow_extended.dark_gray,
+    },
+    inactive_tab_hover = {
+      bg_color = "#E8F4FD",  -- Light blue hover
+      fg_color = rainbow_extended.pride_blue,
+    },
+    new_tab = {
+      bg_color = "#F5F5F5",
+      fg_color = rainbow_extended.dark_gray,
+    },
+    new_tab_hover = {
+      bg_color = "#FFF3E0",  -- Light orange hover
+      fg_color = rainbow_extended.pride_orange,
+    },
+  },
+}
+
+-- Enhanced status bar function that supports all themes
 wezterm.on("update-right-status", function(window, pane)
+  local current_theme = read_theme()
+  local status_color = STATUS_PINK -- Default status color
+  local theme_indicator = ""
+  
+  -- Set theme-specific status colors and indicators
+  if current_theme == "lgbt_dark" then
+    local time = os.time()
+    local rainbow_cycle = {
+      rainbow_extended.pride_red,
+      rainbow_extended.pride_orange,
+      rainbow_extended.pride_yellow, 
+      rainbow_extended.pride_green,
+      rainbow_extended.pride_blue,
+      rainbow_extended.pride_purple
+    }
+    -- Cycle through rainbow colors every 10 seconds
+    local color_index = (math.floor(time / 10) % #rainbow_cycle) + 1
+    status_color = rainbow_cycle[color_index]
+    theme_indicator = "🏳️‍🌈"
+  elseif current_theme == "lgbt_light" then
+    local time = os.time()
+    local rainbow_cycle = {
+      rainbow_extended.dark_red,
+      rainbow_extended.dark_orange,
+      rainbow_extended.dark_yellow, 
+      rainbow_extended.dark_green,
+      rainbow_extended.dark_blue,
+      rainbow_extended.dark_purple
+    }
+    -- Cycle through darker rainbow colors every 10 seconds for light theme
+    local color_index = (math.floor(time / 10) % #rainbow_cycle) + 1
+    status_color = rainbow_cycle[color_index]
+    theme_indicator = "🏳️‍🌈"
+  else
+    -- Default pink for original themes
+    status_color = STATUS_PINK
+  end
+
   -- Get current date and time
   local date = wezterm.strftime("%a %b %d")
-  local time = wezterm.strftime("%H:%M")
+  local time_str = wezterm.strftime("%H:%M")
 
   -- Format status text
-  local status_text = string.format(" %s  %s ", date, time)
+  local status_text = string.format(" %s%s  %s ", theme_indicator, date, time_str)
 
-  -- Create elements with pink color
+  -- Create elements with appropriate color
   local elements = {}
-  table.insert(elements, { Foreground = { Color = STATUS_PINK } })
+  table.insert(elements, { Foreground = { Color = status_color } })
   table.insert(elements, { Text = status_text })
 
   -- Set the right status
   window:set_right_status(wezterm.format(elements))
 end)
 
--- Apply the selected theme
+-- Apply the selected theme based on theme file
 local theme = read_theme()
 if theme == "dark" then
   config.colors = dark_theme
-else
+elseif theme == "light" then
   config.colors = light_theme
+elseif theme == "lgbt_dark" then
+  config.colors = lgbt_dark_theme
+elseif theme == "lgbt_light" then
+  config.colors = lgbt_light_theme
+else
+  config.colors = dark_theme -- fallback to dark
 end
 
 -- Font configuration - Make everything bold
@@ -298,7 +540,6 @@ config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.85
 config.macos_window_background_blur = 10
-
 
 -- macOS Command Key Configuration - COMPLETE FIX
 config.send_composed_key_when_left_alt_is_pressed = false
@@ -396,145 +637,49 @@ config.keys = {
   },
 
   -- ============================================================================
-  -- DELETION - macOS style deletion
+  -- TEXT SELECTION - Proper selection with Shift modifier keys
   -- ============================================================================
 
-  -- Command+Backspace - Delete to beginning of line
-  {
-    key = 'Backspace',
-    mods = 'CMD',
-    action = act.SendKey { key = 'u', mods = 'CTRL' },
-  },
-
-  -- Command+Delete - Delete to beginning of line
-  {
-    key = 'Delete',
-    mods = 'CMD',
-    action = act.SendKey { key = 'u', mods = 'CTRL' },
-  },
-
-  -- Command+K - Delete to end of line
-  {
-    key = 'k',
-    mods = 'CMD',
-    action = act.SendKey { key = 'k', mods = 'CTRL' },
-  },
-
-  -- Option+Backspace - Delete previous word
-  {
-    key = 'Backspace',
-    mods = 'ALT',
-    action = act.SendKey { key = 'w', mods = 'CTRL' },
-  },
-
-  -- ============================================================================
-  -- BASIC COMMAND KEYS (WORKING)
-  -- ============================================================================
-
-  -- Command+A - Select All
-  {
-    key = 'a',
-    mods = 'CMD',
-    action = act.SendKey { key = 'a', mods = 'CTRL' },
-  },
-
-  -- Command+E - End of line (FIXED)
-  {
-    key = 'e',
-    mods = 'CMD',
-    action = act.SendKey { key = 'e', mods = 'CTRL' },
-  },
-
-  -- Command+K - Delete to end of line
-  {
-    key = 'k',
-    mods = 'CMD',
-    action = act.SendKey { key = 'k', mods = 'CTRL' },
-  },
-
-  -- Command+U - Delete to beginning of line
-  {
-    key = 'u',
-    mods = 'CMD',
-    action = act.SendKey { key = 'u', mods = 'CTRL' },
-  },
-
-  -- Command+Backspace - Delete to beginning of line
-  {
-    key = 'Backspace',
-    mods = 'CMD',
-    action = act.SendKey { key = 'u', mods = 'CTRL' },
-  },
-
-  -- Command+Delete - Delete to beginning of line
-  {
-    key = 'Delete',
-    mods = 'CMD',
-    action = act.SendKey { key = 'u', mods = 'CTRL' },
-  },
-
-  -- ============================================================================
-  -- SIMPLE SELECTION (SEND EXACT SEQUENCES TO ZSH)
-  -- ============================================================================
-
-  -- Command+Shift+Left Arrow - Send exact sequence for zsh to handle
+  -- Command+Shift+Left Arrow - Select to beginning of line and copy
   {
     key = 'LeftArrow',
     mods = 'CMD|SHIFT',
     action = act.SendString('\x1b[1;6D'),
   },
 
-  -- Command+Shift+Right Arrow - Send exact sequence for zsh to handle
+  -- Command+Shift+Right Arrow - Select to end of line and copy
   {
     key = 'RightArrow',
     mods = 'CMD|SHIFT',
     action = act.SendString('\x1b[1;6C'),
   },
 
-  -- Option+Shift+Left Arrow - Send exact sequence for zsh to handle
+  -- Option+Shift+Left Arrow - Select previous word and copy
   {
     key = 'LeftArrow',
     mods = 'ALT|SHIFT',
     action = act.SendString('\x1b[1;4D'),
   },
 
-  -- Option+Shift+Right Arrow - Send exact sequence for zsh to handle
+  -- Option+Shift+Right Arrow - Select next word and copy
   {
     key = 'RightArrow',
     mods = 'ALT|SHIFT',
     action = act.SendString('\x1b[1;4C'),
   },
 
-  -- ============================================================================
-  -- NAVIGATION (WORKING)
-  -- ============================================================================
-
-  -- Command+Left Arrow - Beginning of line
+  -- Shift+Left Arrow - Select character by character
   {
     key = 'LeftArrow',
-    mods = 'CMD',
-    action = act.SendKey { key = 'a', mods = 'CTRL' },
+    mods = 'SHIFT',
+    action = act.SendKey { key = 'LeftArrow', mods = 'SHIFT' },
   },
 
-  -- Command+Right Arrow - End of line
+  -- Shift+Right Arrow - Select character by character
   {
     key = 'RightArrow',
-    mods = 'CMD',
-    action = act.SendKey { key = 'e', mods = 'CTRL' },
-  },
-
-  -- Option+Left Arrow - Previous word
-  {
-    key = 'LeftArrow',
-    mods = 'ALT',
-    action = act.SendKey { key = 'b', mods = 'ALT' },
-  },
-
-  -- Option+Right Arrow - Next word
-  {
-    key = 'RightArrow',
-    mods = 'ALT',
-    action = act.SendKey { key = 'f', mods = 'ALT' },
+    mods = 'SHIFT',
+    action = act.SendKey { key = 'RightArrow', mods = 'SHIFT' },
   },
 
   -- ============================================================================
@@ -652,6 +797,306 @@ config.keys = {
       window:set_config_overrides(overrides)
     end),
   },
+
+  -- ============================================================================
+  -- NEW: LGBT THEME SWITCHING KEYBINDS
+  -- ============================================================================
+
+  -- Command+Shift+1 - Switch to LGBT Dark Theme
+  {
+    key = '1',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Write lgbt_dark to theme file
+      local theme_file = io.open(os.getenv("HOME") .. "/.config/wezterm/theme", "w")
+      if theme_file then
+        theme_file:write("lgbt_dark")
+        theme_file:close()
+      end
+      
+      -- Apply theme immediately
+      local overrides = window:get_config_overrides() or {}
+      overrides.colors = lgbt_dark_theme
+      window:set_config_overrides(overrides)
+      
+      -- Show notification
+      window:toast_notification('WezTerm', 'Switched to LGBT Dark Rainbow Theme 🏳️‍🌈', nil, 2000)
+    end),
+  },
+
+  -- Command+Shift+2 - Switch to LGBT Light Theme
+  {
+    key = '2',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Write lgbt_light to theme file
+      local theme_file = io.open(os.getenv("HOME") .. "/.config/wezterm/theme", "w")
+      if theme_file then
+        theme_file:write("lgbt_light")
+        theme_file:close()
+      end
+      
+      -- Apply theme immediately
+      local overrides = window:get_config_overrides() or {}
+      overrides.colors = lgbt_light_theme
+      window:set_config_overrides(overrides)
+      
+      -- Show notification
+      window:toast_notification('WezTerm', 'Switched to LGBT Light Rainbow Theme 🏳️‍🌈', nil, 2000)
+    end),
+  },
+
+  -- Command+Shift+3 - Switch to Original Dark Theme
+  {
+    key = '3',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Write dark to theme file
+      local theme_file = io.open(os.getenv("HOME") .. "/.config/wezterm/theme", "w")
+      if theme_file then
+        theme_file:write("dark")
+        theme_file:close()
+      end
+      
+      -- Apply theme immediately
+      local overrides = window:get_config_overrides() or {}
+      overrides.colors = dark_theme
+      window:set_config_overrides(overrides)
+      
+      -- Show notification
+      window:toast_notification('WezTerm', 'Switched to Original Dark Theme', nil, 2000)
+    end),
+  },
+
+  -- Command+Shift+4 - Switch to Original Light Theme
+  {
+    key = '4',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Write light to theme file
+      local theme_file = io.open(os.getenv("HOME") .. "/.config/wezterm/theme", "w")
+      if theme_file then
+        theme_file:write("light")
+        theme_file:close()
+      end
+      
+      -- Apply theme immediately
+      local overrides = window:get_config_overrides() or {}
+      overrides.colors = light_theme
+      window:set_config_overrides(overrides)
+      
+      -- Show notification
+      window:toast_notification('WezTerm', 'Switched to Original Light Theme', nil, 2000)
+    end),
+  },
+
+  -- ============================================================================
+  -- TAB NAVIGATION BY NUMBER (Command+5-9)
+  -- ============================================================================
+
+  -- Command+5 through Command+9 for direct tab switching (continuing from theme switchers)
+  {
+    key = '5',
+    mods = 'CMD',
+    action = act.ActivateTab(4),
+  },
+  {
+    key = '6',
+    mods = 'CMD',
+    action = act.ActivateTab(5),
+  },
+  {
+    key = '7',
+    mods = 'CMD',
+    action = act.ActivateTab(6),
+  },
+  {
+    key = '8',
+    mods = 'CMD',
+    action = act.ActivateTab(7),
+  },
+  {
+    key = '9',
+    mods = 'CMD',
+    action = act.ActivateTab(8),
+  },
+
+  -- ============================================================================
+  -- PANE MANAGEMENT
+  -- ============================================================================
+
+  -- Command+D - Split horizontally
+  {
+    key = 'd',
+    mods = 'CMD',
+    action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+
+  -- Command+Shift+D - Split vertically  
+  {
+    key = 'd',
+    mods = 'CMD|SHIFT',
+    action = act.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+
+  -- Command+Shift+W - Close current pane
+  {
+    key = 'w',
+    mods = 'CMD|SHIFT',
+    action = act.CloseCurrentPane { confirm = true },
+  },
+
+  -- Pane navigation with Command+Option+Arrow keys
+  {
+    key = 'LeftArrow',
+    mods = 'CMD|ALT',
+    action = act.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'RightArrow', 
+    mods = 'CMD|ALT',
+    action = act.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'UpArrow',
+    mods = 'CMD|ALT', 
+    action = act.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'DownArrow',
+    mods = 'CMD|ALT',
+    action = act.ActivatePaneDirection 'Down',
+  },
+
+  -- ============================================================================
+  -- ENHANCED SEARCH
+  -- ============================================================================
+
+  -- Command+F - Search with current selection or empty
+  {
+    key = 'f',
+    mods = 'CMD',
+    action = act.Search 'CurrentSelectionOrEmptyString',
+  },
+
+  -- ============================================================================
+  -- COPY MODE AND HISTORY NAVIGATION
+  -- ============================================================================
+
+  -- Command+[ - Enter copy mode for history navigation
+  {
+    key = '[',
+    mods = 'CMD',
+    action = act.ActivateCopyMode,
+  },
+
+  -- Page up/down in scrollback
+  {
+    key = 'PageUp',
+    mods = 'CMD',
+    action = act.ScrollByPage(-1),
+  },
+  {
+    key = 'PageDown',
+    mods = 'CMD', 
+    action = act.ScrollByPage(1),
+  },
+
+  -- ============================================================================
+  -- ADVANCED TAB MANAGEMENT  
+  -- ============================================================================
+
+  -- Move tabs left/right
+  {
+    key = 'LeftArrow',
+    mods = 'CMD|SHIFT|ALT',
+    action = act.MoveTabRelative(-1),
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CMD|SHIFT|ALT', 
+    action = act.MoveTabRelative(1),
+  },
+
+  -- Cycle through tabs
+  {
+    key = 'Tab',
+    mods = 'CMD',
+    action = act.ActivateTabRelative(1),
+  },
+  {
+    key = 'Tab',
+    mods = 'CMD|SHIFT',
+    action = act.ActivateTabRelative(-1),
+  },
+
+  -- ============================================================================
+  -- PANE ZOOM
+  -- ============================================================================
+
+  -- Command+Shift+Z - Toggle pane zoom (avoiding conflict with undo)
+  {
+    key = 'z',
+    mods = 'CMD|SHIFT',
+    action = act.TogglePaneZoomState,
+  },
+
+  -- ============================================================================
+  -- CONFIG ACCESS
+  -- ============================================================================
+
+  -- Command+, - Open config (standard macOS pattern)
+  {
+    key = ',',
+    mods = 'CMD',
+    action = act.SpawnCommandInNewWindow {
+      cwd = wezterm.home_dir,
+      args = { 'nvim', wezterm.config_file },
+    },
+  },
+
+  -- ============================================================================
+  -- ADDITIONAL WINDOW MANAGEMENT
+  -- ============================================================================
+
+  -- Command+H - Hide window (standard macOS)
+  {
+    key = 'h',
+    mods = 'CMD',
+    action = act.Hide,
+  },
+
+  -- ============================================================================
+  -- DELETION - Additional macOS style deletion
+  -- ============================================================================
+
+  -- Command+Backspace - Delete to beginning of line
+  {
+    key = 'Backspace',
+    mods = 'CMD',
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
+  },
+
+  -- Command+Delete - Delete to beginning of line  
+  {
+    key = 'Delete',
+    mods = 'CMD',
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
+  },
+
+  -- Command+K - Delete to end of line
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = act.SendKey { key = 'k', mods = 'CTRL' },
+  },
+
+  -- Option+Backspace - Delete previous word
+  {
+    key = 'Backspace',
+    mods = 'ALT',
+    action = act.SendKey { key = 'w', mods = 'CTRL' },
+  },
 }
 
 -- ============================================================================
@@ -673,8 +1118,6 @@ config.mouse_bindings = {
     action = act.OpenLinkAtMouseCursor,
   },
 }
-
-
 
 -- Make theme switching more responsive
 wezterm.on("window-config-reload", function(window, pane)
