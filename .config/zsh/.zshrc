@@ -495,8 +495,14 @@ alias tls='tmux list-sessions'
 # Other tools
 alias nu='nu --config $XDG_CONFIG_HOME/nushell/config.nu'
 alias theme='$XDG_CONFIG_HOME/scripts/theme.sh'
+alias themeauto='$XDG_CONFIG_HOME/scripts/theme.sh auto'
 alias reload-zsh="source $ZDOTDIR/.zshrc"
 alias edit-zsh="nvim $ZDOTDIR/.zshrc"
+
+# AeroSpace monitor configuration aliases
+alias aerospace-single='$XDG_CONFIG_HOME/scripts/aerospace-monitor-switch.sh single'
+alias aerospace-dual='$XDG_CONFIG_HOME/scripts/aerospace-monitor-switch.sh dual'
+alias aerospace-status='$XDG_CONFIG_HOME/scripts/aerospace-monitor-switch.sh status'
 
 # Productivity aliases
 alias copy-pwd='pwd | pbcopy'

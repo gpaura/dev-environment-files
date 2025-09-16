@@ -40,6 +40,9 @@ bar=(
   y_offset=-5
   margin=-2
   topmost=window
+  blur_radius=30
+  background.blur_radius=30
+  background.drawing=on
 )
 
 sketchybar --bar "${bar[@]}"
@@ -64,8 +67,11 @@ defaults=(
   popup.background.corner_radius=9
   popup.background.border_color=$POPUP_BORDER_COLOR
   popup.background.color=$POPUP_BACKGROUND_COLOR
-  popup.blur_radius=20
+  popup.blur_radius=30
   popup.background.shadow.drawing=on
+  popup.background.shadow.color=0x80000000
+  popup.background.shadow.angle=45
+  popup.background.shadow.distance=5
   scroll_texts=on
 )
 

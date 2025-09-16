@@ -22,6 +22,10 @@ accordion-padding = 300
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
 
+
+# ============================================================================
+# VISUAL ENHANCEMENTS - Window Animations and Effects
+# ============================================================================
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
 #               tall monitor (anything higher than wide) gets vertical orientation
@@ -286,10 +290,23 @@ s = ['exec-and-forget open -a /Applications/Spotify.app', 'mode main']
 r = ['exec-and-forget open -a /Applications/Microsoft\ Remote\ Desktop.app', 'mode main']
 esc = 'mode main'
 
+# Monitor assignment configurations
+# Uncomment one of the configurations below based on your setup:
+
+# === SINGLE MONITOR SETUP (MacBook only) ===
+# All workspaces on the main display
+[workspace-to-monitor-force-assignment]
+1 = 'main'  # Browsers
+2 = 'main'  # Development
+3 = 'main'  # Communication
+4 = 'main'  # Productivity
+5 = 'main'  # Media
+
+# === DUAL MONITOR SETUP ===
+# Uncomment this section and comment the single monitor section above
 # [workspace-to-monitor-force-assignment]
-#     1 = '^dell$'
-#     2 = '^dell$'
-#     3 = '^dell$'
-#     4 = '^dell$'
-#     5 = 'main'
-#     6 = '^elgato$'
+# [0-9] = 'secondary'  # Browsers on external monitor
+# [0-9] = 'main'       # Development on MacBook
+# [0-9] = 'secondary'  # Communication on external monitor
+# [0-9] = 'main'       # Productivity on MacBook
+# [0-9] = 'secondary'  # Media on external monitor

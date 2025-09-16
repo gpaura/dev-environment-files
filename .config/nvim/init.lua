@@ -10,6 +10,47 @@ vim.g.loaded_csv = 1 -- Disable csv.vim plugin to prevent conflicts
 require("gabriel.core")
 require("gabriel.lazy")
 
+-- ============================================================================
+-- VISUAL ENHANCEMENTS - Advanced UI Settings
+-- ============================================================================
+-- Enable true color support
+vim.opt.termguicolors = true
+
+-- Enhanced transparency and blur effects
+vim.opt.pumblend = 10        -- Popup menu transparency
+vim.opt.winblend = 10        -- Floating window transparency
+
+-- Better visual indicators
+vim.opt.cursorline = true    -- Highlight current line
+vim.opt.number = true        -- Line numbers
+vim.opt.relativenumber = true -- Relative line numbers
+
+-- Enhanced scrolling and animation
+vim.opt.scroll = 8           -- Smoother scrolling
+vim.opt.scrolloff = 8        -- Keep lines above/below cursor
+vim.opt.sidescrolloff = 8    -- Keep columns left/right of cursor
+
+-- Better visual feedback
+vim.opt.showmode = false     -- Hide mode indicator (using statusline)
+vim.opt.showcmd = true       -- Show partial commands
+vim.opt.ruler = true         -- Show cursor position
+
+-- Enhanced search visuals
+vim.opt.hlsearch = true      -- Highlight search results
+vim.opt.incsearch = true     -- Incremental search
+vim.opt.ignorecase = true    -- Case insensitive search
+vim.opt.smartcase = true     -- Smart case sensitivity
+
+-- Better indentation visualization
+vim.opt.list = true          -- Show invisible characters
+vim.opt.listchars = {
+  tab = '→ ',
+  trail = '·',
+  extends = '»',
+  precedes = '«',
+  nbsp = '⚬'
+}
+
 -- Utility functions (moved to local scope)
 local function trim(s)
   return s and s:match("^%s*(.-)%s*$") or s
