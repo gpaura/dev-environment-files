@@ -1,3 +1,4 @@
+
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 local act = wezterm.action
@@ -203,11 +204,11 @@ local light_theme = {
   -- Indexed colors - Strengthened
   indexed = {
     [16] = "#FF9000", -- Stronger orange
-    [17] = "#C49E3F", -- Darker, more visible gold
+    [17] = "#C49E3F", -- C49E3F Darker, more visible gold
     [18] = "#AA7800", -- Much darker gold for visibility
     [19] = "#FF42A1", -- More vibrant pink
     [20] = "#A64DFF", -- Stronger purple
-    [21] = "#8F95A0", -- Darker gray for visibility
+    [21] = "#8F95A0", -- 8F95A0 Darker gray for visibility
     [22] = "#845AC7", -- Stronger purple for emphasis
     [23] = "#097CCD", -- Deeper blue
     [24] = "#FF6200", -- Stronger orange
@@ -1096,6 +1097,17 @@ config.keys = {
     key = 'Backspace',
     mods = 'ALT',
     action = act.SendKey { key = 'w', mods = 'CTRL' },
+  },
+
+  -- ============================================================================
+  -- NEWLINE INSERTION
+  -- ============================================================================
+
+  -- Shift+Enter - Insert newline (like in Claude)
+  {
+    key = 'Enter',
+    mods = 'SHIFT',
+    action = act.SendString '\n',
   },
 }
 

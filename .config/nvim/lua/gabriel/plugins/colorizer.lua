@@ -26,5 +26,8 @@ return {
       names = true, -- Named colors like 'green'
       tailwind = true, -- Tailwind support (requires color names)
     })
+    
+    -- Auto-attach to all buffers
+    vim.cmd("ColorizerAttachToBuffer")
   end,
 }

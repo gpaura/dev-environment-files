@@ -1,38 +1,54 @@
-# Ghostty Configuration - Clean Version with Bold Text and Exact WezTerm Colors
-# No config-file includes to avoid cycles
+# Ghostty 1.2.0 Optimized Configuration
+# Taking advantage of new features and performance improvements
 
 # ============================================================================
-# THEME CONFIGURATION (will be updated by theme.sh)
+# FONT CONFIGURATION - Using 1.2.0 improvements
 # ============================================================================
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 19
+font-family-bold = "JetBrainsMono Nerd Font Mono Bold"
+font-family-italic = "JetBrainsMono Nerd Font Mono Italic"
+font-family-bold-italic = "JetBrainsMono Nerd Font Mono Bold Italic"
+
+# Take advantage of improved fallback font sizing in 1.2.0
+font-thicken = true
+
 # ============================================================================
-# THEME_START
-# Light theme settings - EXACT WEZTERM MATCH
+# THEME CONFIGURATION - Leveraging new color features
+# ============================================================================
 foreground = "#2D2A2E"
-background = "#FAFAFA"
-cursor-color = "#FF2D76"
-cursor-text = "#FFFFFF"
-selection-background = "#E0E0E0"
-selection-foreground = "#2D2A2E"
+# THEME_START
+# Dark theme settings - EXACT WEZTERM MATCH
+foreground = "#F8F8F2"
+background = "#1A1B26"
 
-# ANSI Colors (0-7) - Exact WezTerm Match
-palette = 0=#5A5257
-palette = 1=#F26F22
-palette = 2=#0000FF
+# Cursor
+cursor-color = "#FF79C6"
+cursor-text = "#282A36"
+
+# Selection
+selection-background = "#44475A"
+selection-foreground = "#F8F8F2"
+
+# ANSI Colors (0-7) - Exact WezTerm Match with enhanced readability
+palette = 0=#414868
+palette = 1=#FF5555
+palette = 2=#50FA7B
 palette = 3=#FF40A3
-palette = 4=#9D50FF
-palette = 5=#FF3388
-palette = 6=#19B3CD
-palette = 7=#A64DFF
+palette = 4=#7AA2F7
+palette = 5=#FF79C6
+palette = 6=#8BE9FD
+palette = 7=#ACAAB6
 
-# Bright Colors (8-15) - Exact WezTerm Match
-palette = 8=#7A686E
-palette = 9=#F5623D
-palette = 10=#4E9F2F
+# Bright Colors (8-15) - Exact WezTerm Match with enhanced readability
+palette = 8=#565F89
+palette = 9=#F7768E
+palette = 10=#A9FF68
 palette = 11=#FF66C7
-palette = 12=#B77BFF
-palette = 13=#FF66C7
-palette = 14=#58DDEF
-palette = 15=#FFFFFF
+palette = 12=#BD93F9
+palette = 13=#FC9867
+palette = 14=#78DCE8
+palette = 15=#F8F8F2
 
 # Note: Ghostty only supports palette colors 0-15
 # Extended colors are handled through the base 16 ANSI colors
@@ -70,33 +86,3 @@ font-family-bold = "JetBrainsMono Nerd Font Mono Black"
 font-family-italic = "JetBrainsMono Nerd Font Mono ExtraBold"
 font-family-bold-italic = "JetBrainsMono Nerd Font Mono Black"
 
-# WINDOW CONFIGURATION
-# ============================================================================
-# Window decoration
-macos-titlebar-style = hidden
-window-decoration = false
-
-# Background effects
-background-opacity = 0.75
-background-blur-radius = 20
-
-# Behavior
-confirm-close-surface = false
-mouse-hide-while-typing = true
-
-# ============================================================================
-# KEYBINDS AND SHORTCUTS
-# ============================================================================
-# Quick terminal
-keybind = cmd+s=toggle_quick_terminal
-quick-terminal-animation-duration = 0.08
-
-# Option key behavior
-macos-option-as-alt = true
-
-# Keybinds
-keybind = super+i=inspector:toggle
-keybind = super+r=reload_config
-
-# macOS icon
-macos-icon = official
