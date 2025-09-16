@@ -492,10 +492,6 @@ alias tks='tmux kill-session -t'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
 
-# Zoxide (better cd)
-# alias cd='z'
-alias z='zoxide'
-
 # Other tools
 alias nu='nu --config $XDG_CONFIG_HOME/nushell/config.nu'
 alias theme='$XDG_CONFIG_HOME/scripts/theme.sh'
