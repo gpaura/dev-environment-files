@@ -248,6 +248,44 @@ alt-n = 'exec-and-forget open -a /Applications/Notion.app'
 alt-c = 'exec-and-forget open -a /Applications/Google\ Chrome.app'
 alt-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 
+# Tmux session manager (prefer Ghostty, fallback to WezTerm)
+cmd-shift-t = '''exec-and-forget osascript -e '
+set terminalApp to ""
+try
+    tell application "Finder"
+        if exists application file "Ghostty" of folder "Applications" of startup disk then
+            set terminalApp to "Ghostty"
+        else
+            set terminalApp to "WezTerm"
+        end if
+    end tell
+on error
+    set terminalApp to "WezTerm"
+end try
+
+if terminalApp is "Ghostty" then
+    tell application "Ghostty"
+        activate
+        delay 0.3
+        tell application "System Events"
+            tell process "Ghostty"
+                keystroke "~/.config/scripts/tmux-session-selector.sh"
+                keystroke return
+            end tell
+        end tell
+    end tell
+else
+    tell application "WezTerm"
+        activate
+        set newWindow to (create window with default profile)
+        tell newWindow
+            tell active session
+                write text "~/.config/scripts/tmux-session-selector.sh"
+            end tell
+        end tell
+    end tell
+end if' '''
+
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

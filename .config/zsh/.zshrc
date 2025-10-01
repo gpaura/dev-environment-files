@@ -640,3 +640,51 @@ if command -v sketchybar &>/dev/null; then
     }
 fi
 
+# ============================================================================
+# VS CODE-LIKE LAYOUT ALIASES
+# ============================================================================
+
+# Quick development layout setup
+alias devlayout='bash ~/.config/scripts/dev-layout.sh'
+alias tmuxdev='bash ~/.config/scripts/tmux-dev-layout.sh'
+alias vscode-layout='devlayout'
+
+# File managers for sidebar
+alias files='lf'
+alias fm='ranger'
+alias tree2='tree -L 2'
+alias tree3='tree -L 3'
+
+# Quick project navigation
+alias dev='cd ~/dev'
+alias config='cd ~/.config'
+alias notes='cd ~/notes'
+alias workspace='cd ~/workspace'
+
+# Development workflow helpers
+alias nvim.='nvim .'
+alias code.='code .'
+alias idea.='open -a "IntelliJ IDEA" .'
+
+# Git shortcuts for terminal pane
+alias gs='git status'
+alias gl='git log --oneline -10'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gpl='git pull'
+
+# Quick file operations
+alias la='ls -la'
+alias ll='ls -l'
+alias lt='ls -lt'
+alias lsize='ls -lhS'
+
+# Development server shortcuts
+alias serve='python3 -m http.server'
+alias serve8080='python3 -m http.server 8080'
+
+# File browser helper alias
+alias clearecho='clear && echo'
+

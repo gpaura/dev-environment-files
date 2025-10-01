@@ -784,9 +784,9 @@ config.keys = {
     action = act.ResetFontSize,
   },
 
-  -- Command+Shift+T - Toggle Always on Top
+  -- Command+Shift+O - Toggle Always on Top (moved from T to avoid conflict)
   {
-    key = 't',
+    key = 'o',
     mods = 'CMD|SHIFT',
     action = wezterm.action_callback(function(window, pane)
       local overrides = window:get_config_overrides() or {}
@@ -1108,6 +1108,63 @@ config.keys = {
     key = 'Enter',
     mods = 'SHIFT',
     action = act.SendString '\n',
+  },
+
+  -- ============================================================================
+  -- VS CODE LAYOUT AUTOMATION
+  -- ============================================================================
+
+  -- Command+Shift+L - Launch VS Code-like layout with WezTerm
+  {
+    key = 'l',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Get current working directory
+      local cwd = pane:get_current_working_dir()
+      local path = cwd and cwd.file_path or os.getenv("HOME")
+
+      -- Create the VS Code-like layout directly in WezTerm
+      -- Split vertically (sidebar on left, main area on right)
+      local right_pane = pane:split { direction = "Right", size = 0.75 }
+
+      -- Split the right pane horizontally (code on top, terminal on bottom)
+      local bottom_pane = right_pane:split { direction = "Bottom", size = 0.3 }
+
+      -- Set up each pane with helpful messages and clear them
+      pane:send_text("clear\n")
+      pane:send_text("echo '📁 File Browser - Use: lf, ranger, or tree'\n")
+
+      right_pane:send_text("clear\n")
+      right_pane:send_text("echo '💻 Ready for coding! 🚀'\n")
+      right_pane:send_text("echo 'Use: nvim . or code .'\n")
+
+      bottom_pane:send_text("clear\n")
+      bottom_pane:send_text("echo '⚡ Terminal ready!'\n")
+
+      -- Focus on the file browser pane
+      pane:activate()
+
+      -- Show notification
+      window:toast_notification('WezTerm', 'VS Code-like layout created! 🚀', nil, 2000)
+    end),
+  },
+
+  -- Command+Shift+T - Launch tmux VS Code-like layout
+  {
+    key = 't',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      -- Get current working directory
+      local cwd = pane:get_current_working_dir()
+      local path = cwd and cwd.file_path or os.getenv("HOME")
+
+      -- Run the tmux dev layout script in the current pane
+      local script_path = os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh"
+      pane:send_text("bash " .. script_path .. " dev '" .. path .. "'\n")
+
+      -- Show notification
+      window:toast_notification('WezTerm', 'Starting tmux VS Code layout! 🚀', nil, 2000)
+    end),
   },
 }
 
