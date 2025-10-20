@@ -1,12 +1,16 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  dependencies = "nvim-tree/nvim-web-devicons",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  lazy = false,
+  priority = 1000,
   config = function()
-    local nvimtree = require("nvim-tree")
-
     -- recommended settings from nvim-tree documentation
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
+
+    local nvimtree = require("nvim-tree")
 
     nvimtree.setup({
       view = {
@@ -109,20 +113,7 @@ return {
       },
       -- Enhanced diagnostics integration
       diagnostics = {
-        enable = true,
-        show_on_dirs = true,
-        show_on_open_dirs = true,
-        debounce_delay = 50,
-        severity = {
-          min = vim.diagnostic.severity.HINT,
-          max = vim.diagnostic.severity.ERROR,
-        },
-        icons = {
-          hint = "",
-          info = "",
-          warning = "",
-          error = "",
-        },
+        enable = false,
       },
       -- Enhanced modified file tracking
       modified = {
@@ -139,6 +130,16 @@ return {
         },
       },
     })
+
+    -- Set custom highlight groups for colored folders and icons
+    vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = "#8AADF4" }) -- Blue folders
+    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderIcon", { fg = "#8AADF4" }) -- Blue open folders
+    vim.api.nvim_set_hl(0, "NvimTreeClosedFolderIcon", { fg = "#8AADF4" }) -- Blue closed folders
+    vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = "#CAD3F5" }) -- Light text for folder names
+    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = "#CAD3F5", bold = true }) -- Light bold for open folders
+    vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = "#6E738D" }) -- Gray for empty folders
+    vim.api.nvim_set_hl(0, "NvimTreeIndentMarker", { fg = "#5B6078" }) -- Subtle indent markers
+    vim.api.nvim_set_hl(0, "NvimTreeRootFolder", { fg = "#F5A97F", bold = true }) -- Orange for root
 
     -- set keymaps
     local keymap = vim.keymap -- for conciseness

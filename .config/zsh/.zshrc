@@ -9,6 +9,7 @@
 
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.rbenv/shims:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$PATH:/Users/gabrielpaura/.spicetify"
 export PATH="$PATH:/Users/gabrielpaura/.local/bin"
 

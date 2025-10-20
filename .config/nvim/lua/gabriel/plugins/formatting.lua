@@ -36,7 +36,7 @@ return {
         graphql = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = { "ruff_format", "ruff_fix" },  -- ruff handles formatting and auto-fixes
         go = { "gofmt" },
         -- Use your custom formatter for CSV files
         csv = { "csv_formatter" },
