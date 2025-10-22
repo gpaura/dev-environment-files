@@ -27,7 +27,6 @@ let dark_theme = {
     nothing: dark_gray
     binary: dark_gray
     cell-path: dark_gray
-    row_index: green_bold
     hints: dark_gray
     search_result: { bg: red fg: white }
     shape_and: purple_bold
@@ -205,10 +204,7 @@ $env.config = {
         use_ls_colors: true # set this to true to enable file/path/directory completions using LS_COLORS
     }
 
-    filesize: {
-        metric: false # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
-    }
+    # filesize configuration has been updated in newer Nushell versions
 
     cursor_shape: {
         emacs: block # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (line is the default)
@@ -217,8 +213,7 @@ $env.config = {
     }
 
     color_config: $dark_theme # if you want a more interesting theme, you can replace the empty record with `$dark_theme`, `$light_theme` or another custom record
-    use_grid_icons: true
-    footer_mode: "25" # always, never, number_of_rows, auto
+    footer_mode: 25 # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
     use_ansi_coloring: true
@@ -940,6 +935,8 @@ alias ke = kubectl exec -it
 
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
-source ~/.cache/carapace/init.nu
+if ('~/.cache/carapace/init.nu' | path expand | path exists) {
+    source ~/.cache/carapace/init.nu
+}
 source ~/.local/share/atuin/init.nu
 use ~/.cache/starship/init.nu

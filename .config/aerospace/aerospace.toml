@@ -68,6 +68,10 @@ run = 'move-node-to-workspace 2'
 if.app-id = 'com.duckduckgo.macos.browser'
 run = 'move-node-to-workspace 2'
 
+[[on-window-detected]]
+if.app-id = 'com.openai.atlas'
+run = 'move-node-to-workspace 2'
+
 # Workspace 3: Productivity
 [[on-window-detected]]
 if.app-id = 'notion.id'
@@ -333,11 +337,14 @@ fi
 aerospace workspace 1 && aerospace move-workspace-to-monitor 1
 ' '''
 
-# Alt+2: Go to Browsers workspace AND launch Chrome if not running
+# Alt+2: Go to Browsers workspace AND launch Chrome and ChatGPT Atlas if not running
 alt-2 = '''exec-and-forget bash -c '
 aerospace workspace 2
 if ! pgrep -x "Google Chrome" > /dev/null; then
     open -a "Google Chrome"
+fi
+if ! pgrep -x "ChatGPT Atlas" > /dev/null; then
+    open -a "ChatGPT Atlas"
 fi
 ' '''
 
@@ -366,10 +373,34 @@ if ! pgrep -f "thinkorswim" > /dev/null; then
     open -a "/Applications/thinkorswim/thinkorswim.app"
 fi
 ' '''
-alt-q = 'workspace 6'  # Apple Apps (Finder, Settings, etc.)
-alt-w = 'workspace 7'  # Terminals (Ghostty, Warp, WezTerm, iTerm)
+# Alt+Q: Go to Apple Apps workspace AND launch Finder and Settings if not running
+alt-q = '''exec-and-forget bash -c '
+aerospace workspace 6
+if ! pgrep -x "Finder" > /dev/null; then
+    open -a "Finder"
+fi
+if ! pgrep -x "System Settings" > /dev/null; then
+    open -a "System Settings"
+fi
+' '''
+
+# Alt+W: Go to Terminals workspace AND launch WezTerm if not running
+alt-w = '''exec-and-forget bash -c '
+aerospace workspace 7
+if ! pgrep -x "WezTerm" > /dev/null; then
+    open -a "WezTerm"
+fi
+' '''
+
 alt-e = 'workspace 8'  # Development (VS Code, Cursor)
-alt-r = 'workspace 9'  # Social (WhatsApp, Discord)
+
+# Alt+R: Go to Social workspace AND launch WhatsApp if not running
+alt-r = '''exec-and-forget bash -c '
+aerospace workspace 9
+if ! pgrep -f "WhatsApp.app/Contents/MacOS/WhatsApp" > /dev/null; then
+    open -a "WhatsApp"
+fi
+' '''
 
 # Alt+T: Windows App on monitor 1 (main)
 alt-t = '''exec-and-forget bash -c '
