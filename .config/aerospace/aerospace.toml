@@ -8,7 +8,7 @@ exec-on-workspace-change = [
 ]
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -41,12 +41,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
 # Also see: https://nikitabobko.github.io/AeroSpace/goodness#disable-hide-app
-automatically-unhide-macos-hidden-apps = false
+automatically-unhide-macos-hidden-apps = true
 
 # Workspace 2: Browsers (Monitor 2 if available)
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
-run = 'move-node-to-workspace 2'
+run = ['layout floating', 'move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
@@ -54,7 +54,7 @@ run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
 if.app-id = 'com.brave.Browser'
-run = 'move-node-to-workspace 2'
+run = ['layout floating', 'move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-id = 'company.thebrowser.Browser'
@@ -117,11 +117,11 @@ run = ['layout floating', 'move-node-to-workspace 4']
 # Workspace 5: Thinkorswim
 [[on-window-detected]]
 if.app-id = 'com.install4j.9968-4488-2169-7623.18'
-run = 'move-node-to-workspace 5'
+run = ['layout floating', 'move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id = 'com.azul.zulu.java'
-run = 'move-node-to-workspace 5'
+run = ['layout floating', 'move-node-to-workspace 5']
 
 # Workspace 6: Apple Apps (original sizes)
 [[on-window-detected]]
@@ -183,6 +183,10 @@ run = ['layout floating', 'move-node-to-workspace 9']
 if.app-id = 'com.hnc.Discord'
 run = ['layout floating', 'move-node-to-workspace 9']
 
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating', 'move-node-to-workspace 9']
+
 # Workspace 11: Mail
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
@@ -219,6 +223,10 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'p4pzjszx.Maccy'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
 run = 'layout floating'
 
 # Communication apps - floating rules are now combined with workspace assignment above
@@ -366,9 +374,11 @@ if ! pgrep -x "Microsoft Teams" > /dev/null; then
     open -a "Microsoft Teams"
 fi
 ' '''
-# Alt+5: Go to Thinkorswim workspace AND launch Thinkorswim if not running
+# Alt+5: Go to Thinkorswim workspace AND launch/unhide Thinkorswim
 alt-5 = '''exec-and-forget bash -c '
 aerospace workspace 5
+# Explicitly unhide java-arm/thinkorswim to fix visibility issues
+osascript -e "tell application \"System Events\" to set visible of process \"java-arm\" to true" 2>/dev/null || true
 if ! pgrep -f "thinkorswim" > /dev/null; then
     open -a "/Applications/thinkorswim/thinkorswim.app"
 fi
@@ -392,11 +402,20 @@ if ! pgrep -x "WezTerm" > /dev/null; then
 fi
 ' '''
 
-alt-e = 'workspace 8'  # Development (VS Code, Cursor)
+# Alt+E: Go to Development workspace AND launch Cursor if not running
+alt-e = '''exec-and-forget bash -c '
+aerospace workspace 8
+if ! pgrep -x "Cursor" > /dev/null; then
+    open -a "Cursor"
+fi
+' '''
 
-# Alt+R: Go to Social workspace AND launch WhatsApp if not running
+# Alt+R: Go to Social workspace AND launch WhatsApp if not running (on monitor 1)
 alt-r = '''exec-and-forget bash -c '
 aerospace workspace 9
+if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
+    aerospace move-workspace-to-monitor 1
+fi
 if ! pgrep -f "WhatsApp.app/Contents/MacOS/WhatsApp" > /dev/null; then
     open -a "WhatsApp"
 fi
@@ -540,7 +559,7 @@ shift-p = ['exec-and-forget open -a /Applications/Microsoft\ PowerPoint.app', 'm
 shift-o = ['exec-and-forget open -a /Applications/Microsoft\ Word.app', 'mode main']
 
 # Work Apps (workspace 8)
-t = ['exec-and-forget open -a /Applications/thinkorswim/thinkorswim.app', 'mode main']
+t = ['exec-and-forget bash -c "open -a /Applications/thinkorswim/thinkorswim.app && sleep 1 && osascript -e \\"tell application \\\\\\"System Events\\\\\\" to set visible of process \\\\\\"java-arm\\\\\\" to true\\" 2>/dev/null || true"', 'mode main']
 shift-t = ['exec-and-forget open -a /Applications/Microsoft\ Teams.app', 'mode main']
 l = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
 z = ['exec-and-forget open -a /Applications/zoom.us.app', 'mode main']
