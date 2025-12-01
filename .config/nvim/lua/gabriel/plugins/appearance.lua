@@ -1,88 +1,51 @@
--- Bold text in Neovim configuration
-return {
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup({
-        flavour = "latte", -- latte, frappe, macchiato, mocha
-        transparent_background = true,
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          treesitter = true,
-          telescope = true,
-        },
-        -- Force bold for syntax elements
-        styles = {
-          comments = { "bold" },
-          conditionals = { "bold" },
-          loops = { "bold" },
-          functions = { "bold" },
-          keywords = { "bold" },
-          strings = { "bold" },
-          variables = { "bold" },
-          numbers = { "bold" },
-          booleans = { "bold" },
-          properties = { "bold" },
-          types = { "bold" },
-          operators = { "bold" },
-        },
-      })
-      vim.cmd.colorscheme("catppuccin")
+-- Bold text and transparency in Neovim configuration
+-- Consolidated to prevent conflicts and ensure transparency works
 
-      -- Apply bold to all highlighting groups
-      vim.cmd([[
-        augroup BoldEverything
-          autocmd!
-          autocmd ColorScheme * lua require('bold_everything').apply_bold()
-        augroup END
-      ]])
+-- Shared module for bold and transparency that both colorschemes can use
+local function setup_bold_and_transparency()
+  local M = {}
 
-      -- Create module for applying bold to all highlight groups
-      local bold_everything = {}
+  function M.apply()
+    -- Get all highlight groups
+    local highlight_groups = vim.fn.getcompletion("", "highlight")
 
-      function bold_everything.apply_bold()
-        -- Get all highlight groups
-        local highlight_groups = vim.fn.getcompletion("", "highlight")
-
-        -- Apply bold to each highlight group
-        for _, group in ipairs(highlight_groups) do
-          -- Skip groups with 'Italic' in their name to preserve italic style
-          if not string.find(group, "Italic") then
-            local current = vim.api.nvim_get_hl(0, { name = group })
-            if current then
-              -- Keep original settings, just add bold
-              current.bold = true
-              vim.api.nvim_set_hl(0, group, current)
-            end
-          end
+    -- Apply bold to each highlight group
+    for _, group in ipairs(highlight_groups) do
+      -- Skip groups with 'Italic' in their name to preserve italic style
+      if not string.find(group, "Italic") then
+        local current = vim.api.nvim_get_hl(0, { name = group })
+        if current and next(current) then
+          -- Keep original settings, just add bold
+          current.bold = true
+          vim.api.nvim_set_hl(0, group, current)
         end
-
-        -- Clear backgrounds for transparency after applying bold
-        vim.api.nvim_set_hl(0, "Normal", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-        vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-        vim.api.nvim_set_hl(0, "Folded", { bg = "none" })
-        vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
-        vim.api.nvim_set_hl(0, "SpecialKey", { bg = "none" })
-        vim.api.nvim_set_hl(0, "VertSplit", { bg = "none" })
-        vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
       end
+    end
 
-      -- Make the module available
-      package.loaded["bold_everything"] = bold_everything
+    -- Clear backgrounds for transparency after applying bold
+    -- These are the critical ones for transparency to work
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+    vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+    vim.api.nvim_set_hl(0, "Folded", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
+    vim.api.nvim_set_hl(0, "SpecialKey", { bg = "none" })
+    vim.api.nvim_set_hl(0, "VertSplit", { bg = "none" })
+    vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none" })
+    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
+    vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
+  end
 
-      -- Apply bold to existing highlight groups
-      bold_everything.apply_bold()
-    end,
-  },
+  return M
+end
 
-  -- Monokai Pro Filter Octagon Theme
+return {
+  -- Monokai Pro Filter Octagon Theme (PRIMARY - this is the one you're using)
   {
     "loctvl842/monokai-pro.nvim",
     priority = 1000,
@@ -125,83 +88,89 @@ return {
         },
       })
 
-      -- Uncomment the line below to use Monokai Pro instead of Catppuccin
+      -- Set the colorscheme
       vim.cmd.colorscheme("monokai-pro")
 
-      -- Apply bold to all highlighting groups (same as Catppuccin)
-      vim.cmd([[
-        augroup BoldEverything
-          autocmd!
-          autocmd ColorScheme * lua require('bold_everything').apply_bold()
-        augroup END
-      ]])
+      -- Create and register the transparency module
+      local transparency = setup_bold_and_transparency()
+      package.loaded["transparency_manager"] = transparency
 
-      -- Create module for applying bold to all highlight groups
-      local bold_everything = {}
+      -- Set up autocmd to reapply on colorscheme changes
+      vim.api.nvim_create_augroup("TransparencyManager", { clear = true })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = "TransparencyManager",
+        callback = function()
+          -- Defer to ensure it runs after the colorscheme fully loads
+          vim.defer_fn(function()
+            transparency.apply()
+          end, 10)
+        end,
+      })
 
-      function bold_everything.apply_bold()
-        -- Get all highlight groups
-        local highlight_groups = vim.fn.getcompletion("", "highlight")
+      -- Apply immediately after colorscheme loads
+      transparency.apply()
 
-        -- Apply bold to each highlight group
-        for _, group in ipairs(highlight_groups) do
-          -- Skip groups with 'Italic' in their name to preserve italic style
-          if not string.find(group, "Italic") then
-            local current = vim.api.nvim_get_hl(0, { name = group })
-            if current then
-              -- Keep original settings, just add bold
-              current.bold = true
-              vim.api.nvim_set_hl(0, group, current)
-            end
-          end
-        end
-
-        -- Clear backgrounds for transparency after applying bold
-        vim.api.nvim_set_hl(0, "Normal", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none", bold = true })
-        vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-        vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-        vim.api.nvim_set_hl(0, "Folded", { bg = "none" })
-        vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
-        vim.api.nvim_set_hl(0, "SpecialKey", { bg = "none" })
-        vim.api.nvim_set_hl(0, "VertSplit", { bg = "none" })
-        vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-      end
-
-      -- Make the module available
-      package.loaded["bold_everything"] = bold_everything
-
-      -- Apply bold to existing highlight groups
-      bold_everything.apply_bold()
+      -- Also apply after ALL plugins have loaded (belt and suspenders approach)
+      vim.api.nvim_create_autocmd("VimEnter", {
+        once = true,
+        callback = function()
+          vim.defer_fn(function()
+            transparency.apply()
+          end, 50)
+        end,
+      })
     end,
   },
 
-  -- Add configuration for terminal appearance
+  -- Catppuccin Theme (DISABLED - uncomment if you want to switch)
   {
-    "akinsho/toggleterm.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    enabled = false, -- DISABLED to prevent loading both colorschemes
     config = function()
-      require("toggleterm").setup({
-        -- Terminal configuration to ensure bold text
-        highlights = {
-          Normal = {
-            bold = true,
-          },
-          NormalFloat = {
-            bold = true,
-          },
+      require("catppuccin").setup({
+        flavour = "latte", -- latte, frappe, macchiato, mocha
+        transparent_background = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          telescope = true,
+        },
+        styles = {
+          comments = { "bold" },
+          conditionals = { "bold" },
+          loops = { "bold" },
+          functions = { "bold" },
+          keywords = { "bold" },
+          strings = { "bold" },
+          variables = { "bold" },
+          numbers = { "bold" },
+          booleans = { "bold" },
+          properties = { "bold" },
+          types = { "bold" },
+          operators = { "bold" },
         },
       })
+      vim.cmd.colorscheme("catppuccin")
 
-      -- Ensure terminal text is bold
-      vim.api.nvim_create_autocmd("TermOpen", {
-        pattern = "*",
+      -- Use the same transparency manager
+      local transparency = setup_bold_and_transparency()
+      package.loaded["transparency_manager"] = transparency
+
+      vim.api.nvim_create_augroup("TransparencyManager", { clear = true })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = "TransparencyManager",
         callback = function()
-          vim.opt.winhighlight = "Normal:Normal"
-          vim.cmd("highlight! TermCursor cterm=bold gui=bold")
-          vim.cmd("highlight! TermNormal cterm=bold gui=bold")
+          vim.defer_fn(function()
+            transparency.apply()
+          end, 10)
         end,
       })
+
+      transparency.apply()
     end,
   },
 }
