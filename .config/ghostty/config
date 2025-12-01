@@ -22,6 +22,10 @@ foreground = "#2D2A2E"
 foreground = "#F8F8F2"
 background = "#1A1B26"
 
+# Background transparency (0.0-1.0, where 1.0 is fully opaque)
+background-opacity = 0.85
+window-opacity = 0.85
+
 # Cursor
 cursor-color = "#FF79C6"
 cursor-text = "#282A36"

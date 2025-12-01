@@ -71,12 +71,12 @@ return {
             folder = {
               arrow_closed = "",
               arrow_open = "",
-              default = "",
-              open = "",
-              empty = "",
-              empty_open = "",
-              symlink = "",
-              symlink_open = "",
+              default = "󰉋",
+              open = "󰝰",
+              empty = "󰉖",
+              empty_open = "󰷏",
+              symlink = "󰉒",
+              symlink_open = "󰉓",
             },
             git = {
               unstaged = "✗",
@@ -132,14 +132,19 @@ return {
     })
 
     -- Set custom highlight groups for colored folders and icons
-    vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = "#8AADF4" }) -- Blue folders
-    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderIcon", { fg = "#8AADF4" }) -- Blue open folders
-    vim.api.nvim_set_hl(0, "NvimTreeClosedFolderIcon", { fg = "#8AADF4" }) -- Blue closed folders
-    vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = "#CAD3F5" }) -- Light text for folder names
-    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = "#CAD3F5", bold = true }) -- Light bold for open folders
-    vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = "#6E738D" }) -- Gray for empty folders
-    vim.api.nvim_set_hl(0, "NvimTreeIndentMarker", { fg = "#5B6078" }) -- Subtle indent markers
-    vim.api.nvim_set_hl(0, "NvimTreeRootFolder", { fg = "#F5A97F", bold = true }) -- Orange for root
+    -- Monokai Pro Octagon color palette
+    vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" }) -- Transparent background
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" }) -- Transparent background for non-current
+    vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "none" }) -- Transparent end of buffer
+    vim.api.nvim_set_hl(0, "NvimTreeVertSplit", { bg = "none" }) -- Transparent vertical split
+    vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = "#FFD866" }) -- Yellow folders (Monokai yellow)
+    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderIcon", { fg = "#FF6188" }) -- Pink open folders (Monokai pink)
+    vim.api.nvim_set_hl(0, "NvimTreeClosedFolderIcon", { fg = "#FFD866" }) -- Yellow closed folders
+    vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = "#FCFCFA" }) -- White text for folder names
+    vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = "#FF6188", bold = true }) -- Pink bold for open folders
+    vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = "#727072" }) -- Gray for empty folders
+    vim.api.nvim_set_hl(0, "NvimTreeIndentMarker", { fg = "#5B595C" }) -- Subtle indent markers
+    vim.api.nvim_set_hl(0, "NvimTreeRootFolder", { fg = "#FC9867", bold = true }) -- Orange for root (Monokai orange)
 
     -- set keymaps
     local keymap = vim.keymap -- for conciseness
