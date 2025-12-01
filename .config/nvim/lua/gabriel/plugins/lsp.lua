@@ -9,7 +9,17 @@ return {
       "neovim/nvim-lspconfig",
       "hrsh7th/cmp-nvim-lsp",
       { "antosha417/nvim-lsp-file-operations", config = true },
-      { "folke/neodev.nvim", opts = {} },
+      {
+        "folke/neodev.nvim",
+        opts = {
+          library = {
+            enabled = true,
+            runtime = true,
+            types = true,
+            plugins = true,
+          },
+        },
+      },
     },
     config = function()
       -- First set up mason
@@ -25,7 +35,14 @@ return {
       })
 
       -- Configure neodev for better Lua development (before lspconfig setup)
-      require("neodev").setup()
+      require("neodev").setup({
+        library = {
+          enabled = true,
+          runtime = true,
+          types = true,
+          plugins = true,
+        },
+      })
 
       -- Set up completion capabilities
       local lspconfig = require("lspconfig")
@@ -121,9 +138,9 @@ return {
           ["lua_ls"] = function()
             lspconfig.lua_ls.setup({
               capabilities = capabilities,
-              -- Prevent runtime file scanning
+              -- Prevent runtime file scanning for wezterm files
               before_init = function(params, config)
-                -- Redirect workspace to a temp directory for wezterm files
+                -- Redirect workspace to a temp directory for wezterm files only
                 if params.rootUri and params.rootUri:match("wezterm%.lua$") then
                   -- Create a temporary directory structure just for this file
                   local tmp_dir = vim.fn.stdpath("cache") .. "/wezterm_lsp"
@@ -140,20 +157,28 @@ return {
               settings = {
                 Lua = {
                   runtime = { version = "LuaJIT" },
-                  diagnostics = { globals = { "vim", "wezterm" } },
+                  diagnostics = {
+                    -- Only add wezterm for wezterm files, vim is handled by neodev
+                    globals = { "vim", "wezterm" },
+                  },
                   workspace = {
                     checkThirdParty = false,
-                    -- Use very small limits
-                    maxPreload = 10,
-                    preloadFileSize = 5000,
+                    -- Let neodev handle the library setup for Neovim files
+                    library = {},
+                    -- Use small limits to prevent scanning large directories
+                    maxPreload = 100,
+                    preloadFileSize = 10000,
                   },
                   telemetry = { enable = false },
+                  completion = {
+                    callSnippet = "Replace",
+                  },
                 },
               },
               flags = {
                 debounce_text_changes = 150,
               },
-              -- Focus only on the current file
+              -- Better root directory detection
               root_dir = function(fname)
                 if fname:match("wezterm%.lua$") then
                   return vim.fn.stdpath("cache") .. "/wezterm_lsp"
