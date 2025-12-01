@@ -1,0 +1,50 @@
+ls
+exit
+ls
+exit
+ls
+:q
+exit
+exit
+ls
+exit
+ll
+ls
+z
+exit
+ls
+exit
+ls
+exit
+claude
+exit
+claude
+exit
+claude
+exit
+claude
+clear
+exit
+ll -a
+ll
+ls
+clear
+exit
+nu
+exit
+nu
+exit
+nu
+exit
+nu
+exit
+nu
+clear
+exit
+git status
+git add . 
+git commit -m 'Add more aerospace and nu config<\n><\n>'
+git push origin master
+ls
+clear
+exit

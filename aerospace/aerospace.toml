@@ -1,0 +1,587 @@
+after-startup-command = ['exec-and-forget ~/.config/sketchybar/startup.sh']
+# Notify Sketchybar about workspace change
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+]
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
+# The 'accordion-padding' specifies the size of accordion padding
+# You can set 0 to disable the padding feature
+accordion-padding = 30
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+
+# ============================================================================
+# VISUAL ENHANCEMENTS - Window Animations and Effects
+# ============================================================================
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when focused monitor changes
+# Drop it from your config, if you don't like this behavior
+# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
+# Fallback value (if you omit the key): on-focused-monitor-changed = []
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodness#disable-hide-app
+automatically-unhide-macos-hidden-apps = true
+
+# Workspace 2: Browsers (Monitor 2 if available)
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.duckduckgo.macos.browser'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.openai.atlas'
+run = 'move-node-to-workspace 2'
+
+# Workspace 3: Productivity
+[[on-window-detected]]
+if.app-id = 'notion.id'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Excel'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Word'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Powerpoint'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iWork.Numbers'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.google.Docs'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+# Workspace 4: Communication (floating)
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+# Workspace 5: Thinkorswim
+[[on-window-detected]]
+if.app-id = 'com.install4j.9968-4488-2169-7623.18'
+run = ['layout floating', 'move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-id = 'com.azul.zulu.java'
+run = ['layout floating', 'move-node-to-workspace 5']
+
+# Workspace 6: Apple Apps (original sizes)
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systemsettings'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'
+run = 'move-node-to-workspace 6'
+
+# Workspace 7: Terminals
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'dev.warp.Warp-Stable'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = 'move-node-to-workspace 7'
+
+# Workspace 8: Development (VS Code, Cursor)
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = 'move-node-to-workspace 8'
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace 8'
+
+# Workspace 9: Social Communication
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = ['layout floating', 'move-node-to-workspace 9']
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = ['layout floating', 'move-node-to-workspace 9']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating', 'move-node-to-workspace 9']
+
+# Workspace 11: Mail
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'move-node-to-workspace 11'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = 'move-node-to-workspace 11'
+
+# Apple Apps - floating with original sizes (Workspace 6)
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systemsettings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'p4pzjszx.Maccy'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'layout floating'
+
+# Communication apps - floating rules are now combined with workspace assignment above
+# Social Communication apps - floating rules are now combined with workspace assignment above (lines 174-180)
+
+# Utility apps
+[[on-window-detected]]
+if.app-name-regex-substring = 'camera'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'quicktime'
+run = 'layout floating'
+
+# Possible values: (qwerty|dvorak)
+# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+[key-mapping]
+preset = 'qwerty'
+
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+inner.horizontal = 4
+inner.vertical = 4
+outer.left = 18
+outer.bottom = 18
+outer.top = 18
+outer.right = 18
+
+# 'main' binding mode declaration
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# 'main' binding mode must be always presented
+# Fallback value (if you omit the key): mode.main.binding = {}
+[mode.main.binding]
+
+# All possible keys:
+# - Letters.        a, b, c, ..., z
+# - Numbers.        0, 1, 2, ..., 9
+# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
+# - F-keys.         f1, f2, ..., f20
+# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
+#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
+# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
+#                   keypadMinus, keypadMultiply, keypadPlus
+# - Arrows.         left, down, up, right
+
+# All possible modifiers: cmd, alt, ctrl, shift
+
+# All possible commands: https://nikitabobko.github.io/AeroSpace/commands
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
+# You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
+# alt-enter = '''exec-and-forget osascript -e '
+# tell application "Terminal"
+#     do script
+#     activate
+# end tell'
+# '''
+
+alt-ctrl-shift-f = 'fullscreen'
+alt-ctrl-f = 'layout floating tiling'
+
+alt-shift-left = 'join-with left'
+alt-shift-down = 'join-with down'
+alt-shift-up = 'join-with up'
+alt-shift-right = 'join-with right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# ============================================================================
+# WINDOWS APP KEYBINDS - Per-monitor Windows workspaces
+# ============================================================================
+# Windows workspace W on monitor 1 (main), workspace X on monitor 2 (secondary)
+
+# Keybinds to return to macOS from Windows (only on current monitor's cursor)
+cmd-shift-m = 'workspace 1'  # Return to workspace 1 on current screen
+cmd-shift-d = 'workspace 6'  # Return to Terminals on current screen
+
+# Quick launch Windows App (will open on current workspace)
+cmd-shift-w = 'exec-and-forget open -a /Applications/Windows\ App.app'
+
+# ============================================================================
+# WORKSPACE NAVIGATION - Ergonomic keybinds
+# ============================================================================
+# Alt+1: Move workspace 1 to monitor 1 (main) and workspace 12 to monitor 2 (secondary)
+alt-1 = '''exec-and-forget bash -c '
+# Check if we have 2 monitors
+if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
+    # Move workspace 12 to monitor 2 first
+    aerospace workspace 12 && aerospace move-workspace-to-monitor 2
+fi
+# Move workspace 1 to monitor 1 and focus it
+aerospace workspace 1 && aerospace move-workspace-to-monitor 1
+' '''
+
+# Alt+2: Go to Browsers workspace AND launch Chrome and ChatGPT Atlas if not running
+alt-2 = '''exec-and-forget bash -c '
+aerospace workspace 2
+if ! pgrep -x "Google Chrome" > /dev/null; then
+    open -a "Google Chrome"
+fi
+if ! pgrep -x "ChatGPT Atlas" > /dev/null; then
+    open -a "ChatGPT Atlas"
+fi
+' '''
+
+# Alt+3: Go to Productivity workspace AND launch Notion if not running
+alt-3 = '''exec-and-forget bash -c '
+aerospace workspace 3
+if ! pgrep -x "Notion" > /dev/null; then
+    open -a "Notion"
+fi
+' '''
+
+# Alt+4: Go to Communication workspace AND launch Slack/Teams if not running
+alt-4 = '''exec-and-forget bash -c '
+aerospace workspace 4
+if ! pgrep -x "Slack" > /dev/null; then
+    open -a "Slack"
+fi
+if ! pgrep -x "Microsoft Teams" > /dev/null; then
+    open -a "Microsoft Teams"
+fi
+' '''
+# Alt+5: Go to Thinkorswim workspace AND launch/unhide Thinkorswim
+alt-5 = '''exec-and-forget bash -c '
+aerospace workspace 5
+# Explicitly unhide java-arm/thinkorswim to fix visibility issues
+osascript -e "tell application \"System Events\" to set visible of process \"java-arm\" to true" 2>/dev/null || true
+if ! pgrep -f "thinkorswim" > /dev/null; then
+    open -a "/Applications/thinkorswim/thinkorswim.app"
+fi
+' '''
+# Alt+Q: Go to Apple Apps workspace AND launch Finder and Settings if not running
+alt-q = '''exec-and-forget bash -c '
+aerospace workspace 6
+if ! pgrep -x "Finder" > /dev/null; then
+    open -a "Finder"
+fi
+if ! pgrep -x "System Settings" > /dev/null; then
+    open -a "System Settings"
+fi
+' '''
+
+# Alt+W: Go to Terminals workspace AND launch WezTerm if not running
+alt-w = '''exec-and-forget bash -c '
+aerospace workspace 7
+if ! pgrep -x "WezTerm" > /dev/null; then
+    open -a "WezTerm"
+fi
+' '''
+
+# Alt+E: Go to Development workspace AND launch Cursor if not running
+alt-e = '''exec-and-forget bash -c '
+aerospace workspace 8
+if ! pgrep -x "Cursor" > /dev/null; then
+    open -a "Cursor"
+fi
+' '''
+
+# Alt+R: Go to Social workspace AND launch WhatsApp if not running (on monitor 1)
+alt-r = '''exec-and-forget bash -c '
+aerospace workspace 9
+if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
+    aerospace move-workspace-to-monitor 1
+fi
+if ! pgrep -f "WhatsApp.app/Contents/MacOS/WhatsApp" > /dev/null; then
+    open -a "WhatsApp"
+fi
+' '''
+
+# Alt+T: Windows App on monitor 1 (main)
+alt-t = '''exec-and-forget bash -c '
+aerospace workspace 10
+if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
+    aerospace move-workspace-to-monitor 1
+fi
+if ! pgrep -x "Windows App" > /dev/null; then
+    open -a "Windows App"
+fi
+' '''
+
+# Alt+M: Go to Mail workspace AND launch Outlook if not running
+alt-m = '''exec-and-forget bash -c '
+aerospace workspace 11
+if ! pgrep -x "Microsoft Outlook" > /dev/null; then
+    open -a "Microsoft Outlook"
+fi
+' '''
+
+alt-y = 'workspace 12'  # Workspace 12 (secondary monitor background)
+
+# Alt+`: Windows App on monitor 2 (secondary)
+alt-backtick = '''exec-and-forget bash -c '
+aerospace workspace 13
+if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
+    aerospace move-workspace-to-monitor 2
+fi
+if ! pgrep -x "Windows App" > /dev/null; then
+    open -a "Windows App"
+fi
+' '''
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+alt-shift-q = 'move-node-to-workspace 6 --focus-follows-window'
+alt-shift-w = 'move-node-to-workspace 7 --focus-follows-window'
+alt-shift-e = 'move-node-to-workspace 8 --focus-follows-window'
+alt-shift-r = 'move-node-to-workspace 9 --focus-follows-window'
+alt-shift-t = 'move-node-to-workspace 10 --focus-follows-window'
+alt-shift-m = 'move-node-to-workspace 11 --focus-follows-window'
+alt-shift-y = 'move-node-to-workspace 12 --focus-follows-window'
+alt-shift-backtick = 'move-node-to-workspace 13 --focus-follows-window'
+
+alt-tab = 'workspace-back-and-forth'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+alt-shift-semicolon = 'mode service'
+alt-shift-enter = 'mode apps'
+
+
+# Tmux session manager (prefer Ghostty, fallback to WezTerm)
+cmd-shift-t = '''exec-and-forget osascript -e '
+set terminalApp to ""
+try
+    tell application "Finder"
+        if exists application file "Ghostty" of folder "Applications" of startup disk then
+            set terminalApp to "Ghostty"
+        else
+            set terminalApp to "WezTerm"
+        end if
+    end tell25
+on error
+    set terminalApp to "WezTerm"
+end try
+
+if terminalApp is "Ghostty" then
+    tell application "Ghostty"
+        activate
+        delay 0.3
+        tell application "System Events"
+            tell process "Ghostty"
+                keystroke "~/.config/scripts/tmux-session-selector.sh"
+                keystroke return
+            end tell
+        end tell
+    end tell
+else
+    tell application "WezTerm"
+        activate
+        set newWindow to (create window with default profile)
+        tell newWindow
+            tell active session
+                write text "~/.config/scripts/tmux-session-selector.sh"
+            end tell
+        end tell
+    end tell
+end if' '''
+
+
+# 'service' binding mode declaration.
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = [
+  'layout floating tiling',
+  'mode main',
+] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
+
+[mode.apps.binding]
+# Browsers (workspace 2)
+a = ['exec-and-forget open -a /Applications/Arc.app', 'mode main']
+h = ['exec-and-forget open -a /Applications/Google\ Chrome.app', 'mode main']
+b = ['exec-and-forget open -a /Applications/Brave\ Browser.app', 'mode main']
+s = ['exec-and-forget open -a /Applications/Safari.app', 'mode main']
+
+# Development (workspace 2)
+v = ['exec-and-forget open -a /Applications/Visual\ Studio\ Code.app', 'mode main']
+c = ['exec-and-forget open -a /Applications/Cursor.app', 'mode main']
+
+# Communication (workspace 3)
+d = ['exec-and-forget open -a /Applications/Discord.app', 'mode main']
+q = ['exec-and-forget open -a /Applications/WhatsApp.app', 'mode main']
+
+# Terminals (workspace 4)
+w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
+g = ['exec-and-forget open -a /Applications/Ghostty.app', 'mode main']
+r = ['exec-and-forget open -a /Applications/Warp.app', 'mode main']
+
+# Productivity (workspace 5)
+o = ['exec-and-forget open -a /Applications/Obsidian.app', 'mode main']
+n = ['exec-and-forget open -a /Applications/Notion.app', 'mode main']
+
+# Media (workspace 6)
+p = ['exec-and-forget open -a /Applications/Spotify.app', 'mode main']
+
+# Microsoft Office (workspace 7)
+e = ['exec-and-forget open -a /Applications/Microsoft\ Excel.app', 'mode main']
+shift-p = ['exec-and-forget open -a /Applications/Microsoft\ PowerPoint.app', 'mode main']
+shift-o = ['exec-and-forget open -a /Applications/Microsoft\ Word.app', 'mode main']
+
+# Work Apps (workspace 8)
+t = ['exec-and-forget bash -c "open -a /Applications/thinkorswim/thinkorswim.app && sleep 1 && osascript -e \\"tell application \\\\\\"System Events\\\\\\" to set visible of process \\\\\\"java-arm\\\\\\" to true\\" 2>/dev/null || true"', 'mode main']
+shift-t = ['exec-and-forget open -a /Applications/Microsoft\ Teams.app', 'mode main']
+l = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
+z = ['exec-and-forget open -a /Applications/zoom.us.app', 'mode main']
+m = ['exec-and-forget open -a /Applications/Microsoft\ Outlook.app', 'mode main']
+
+# Windows Environment (workspaces 10 and 13)
+shift-w = ['exec-and-forget open -a /Applications/Windows\ App.app', 'mode main']
+
+esc = 'mode main'
+
+# ============================================================================
+# MONITOR ASSIGNMENTS
+# ============================================================================
+# Workspace-to-monitor assignments for dual monitor setup
+
+[workspace-to-monitor-force-assignment]
+# Workspace 2 - Browsers always on Monitor 2 (secondary/external) if available
+2 = ['secondary', 'main']
+
+# Workspace 5 - Thinkorswim on Monitor 2 if available, otherwise Monitor 1
+5 = ['secondary', 'main']
+
+# All other workspaces are FREE to appear on either monitor
+# They will appear on whichever monitor currently has focus when you switch to them
+# Use Alt+Shift+Tab to move a workspace between monitors

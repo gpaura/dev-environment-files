@@ -1,0 +1,155 @@
+# lf configuration for VS Code-like sidebar
+# Terminal file manager optimized for narrow panes
+
+# Basic settings
+set hidden true
+set ignorecase true
+set icons true
+set info size
+set dircounts true
+set tabstop 2
+set scrolloff 5
+set period 1
+set findlen 2
+set incsearch true
+
+# UI settings for narrow sidebar
+set ratios 1:2
+set preview false
+set drawbox true
+set borderfmt "\033[36m"
+
+# Colors and appearance
+set promptfmt "\033[32m%u@%h\033[0m:\033[34m%w\033[0m"
+
+# Key mappings optimized for development workflow
+map <enter> open
+map <tab> toggle
+map <space> mark-save
+map <esc> clear
+
+# Navigation
+map h updir
+map l open
+map j down
+map k up
+map gg top
+map G bottom
+map <c-u> half-up
+map <c-d> half-down
+
+# File operations
+map d delete
+map y copy
+map p paste
+map c cut
+map r rename
+map m mkdir
+map t touch
+map x extract
+
+# Development-specific shortcuts
+map gd cd ~/dev
+map gc cd ~/.config
+map gh cd ~
+map gt cd /tmp
+map gw cd ~/workspace
+
+# Quick file creation for development
+map nf push :touch<space>
+map nd push :mkdir<space>
+map nr push :rename<space>
+
+# Integration with external tools
+map e $nvim "$f"
+map E $code "$f"
+map o $open "$f"
+map i $file "$f" | less
+
+# Git integration
+map gs $git status
+map gl $git log --oneline -10
+map gd $git diff
+
+# Search and find
+map f find
+map F find-back
+map / search
+map ? search-back
+map n search-next
+map N search-prev
+
+# Bookmarks
+map b mark-load
+map B mark-save
+
+# Archive extraction
+cmd extract ${{
+    case "$f" in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$f";;
+        *.tar.gz|*.tgz) tar xzvf "$f";;
+        *.tar.xz|*.txz) tar xJvf "$f";;
+        *.zip) unzip "$f";;
+        *.rar) unrar x "$f";;
+        *.7z) 7z x "$f";;
+        *) echo "Unsupported format";;
+    esac
+}}
+
+# Open with default application
+cmd open ${{
+    case $(file --mime-type "$f" -b) in
+        text/*) $EDITOR "$f";;
+        image/*) open "$f";;
+        application/pdf) open "$f";;
+        *) open "$f";;
+    esac
+}}
+
+# Create new file with template
+cmd touch ${{
+    printf "File name: "
+    read name
+    touch "$name"
+    lf -remote "send $id select '$name'"
+}}
+
+# Create new directory
+cmd mkdir ${{
+    printf "Directory name: "
+    read name
+    mkdir -p "$name"
+    lf -remote "send $id select '$name'"
+}}
+
+# Rename file/directory
+cmd rename ${{
+    printf "New name: "
+    read name
+    mv "$f" "$name"
+    lf -remote "send $id select '$name'"
+}}
+
+# Quick project navigation
+cmd project ${{
+    cd ~/dev
+    lf -remote "send $id cd '$(find . -maxdepth 2 -type d | fzf)'"
+}}
+
+# Show file info
+cmd info ${{
+    file "$f"
+    du -sh "$f"
+    ls -la "$f"
+}}
+
+# Custom preview for development files
+cmd preview ${{
+    case "$f" in
+        *.md) glow -p "$f";;
+        *.json) jq . "$f";;
+        *.yaml|*.yml) bat --style=numbers --color=always "$f";;
+        *.js|*.ts|*.py|*.rs|*.go) bat --style=numbers --color=always "$f";;
+        *) file "$f";;
+    esac
+}}

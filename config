@@ -1,0 +1,111 @@
+# Ghostty configuration based on WezTerm config
+
+# Font configuration
+font-family = "JetBrainsMono Nerd Font"
+font-weight = Bold
+font-size = 19
+
+# Window configuration
+window-decoration = false
+background-opacity = 0.75
+background-blur = 10
+
+# Status pink color
+# We'll use this in theme-specific palette settings
+status-pink = "#FF40A3"
+
+# Dark Theme Configuration
+[dark]
+foreground = "#F8F8F2"
+background = "#1A1B26"
+
+cursor-color = "#FF79C6"
+cursor-text = "#282A36"
+
+selection-background = "#44475A"
+selection-foreground = "#F8F8F2"
+
+# ANSI Colors (0-7)
+palette = 0=#414868
+palette = 1=#FF5555
+palette = 2=#50FA7B
+palette = 3=#FF40A3
+palette = 4=#7AA2F7
+palette = 5=#FF79C6
+palette = 6=#8BE9FD
+palette = 7=#ACAAB6
+
+# Bright Colors (8-15)
+palette = 8=#565F89
+palette = 9=#F7768E
+palette = 10=#A9FF68
+palette = 11=#FF66C7
+palette = 12=#BD93F9
+palette = 13=#FC9867
+palette = 14=#78DCE8
+palette = 15=#F8F8F2
+
+# Indexed colors for special highlighting
+palette = 16=#FFB86C
+palette = 17=#FF9E64
+palette = 18=#BB9AF7
+palette = 19=#FC9867
+palette = 20=#FF79C6
+palette = 21=#AB9DF2
+palette = 22=#FF75A0
+palette = 23=#9ECE6A
+palette = 24=#7DCFFF
+palette = 25=#73DACA
+
+# Light Theme Configuration
+[light]
+foreground = "#2D2A2E"
+background = "#FAFAFA"
+
+cursor-color = "#FF2D76"
+cursor-text = "#FFFFFF"
+
+selection-background = "#E0E0E0"
+selection-foreground = "#2D2A2E"
+
+# ANSI Colors (0-7)
+palette = 0=#5A5257
+palette = 1=#FF0F60
+palette = 2=#3D8A0C
+palette = 3=#FF40A3
+palette = 4=#9D50FF
+palette = 5=#FF3388
+palette = 6=#19B3CD
+palette = 7=#F8F8F2
+
+# Bright Colors (8-15)
+palette = 8=#7A686E
+palette = 9=#F5623D
+palette = 10=#4E9F2F
+palette = 11=#FF66C7
+palette = 12=#B77BFF
+palette = 13=#FF66C7
+palette = 14=#58DDEF
+palette = 15=#FFFFFF
+
+# Indexed colors
+palette = 16=#FF9000
+palette = 17=#C49E3F
+palette = 18=#AA7800
+palette = 19=#FF42A1
+palette = 20=#A64DFF
+palette = 21=#8F95A0
+palette = 22=#845AC7
+palette = 23=#097CCD
+palette = 24=#FF6200
+palette = 25=#45C7FF
+
+# To use the light theme by default, uncomment this line:
+# theme = light
+
+# To use the dark theme by default, uncomment this line:
+theme = dark
+
+# Note: To replicate WezTerm's dynamic theme switching, you'll need to modify
+# this file programmatically. You could set up a shell script that reads
+# from ~/.config/wezterm/theme and updates this file accordingly.

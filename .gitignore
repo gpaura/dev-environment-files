@@ -1,0 +1,25 @@
+# Ignore sensitive data and cache directories
+gcloud/logs/
+atuin/.key
+
+# Ignore cache and temporary files
+*/cache/
+*/logs/
+*/tmp/
+__pycache__/
+
+# Ignore oh-my-zsh cache and internal git
+oh-my-zsh/cache/
+oh-my-zsh/log/
+oh-my-zsh/.git/
+
+# Ignore system files
+.DS_Store
+*.swp
+*.swo
+*~
+*.tmp
+*.log
+
+# Ignore specific config that might contain sensitive data
+.local/
