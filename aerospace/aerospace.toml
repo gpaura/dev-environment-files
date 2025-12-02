@@ -232,6 +232,11 @@ run = 'layout floating'
 # Communication apps - floating rules are now combined with workspace assignment above
 # Social Communication apps - floating rules are now combined with workspace assignment above (lines 174-180)
 
+# Media apps
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'layout floating'
+
 # Utility apps
 [[on-window-detected]]
 if.app-name-regex-substring = 'camera'
