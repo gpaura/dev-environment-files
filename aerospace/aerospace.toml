@@ -114,14 +114,28 @@ run = ['layout floating', 'move-node-to-workspace 4']
 if.app-id = 'us.zoom.xos'
 run = ['layout floating', 'move-node-to-workspace 4']
 
-# Workspace 5: Thinkorswim
+# Workspace 5: Thinkorswim - COMPLETELY IGNORED by Aerospace
+# Aerospace will not manage these windows at all (no tiling, no moving, no resizing)
 [[on-window-detected]]
 if.app-id = 'com.install4j.9968-4488-2169-7623.18'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = []
+check-further-callbacks = false
 
 [[on-window-detected]]
 if.app-id = 'com.azul.zulu.java'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = []
+check-further-callbacks = false
+
+# Also ignore by process name
+[[on-window-detected]]
+if.app-name-regex-substring = 'java-arm'
+run = []
+check-further-callbacks = false
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'thinkorswim'
+run = []
+check-further-callbacks = false
 
 # Workspace 6: Apple Apps (original sizes)
 [[on-window-detected]]
