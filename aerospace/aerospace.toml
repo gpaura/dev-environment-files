@@ -43,6 +43,34 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Also see: https://nikitabobko.github.io/AeroSpace/goodness#disable-hide-app
 automatically-unhide-macos-hidden-apps = true
 
+# Zoom Meeting Window
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+if.window-title-regex-substring = 'Zoom Meeting'
+run = [
+  'layout floating',
+  'move-node-to-workspace 14',
+  'workspace 14',
+  '''exec-and-forget bash -c '
+    sleep 0.5
+    osascript -e "tell application \"zoom.us\" to activate"
+  ' '''
+]
+
+# Zoom Main Window (Zoom Workplace)
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+if.window-title-regex-substring = 'Zoom Workplace'
+run = [
+  'layout floating',
+  'move-node-to-workspace 14',
+  'workspace 14',
+  '''exec-and-forget bash -c '
+    sleep 0.1
+    open -a "zoom.us"
+  ' '''
+]
+
 # Workspace 2: Browsers (Monitor 2 if available)
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
@@ -104,38 +132,82 @@ run = ['layout floating', 'move-node-to-workspace 3']
 # Workspace 4: Communication (floating)
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['layout floating', 'move-node-to-workspace 4']
+run = [
+  'layout floating',
+  'move-node-to-workspace 4',
+  'workspace 4', # Switch to workspace 4 to avoid "vanishing"
+  '''exec-and-forget bash -c '
+    sleep 0.1
+    open -a "Slack"
+  ' '''
+]
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
-run = ['layout floating', 'move-node-to-workspace 4']
+run = [
+  'layout floating',
+  'move-node-to-workspace 4',
+  'workspace 4', # Switch to workspace 4 to avoid "vanishing"
+  '''exec-and-forget bash -c '
+    sleep 0.1
+    open -a "Microsoft Teams"
+  ' '''
+]
 
-[[on-window-detected]]
-if.app-id = 'us.zoom.xos'
-run = ['layout floating', 'move-node-to-workspace 4']
 
-# Workspace 5: Thinkorswim - Move to workspace 5 with floating layout
+
+
+
+# Workspace 5: Thinkorswim & Java Apps
+# Consolidate all Thinkorswim/Java detection to ensure visibility fix
 [[on-window-detected]]
 if.app-id = 'com.install4j.9968-4488-2169-7623.18'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = [
+  'layout floating',
+  'move-node-to-workspace 5',
+  # Fix "disappearing window" bug by forcing visibility
+  'exec-and-forget osascript -e "tell application \"System Events\" to set visible of process \"java-arm\" to true"'
+]
 
 [[on-window-detected]]
 if.app-id = 'com.azul.zulu.java'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = [
+  'layout floating',
+  'move-node-to-workspace 5',
+  'exec-and-forget osascript -e "tell application \"System Events\" to set visible of process \"java-arm\" to true"'
+]
 
-# Also catch by process name
+# Catch by process name (java-arm)
 [[on-window-detected]]
 if.app-name-regex-substring = 'java-arm'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = [
+  'layout floating',
+  'move-node-to-workspace 5',
+  'exec-and-forget osascript -e "tell application \"System Events\" to set visible of process \"java-arm\" to true"'
+]
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'thinkorswim'
-run = ['layout floating', 'move-node-to-workspace 5']
+run = [
+  'layout floating',
+  'move-node-to-workspace 5',
+  'exec-and-forget osascript -e "tell application \"System Events\" to set visible of process \"thinkorswim\" to true"'
+]
 
 # Workspace 6: Apple Apps (floating with original sizes)
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
-run = ['layout floating', 'move-node-to-workspace 6']
+run = [
+  'layout floating',
+  'move-node-to-workspace 6',
+  'workspace 6',
+  # Force focus and set CENTERED bounds for Retina Display (1800x1169)
+  # Window Size: 1620x1016 -> Centered at {90, 76}
+  '''exec-and-forget bash -c '
+    sleep 0.5
+    osascript -e "tell application \"Finder\" to activate" -e "tell application \"Finder\" to set bounds of its front window to {90, 76, 1710, 1092}"
+  ' '''
+]
 
 [[on-window-detected]]
 if.app-id = 'com.apple.systempreferences'
@@ -180,13 +252,21 @@ if.app-id = 'com.microsoft.VSCode'
 run = 'move-node-to-workspace 8'
 
 [[on-window-detected]]
-if.app-id = 'com.todesktop.230313mzl4w4u92'
+if.app-name-regex-substring = '^Cursor$'
 run = 'move-node-to-workspace 8'
 
 # Workspace 9: Social Communication
 [[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
-run = ['layout floating', 'move-node-to-workspace 9']
+run = [
+  'layout floating',
+  'move-node-to-workspace 9',
+  'workspace 9', # Switch to workspace 9 so the window doesn't "vanish"
+  '''exec-and-forget bash -c '
+    sleep 0.1
+    open -a "WhatsApp"
+  ' '''
+]
 
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
@@ -196,6 +276,40 @@ run = ['layout floating', 'move-node-to-workspace 9']
 if.app-id = 'com.apple.MobileSMS'
 run = ['layout floating', 'move-node-to-workspace 9']
 
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = [
+  'layout floating',
+  'move-node-to-workspace 9',
+  'workspace 9',
+  '''exec-and-forget bash -c '
+    sleep 0.5
+    osascript -e "tell application \"System Events\" to tell process \"Spotify\"
+        set position of window 1 to {244, 190}
+        set size of window 1 to {1313, 789}
+        set visible to true
+    end tell"
+    open -a Spotify
+  ' '''
+]
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = [
+  'layout floating',
+  'move-node-to-workspace 9',
+  'workspace 9',
+  '''exec-and-forget bash -c '
+    sleep 0.5
+    osascript -e "tell application \"System Events\" to tell process \"Music\"
+        set position of window 1 to {244, 190}
+        set size of window 1 to {1313, 789}
+        set visible to true
+    end tell"
+    open -a Music
+  ' '''
+]
+
 # Workspace 11: Mail
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
@@ -203,16 +317,22 @@ run = 'move-node-to-workspace 11'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
-run = 'move-node-to-workspace 11'
+run = [
+  'layout floating',
+  'move-node-to-workspace 11',
+  'workspace 11',
+  # Force focus and set bounds to user-confirmed values
+  '''exec-and-forget bash -c '
+    sleep 1.0
+    osascript -e "tell application \\"Microsoft Outlook\\" to activate" -e "tell application \\"Microsoft Outlook\\" to set bounds of its front window to {90, 76, 1710, 1092}"
+  ' '''
+]
 
 [[on-window-detected]]
 if.app-id = 'p4pzjszx.Maccy'
 run = 'layout floating'
 
-# Workspace 10: Media apps
-[[on-window-detected]]
-if.app-id = 'com.spotify.client'
-run = ['layout floating', 'move-node-to-workspace 10']
+
 
 # Utility apps
 [[on-window-detected]]
@@ -409,17 +529,24 @@ aerospace workspace 10
 if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
     aerospace move-workspace-to-monitor 1
 fi
-if ! pgrep -x "Windows App" > /dev/null; then
-    open -a "Windows App"
-fi
+# Always force focus Windows App (VM)
+sleep 0.1
+open -a "Windows App"
+' '''
+
+# Alt+Z: Go to Zoom workspace AND launch Zoom if not running
+alt-z = '''exec-and-forget bash -c '
+aerospace workspace 14
+open -a "zoom.us"
 ' '''
 
 # Alt+M: Go to Mail workspace AND launch Outlook if not running
 alt-m = '''exec-and-forget bash -c '
 aerospace workspace 11
-if ! pgrep -x "Microsoft Outlook" > /dev/null; then
-    open -a "Microsoft Outlook"
-fi
+sleep 0.5
+osascript -e "tell application \"System Events\" to set visible of process \"Microsoft Outlook\" to true"
+osascript -e "tell application \"Microsoft Outlook\" to activate"
+osascript -e "tell application \"Microsoft Outlook\" to set bounds of its front window to {90, 76, 1710, 1092}"
 ' '''
 
 alt-y = 'workspace 12'  # Workspace 12 (secondary monitor background)
@@ -430,9 +557,9 @@ aerospace workspace 13
 if [ $(aerospace list-monitors | wc -l) -eq 2 ]; then
     aerospace move-workspace-to-monitor 2
 fi
-if ! pgrep -x "Windows App" > /dev/null; then
-    open -a "Windows App"
-fi
+# Always force focus Windows App (VM) on secondary monitor
+sleep 0.1
+open -a "Windows App"
 ' '''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -449,6 +576,7 @@ alt-shift-t = 'move-node-to-workspace 10 --focus-follows-window'
 alt-shift-m = 'move-node-to-workspace 11 --focus-follows-window'
 alt-shift-y = 'move-node-to-workspace 12 --focus-follows-window'
 alt-shift-backtick = 'move-node-to-workspace 13 --focus-follows-window'
+alt-shift-z = 'move-node-to-workspace 14 --focus-follows-window'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
@@ -544,7 +672,7 @@ shift-o = ['exec-and-forget open -a /Applications/Microsoft\ Word.app', 'mode ma
 t = ['exec-and-forget bash -c "open -a /Applications/thinkorswim/thinkorswim.app && sleep 1 && osascript -e \\"tell application \\\\\\"System Events\\\\\\" to set visible of process \\\\\\"java-arm\\\\\\" to true\\" 2>/dev/null || true"', 'mode main']
 shift-t = ['exec-and-forget open -a /Applications/Microsoft\ Teams.app', 'mode main']
 l = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
-z = ['exec-and-forget open -a /Applications/zoom.us.app', 'mode main']
+z = ['workspace 14', 'exec-and-forget open -a /Applications/zoom.us.app', 'mode main']
 m = ['exec-and-forget open -a /Applications/Microsoft\ Outlook.app', 'mode main']
 
 # Windows Environment (workspaces 10 and 13)
