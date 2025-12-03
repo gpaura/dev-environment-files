@@ -114,53 +114,48 @@ run = ['layout floating', 'move-node-to-workspace 4']
 if.app-id = 'us.zoom.xos'
 run = ['layout floating', 'move-node-to-workspace 4']
 
-# Workspace 5: Thinkorswim - COMPLETELY IGNORED by Aerospace
-# Aerospace will not manage these windows at all (no tiling, no moving, no resizing)
+# Workspace 5: Thinkorswim - Move to workspace 5 with floating layout
 [[on-window-detected]]
 if.app-id = 'com.install4j.9968-4488-2169-7623.18'
-run = []
-check-further-callbacks = false
+run = ['layout floating', 'move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id = 'com.azul.zulu.java'
-run = []
-check-further-callbacks = false
+run = ['layout floating', 'move-node-to-workspace 5']
 
-# Also ignore by process name
+# Also catch by process name
 [[on-window-detected]]
 if.app-name-regex-substring = 'java-arm'
-run = []
-check-further-callbacks = false
+run = ['layout floating', 'move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'thinkorswim'
-run = []
-check-further-callbacks = false
+run = ['layout floating', 'move-node-to-workspace 5']
 
-# Workspace 6: Apple Apps (original sizes)
+# Workspace 6: Apple Apps (floating with original sizes)
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.systempreferences'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.systemsettings'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.calculator'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.AppStore'
-run = 'move-node-to-workspace 6'
+run = ['layout floating', 'move-node-to-workspace 6']
 
 # Workspace 7: Terminals
 [[on-window-detected]]
@@ -210,46 +205,14 @@ run = 'move-node-to-workspace 11'
 if.app-id = 'com.microsoft.Outlook'
 run = 'move-node-to-workspace 11'
 
-# Apple Apps - floating with original sizes (Workspace 6)
-[[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.systempreferences'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.systemsettings'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.ActivityMonitor'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.calculator'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.AppStore'
-run = 'layout floating'
-
 [[on-window-detected]]
 if.app-id = 'p4pzjszx.Maccy'
 run = 'layout floating'
 
-[[on-window-detected]]
-if.app-id = 'com.apple.MobileSMS'
-run = 'layout floating'
-
-# Communication apps - floating rules are now combined with workspace assignment above
-# Social Communication apps - floating rules are now combined with workspace assignment above (lines 174-180)
-
-# Media apps
+# Workspace 10: Media apps
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = 'layout floating'
+run = ['layout floating', 'move-node-to-workspace 10']
 
 # Utility apps
 [[on-window-detected]]
@@ -505,7 +468,7 @@ try
         else
             set terminalApp to "WezTerm"
         end if
-    end tell25
+    end tell
 on error
     set terminalApp to "WezTerm"
 end try

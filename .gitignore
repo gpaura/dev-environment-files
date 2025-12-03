@@ -13,6 +13,24 @@ oh-my-zsh/cache/
 oh-my-zsh/log/
 oh-my-zsh/.git/
 
+# Ignore zsh completion cache and sessions
+zsh/.zcompdump*
+zsh/.zsh_sessions/
+
+# Ignore nushell history
+nushell/history.txt
+
+# Ignore gcloud machine-specific files
+gcloud/.metricsUUID
+gcloud/.last_*
+gcloud/config_sentinel
+gcloud/*.db
+gcloud/gce
+
+# Ignore installation receipts and update notifiers
+atuin/atuin-receipt.json
+configstore/
+
 # Ignore system files
 .DS_Store
 *.swp
