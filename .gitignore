@@ -23,3 +23,7 @@ oh-my-zsh/.git/
 
 # Ignore specific config that might contain sensitive data
 .local/
+
+# Random files
+
+Customers\ 1000.csv
