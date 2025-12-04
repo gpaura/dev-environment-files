@@ -34,8 +34,13 @@ fi
 
 # Kill existing session if it exists
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-    echo -e "${YELLOW}🔄 Session '$SESSION_NAME' exists. Attaching...${NC}"
-    exec tmux attach-session -t "$SESSION_NAME"
+    echo -e "${YELLOW}🔄 Session '$SESSION_NAME' exists. Switching...${NC}"
+    if [ -n "$TMUX" ]; then
+        tmux switch-client -t "$SESSION_NAME"
+    else
+        exec tmux attach-session -t "$SESSION_NAME"
+    fi
+    exit 0
 fi
 
 # Create new session
@@ -48,11 +53,11 @@ tmux rename-window -t "$SESSION_NAME" "dev"
 # Create the VS Code-like layout
 echo -e "${BLUE}🏗️  Building layout...${NC}"
 
-# Split vertically (sidebar | main area) - 25% left, 75% right
-tmux split-window -t "$SESSION_NAME:dev" -h -p 75 -c "$TARGET_DIR"
+# Split vertically (sidebar | main area) - 33% left, 67% right
+tmux split-window -t "$SESSION_NAME:dev" -h -p 66 -c "$TARGET_DIR"
 
-# Split the right pane horizontally (code area | terminal) - 70% top, 30% bottom
-tmux split-window -t "$SESSION_NAME:dev.right" -v -p 30 -c "$TARGET_DIR"
+# Split the right pane horizontally (code area | terminal) - 50% top, 50% bottom
+tmux split-window -t "$SESSION_NAME:dev.1" -v -p 50 -c "$TARGET_DIR"
 
 # Store pane IDs for reliable targeting
 PANE_FILES=$(tmux list-panes -t "$SESSION_NAME:dev" -F "#{pane_index}" | head -1)
@@ -115,9 +120,9 @@ fi
 
 echo -e "\n${GREEN}✅ VS Code-like tmux layout ready!${NC}"
 echo -e "\n${BLUE}Layout Overview:${NC}"
-echo -e "${GREEN}├── Left pane (25%):${NC} File browser (lf/ranger/tree)"
-echo -e "${GREEN}├── Top-right (52.5%):${NC} Code editor area"
-echo -e "${GREEN}└── Bottom-right (22.5%):${NC} Terminal commands"
+echo -e "${GREEN}├── Left pane (33%):${NC} File browser (lf/ranger/tree)"
+echo -e "${GREEN}├── Top-right (33%):${NC} Code editor area"
+echo -e "${GREEN}└── Bottom-right (33%):${NC} Terminal commands"
 
 echo -e "\n${BLUE}Navigation:${NC}"
 echo -e "${GREEN}• Ctrl+Q + h/j/k/l:${NC} Navigate panes"
@@ -138,4 +143,8 @@ echo -e "${GREEN}• Kill:${NC} tmux kill-session -t $SESSION_NAME"
 echo -e "\n${YELLOW}💡 Pro tip: Layout saved as '$LAYOUT_NAME' for future use!${NC}"
 
 # Attach to the session
-exec tmux attach-session -t "$SESSION_NAME"
+if [ -n "$TMUX" ]; then
+    tmux switch-client -t "$SESSION_NAME"
+else
+    exec tmux attach-session -t "$SESSION_NAME"
+fi

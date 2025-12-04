@@ -53,7 +53,7 @@ Some applications are forced to specific workspaces or layouts (Floating vs Tili
 | `Alt+,` | Toggle layout (Accordion) |
 | `Alt+Ctrl+F` | Toggle Floating / Tiling for current window |
 | `Alt+Ctrl+Shift+F` | Toggle Fullscreen |
-| `Cmd+Shift+T` | **Tmux Session Manager** (Launches via Ghostty/WezTerm) |
+| `Cmd+Shift+J` | **Tmux Session Manager** (Launches via Ghostty/WezTerm) |
 
 ### Vim-Style Navigation
 *   **Focus**: `Alt + h/j/k/l` (Left, Down, Up, Right)

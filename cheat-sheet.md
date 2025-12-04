@@ -376,18 +376,23 @@ A comprehensive reference for all your custom keybindings and shortcuts across t
 | `Cmd+Shift+W` | Close current pane |
 | `Cmd+Option+←/→/↑/↓` | Navigate between panes |
 | `Cmd+Shift+Z` | Toggle pane zoom |
+| `Cmd+Shift+L` | Launch Native VS Code-like layout |
+| `Cmd+Shift+J` | Launch Tmux VS Code-like layout |
 
 #### **🏗️ VS Code-Like Layout Automation**
 
-| Key | Action |
-|-----|--------|
-| `Cmd+Shift+L` | Launch VS Code-like WezTerm layout |
-| `Cmd+Shift+T` | Launch tmux VS Code-like layout |
+These shortcuts create a 3-pane setup similar to VS Code:
+1. **Left Pane (25%)**: File explorer/navigation
+   - Uses **`lf`** (recommended), `ranger`, or `tree`
+2. **Top-Right Pane**: Main code editor area
+3. **Bottom-Right Pane**: Terminal/console
 
-> **Note**: These create a 3-pane setup similar to VS Code:
-> - **Left**: File explorer/navigation
-> - **Center**: Main editor
-> - **Bottom**: Terminal/console
+| Key | Method | Pros |
+|-----|--------|------|
+| `Cmd+Shift+L` | **Native WezTerm** | Simple, no dependencies, fast |
+| `Cmd+Shift+J` | **Tmux Script** | **Persistent session**, detach/reattach support |
+
+> **Note**: Ensure `lf` is installed (`brew install lf`) for the best file browsing experience.
 
 #### **Font & Display**
 
@@ -396,7 +401,7 @@ A comprehensive reference for all your custom keybindings and shortcuts across t
 | `Cmd++` | Increase font size |
 | `Cmd+-` | Decrease font size |
 | `Cmd+0` | Reset font size |
-| `Cmd+Shift+T` | Toggle always on top |
+| `Cmd+Shift+O` | Toggle always on top |
 
 #### **Search & Navigation**
 

@@ -1149,21 +1149,29 @@ config.keys = {
     end),
   },
 
-  -- Command+Shift+T - Launch tmux VS Code-like layout
+  -- Command+Shift+J - Launch tmux VS Code-like layout
   {
-    key = 't',
+    key = 'j',
     mods = 'CMD|SHIFT',
     action = wezterm.action_callback(function(window, pane)
+      wezterm.log_info("Triggered tmux layout via Cmd+Shift+J")
       -- Get current working directory
       local cwd = pane:get_current_working_dir()
       local path = cwd and cwd.file_path or os.getenv("HOME")
+      -- Clean path (remove file:// prefix if present)
+      if path then path = path:gsub("^file://", "") end
 
       -- Run the tmux dev layout script in the current pane
       local script_path = os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh"
-      pane:send_text("bash " .. script_path .. " dev '" .. path .. "'\n")
+      
+      -- Use folder name as session name (sanitize it)
+      local project_name = path == "/" and "root" or path:match("([^/]+)$") or "dev"
+      project_name = "vscode-" .. project_name:gsub("[^%w_-]", "_")
+      
+      pane:send_text("bash " .. script_path .. " " .. project_name .. " '" .. path .. "'\n")
 
       -- Show notification
-      window:toast_notification('WezTerm', 'Starting tmux VS Code layout! 🚀', nil, 2000)
+      window:toast_notification('WezTerm', 'Starting tmux VS Code layout for ' .. project_name .. ' 🚀', nil, 2000)
     end),
   },
 }

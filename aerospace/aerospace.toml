@@ -469,12 +469,13 @@ fi
 # Alt+4: Go to Communication workspace AND launch Slack/Teams if not running
 alt-4 = '''exec-and-forget bash -c '
 aerospace workspace 4
-if ! pgrep -x "Slack" > /dev/null; then
-    open -a "Slack"
-fi
-if ! pgrep -x "Microsoft Teams" > /dev/null; then
-    open -a "Microsoft Teams"
-fi
+# Force Slack to appear
+open -a "Slack"
+osascript -e "tell application \"System Events\" to set visible of process \"Slack\" to true" 2>/dev/null || true
+
+# Force Microsoft Teams to appear
+open -a "Microsoft Teams"
+osascript -e "tell application \"System Events\" to set visible of process \"Microsoft Teams\" to true" 2>/dev/null || true
 ' '''
 # Alt+5: Go to Thinkorswim workspace AND launch/unhide Thinkorswim
 alt-5 = '''exec-and-forget bash -c '
@@ -490,9 +491,6 @@ alt-q = '''exec-and-forget bash -c '
 aerospace workspace 6
 if ! pgrep -x "Finder" > /dev/null; then
     open -a "Finder"
-fi
-if ! pgrep -x "System Settings" > /dev/null; then
-    open -a "System Settings"
 fi
 ' '''
 
@@ -607,7 +605,7 @@ if terminalApp is "Ghostty" then
         delay 0.3
         tell application "System Events"
             tell process "Ghostty"
-                keystroke "~/.config/scripts/tmux-session-selector.sh"
+                keystroke "~/.config/scripts/tmux-dev-layout.sh"
                 keystroke return
             end tell
         end tell
@@ -618,7 +616,7 @@ else
         set newWindow to (create window with default profile)
         tell newWindow
             tell active session
-                write text "~/.config/scripts/tmux-session-selector.sh"
+                write text "~/.config/scripts/tmux-dev-layout.sh"
             end tell
         end tell
     end tell
