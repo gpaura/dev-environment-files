@@ -199,7 +199,20 @@ map nd push :mkdir<space>
 map nr push :rename<space>
 
 # Integration with external tools
-map e $nvim "$f"
+map e ${{
+    if [ -n "$TMUX" ]; then
+        # Check if nvim is running in pane 2
+        if tmux display-message -p -t ".2" "#{pane_current_command}" | grep -q "nvim"; then
+            # Send tabnew command to existing nvim
+            tmux send-keys -t ".2" Escape ":tabnew $f" C-m
+        else
+            # Start nvim with the file
+            tmux send-keys -t ".2" "nvim '$f'" C-m
+        fi
+    else
+        nvim "$f"
+    fi
+}}
 map E $code "$f"
 map o $open "$f"
 map i $file "$f" | less
