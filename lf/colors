@@ -1,0 +1,48 @@
+# lf colors file - matching nvim-tree Monokai Pro Octagon palette
+# This uses the same syntax as LS_COLORS
+# Format: filetype color_code
+
+# Directories - Yellow (#FFD866 = 38;5;221) - matching nvim folder icons
+di 38;5;221
+
+# Symlinks - Cyan (#78DCE8 = 38;5;117)
+ln 38;5;117
+
+# Regular files - White (#FCFCFA = 38;5;231)
+fi 38;5;231
+
+# Executables - Green (#A9DC76 = 38;5;113)
+ex 38;5;113
+
+# File extensions matching nvim-web-devicons
+*.js 38;5;221
+*.jsx 38;5;117
+*.ts 38;5;74
+*.tsx 38;5;117
+*.py 38;5;74
+*.go 38;5;80
+*.rs 38;5;166
+*.java 38;5;208
+*.c 38;5;111
+*.cpp 38;5;74
+*.h 38;5;111
+*.hpp 38;5;74
+*.html 38;5;202
+*.css 38;5;38
+*.scss 38;5;168
+*.json 38;5;185
+*.yaml 38;5;124
+*.yml 38;5;124
+*.toml 38;5;166
+*.md 38;5;74
+*.txt 38;5;113
+*.sh 38;5;71
+*.log 38;5;245
+*.pdf 38;5;196
+*.zip 38;5;227
+*.tar 38;5;227
+*.gz 38;5;227
+*.png 38;5;140
+*.jpg 38;5;140
+*.mp4 38;5;208
+*.mp3 38;5;45

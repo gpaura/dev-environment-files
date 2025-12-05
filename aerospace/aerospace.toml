@@ -427,8 +427,7 @@ alt-shift-equal = 'resize smart +50'
 # Windows workspace W on monitor 1 (main), workspace X on monitor 2 (secondary)
 
 # Keybinds to return to macOS from Windows (only on current monitor's cursor)
-cmd-shift-m = 'workspace 1'  # Return to workspace 1 on current screen
-cmd-shift-d = 'workspace 6'  # Return to Terminals on current screen
+# Removed cmd-shift-m and cmd-shift-d (conflicts with terminal keybinds)
 
 # Quick launch Windows App (will open on current workspace)
 cmd-shift-w = 'exec-and-forget open -a /Applications/Windows\ App.app'
@@ -584,7 +583,9 @@ alt-shift-semicolon = 'mode service'
 alt-shift-enter = 'mode apps'
 
 
-# Tmux session manager (prefer Ghostty, fallback to WezTerm)
+# Tmux session manager - Now handled by Wezterm/Ghostty with Cmd+Shift+.
+# Removed Cmd+Shift+J binding (was conflicting with Maccy)
+
 cmd-shift-t = '''exec-and-forget osascript -e '
 set terminalApp to ""
 try

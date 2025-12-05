@@ -4,8 +4,7 @@
 # Basic settings
 set hidden true
 set ignorecase true
-set icons true
-set info size
+set icons true  # Use lf's built-in icons from the icons file
 set dircounts true
 set tabstop 2
 set scrolloff 5
@@ -13,75 +12,85 @@ set period 1
 set findlen 2
 set incsearch true
 
-# UI settings for narrow sidebar
-set ratios 1:2
-set preview false
-set drawbox true
-set borderfmt "\033[36m"
+# UI settings - VS Code sidebar style
+set ratios 1:2        # Two columns: parent and current
+set nopreview         # Disable preview completely
+set drawbox true      # Show borders for column separation
+set info size         # Show file size info
 
-# Colors and appearance
+# Colors and appearance - matching nvim-tree Monokai Pro Octagon palette
 set promptfmt "\033[32m%u@%h\033[0m:\033[34m%w\033[0m"
 
-# Key mappings optimized for development workflow
-map <enter> open
-map <tab> toggle
-map <space> mark-save
-map <esc> clear
+# ============================================================================
+# COMMAND DEFINITIONS (must come before mappings that use them)
+# ============================================================================
 
-# Navigation
-map h updir
-map l open
-map j down
-map k up
-map gg top
-map G bottom
-map <c-u> half-up
-map <c-d> half-down
+# Override the default open command
+cmd open ${{
+    # Debug logging
+    echo "LF OPEN CALLED: $f" >> /tmp/lf-debug.log
+    echo "TMUX ENV: $TMUX" >> /tmp/lf-debug.log
+    date >> /tmp/lf-debug.log
 
-# File operations
-map d delete
-map y copy
-map p paste
-map c cut
-map r rename
-map m mkdir
-map t touch
-map x extract
+    # Check if it's a directory first
+    if [ -d "$f" ]; then
+        # Navigate into directory
+        lf -remote "send $id cd \"$f\""
+        exit 0
+    fi
 
-# Development-specific shortcuts
-map gd cd ~/dev
-map gc cd ~/.config
-map gh cd ~
-map gt cd /tmp
-map gw cd ~/workspace
-
-# Quick file creation for development
-map nf push :touch<space>
-map nd push :mkdir<space>
-map nr push :rename<space>
-
-# Integration with external tools
-map e $nvim "$f"
-map E $code "$f"
-map o $open "$f"
-map i $file "$f" | less
-
-# Git integration
-map gs $git status
-map gl $git log --oneline -10
-map gd $git diff
-
-# Search and find
-map f find
-map F find-back
-map / search
-map ? search-back
-map n search-next
-map N search-prev
-
-# Bookmarks
-map b mark-load
-map B mark-save
+    # If in tmux, send files to nvim in pane 1
+    if [ -n "$TMUX" ]; then
+        echo "In TMUX, processing file" >> /tmp/lf-debug.log
+        # Check if file is binary or should be opened with system default
+        case "$f" in
+            # Images - use system default
+            *.png|*.jpg|*.jpeg|*.gif|*.bmp|*.ico|*.svg|*.webp|*.tiff)
+                echo "Opening image with system default" >> /tmp/lf-debug.log
+                /usr/bin/open "$f"
+                ;;
+            # PDFs - use system default
+            *.pdf)
+                echo "Opening PDF with system default" >> /tmp/lf-debug.log
+                /usr/bin/open "$f"
+                ;;
+            # Videos - use system default
+            *.mp4|*.mkv|*.avi|*.mov|*.wmv|*.flv|*.webm)
+                echo "Opening video with system default" >> /tmp/lf-debug.log
+                /usr/bin/open "$f"
+                ;;
+            # Audio - use system default
+            *.mp3|*.wav|*.flac|*.aac|*.ogg|*.m4a)
+                echo "Opening audio with system default" >> /tmp/lf-debug.log
+                /usr/bin/open "$f"
+                ;;
+            # Archives - use system default
+            *.zip|*.tar|*.gz|*.bz2|*.xz|*.7z|*.rar)
+                echo "Opening archive with system default" >> /tmp/lf-debug.log
+                /usr/bin/open "$f"
+                ;;
+            # Everything else (including ALL text/code files) - open in nvim in pane 1
+            *)
+                echo "Sending to tmux pane 1 for nvim: $f" >> /tmp/lf-debug.log
+                tmux send-keys -t ".1" "nvim '$f'" C-m
+                echo "Command sent" >> /tmp/lf-debug.log
+                ;;
+        esac
+    else
+        echo "Not in TMUX" >> /tmp/lf-debug.log
+        # Not in tmux - open in current terminal
+        case "$f" in
+            # Binary files - use system default
+            *.png|*.jpg|*.jpeg|*.gif|*.bmp|*.ico|*.svg|*.webp|*.tiff|*.pdf|*.mp4|*.mkv|*.avi|*.mov|*.wmv|*.flv|*.webm|*.mp3|*.wav|*.flac|*.aac|*.ogg|*.m4a|*.zip|*.tar|*.gz|*.bz2|*.xz|*.7z|*.rar)
+                /usr/bin/open "$f"
+                ;;
+            # Everything else - open in nvim
+            *)
+                nvim "$f"
+                ;;
+        esac
+    fi
+}}
 
 # Archive extraction
 cmd extract ${{
@@ -93,16 +102,6 @@ cmd extract ${{
         *.rar) unrar x "$f";;
         *.7z) 7z x "$f";;
         *) echo "Unsupported format";;
-    esac
-}}
-
-# Open with default application
-cmd open ${{
-    case $(file --mime-type "$f" -b) in
-        text/*) $EDITOR "$f";;
-        image/*) open "$f";;
-        application/pdf) open "$f";;
-        *) open "$f";;
     esac
 }}
 
@@ -153,3 +152,71 @@ cmd preview ${{
         *) file "$f";;
     esac
 }}
+
+# ============================================================================
+# KEY MAPPINGS
+# ============================================================================
+
+# Key mappings optimized for development workflow
+map <enter> open
+map <tab> toggle
+map <space> mark-save
+map <esc> clear
+
+# Navigation
+map h updir
+map l open
+map j down
+map k up
+map gg top
+map G bottom
+map <c-u> half-up
+map <c-d> half-down
+
+# File operations
+map d delete
+map y copy
+map p paste
+map c cut
+map r rename
+map m mkdir
+map t touch
+map x extract
+
+# Copy file path to clipboard
+map Y $printf '%s' "$fx" | pbcopy  # Copy full path (Shift+y)
+
+# Development-specific shortcuts
+map gd cd ~/dev
+map gc cd ~/.config
+map gh cd ~
+map gt cd /tmp
+map gw cd ~/workspace
+
+# Quick file creation for development
+map nf push :touch<space>
+map nd push :mkdir<space>
+map nr push :rename<space>
+
+# Integration with external tools
+map e $nvim "$f"
+map E $code "$f"
+map o $open "$f"
+map i $file "$f" | less
+
+# Git integration
+map gs $git status
+map gl $git log --oneline -10
+map gD $git diff
+
+# Search and find
+map f find
+map F find-back
+map / search
+map ? search-back
+map n search-next
+map N search-prev
+
+# Bookmarks
+map b mark-load
+map B mark-save

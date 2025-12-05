@@ -64,6 +64,14 @@ custom-shader = shaders/bloom025.glsl
 # Command configuration
 command = zsh --login -c "if command -v tmux >/dev/null 2>&1; then tmux attach || tmux; else zsh; fi"
 
+# ============================================================================
+# KEYBINDINGS
+# ============================================================================
+
+# Command+Shift+G - Launch tmux dev session with VS Code-like layout (G for "Go to dev")
+# Using simplified wrapper script
+keybind = super+shift+g=new_tab:/Users/gabrielpaura/.config/scripts/launch-tmux-dev.sh
+
 # Window padding
 window-padding-x = 4,2
 window-padding-y = 6,0

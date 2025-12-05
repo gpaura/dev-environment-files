@@ -933,7 +933,7 @@ config.keys = {
     action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
 
-  -- Command+Shift+D - Split vertically  
+  -- Command+Shift+D - Split vertically
   {
     key = 'd',
     mods = 'CMD|SHIFT',
@@ -1149,29 +1149,44 @@ config.keys = {
     end),
   },
 
-  -- Command+Shift+J - Launch tmux VS Code-like layout
+  -- Command+Shift+G - Launch tmux dev session (G for "Go to dev")
   {
-    key = 'j',
+    key = 'g',
     mods = 'CMD|SHIFT',
     action = wezterm.action_callback(function(window, pane)
-      wezterm.log_info("Triggered tmux layout via Cmd+Shift+J")
+      wezterm.log_info("Triggered tmux layout via Cmd+Shift+G")
+
       -- Get current working directory
       local cwd = pane:get_current_working_dir()
       local path = cwd and cwd.file_path or os.getenv("HOME")
-      -- Clean path (remove file:// prefix if present)
       if path then path = path:gsub("^file://", "") end
 
-      -- Run the tmux dev layout script in the current pane
-      local script_path = os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh"
-      
-      -- Use folder name as session name (sanitize it)
-      local project_name = path == "/" and "root" or path:match("([^/]+)$") or "dev"
-      project_name = "vscode-" .. project_name:gsub("[^%w_-]", "_")
-      
-      pane:send_text("bash " .. script_path .. " " .. project_name .. " '" .. path .. "'\n")
+      -- Check if we're already in tmux
+      local in_tmux = os.getenv("TMUX") ~= nil
 
-      -- Show notification
-      window:toast_notification('WezTerm', 'Starting tmux VS Code layout for ' .. project_name .. ' 🚀', nil, 2000)
+      -- Check if session "dev" already exists
+      local success, stdout, stderr = wezterm.run_child_process({
+        "tmux", "has-session", "-t", "dev"
+      })
+
+      if in_tmux then
+        -- Already in tmux, switch to dev session
+        if success then
+          pane:send_text("tmux switch-client -t dev\r")
+        else
+          -- Create dev session in background then switch
+          pane:send_text("tmux new-session -d -s dev -c " .. path .. " && tmux switch-client -t dev\r")
+        end
+      else
+        -- Not in tmux, attach or create
+        if success then
+          pane:send_text("tmux attach-session -t dev\r")
+        else
+          pane:send_text(os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh dev " .. path .. "\r")
+        end
+      end
+
+      window:toast_notification('WezTerm', 'Launching tmux "dev" session 🚀', nil, 2000)
     end),
   },
 }

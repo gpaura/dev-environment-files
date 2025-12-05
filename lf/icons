@@ -1,0 +1,335 @@
+# vim:ft=conf
+# Icons matching nvim-web-devicons configuration
+# Nerd Font glyphs - exact match with Neovim file explorer
+
+# Default file type icons
+ln      󰌷       # LINK
+or      󰌸       # ORPHAN
+tw      󱧴       # STICKY_OTHER_WRITABLE
+ow      󰉋       # OTHER_WRITABLE
+st      󱧴       # STICKY
+di      󰉋       # DIR (matches nvim-tree default folder icon)
+pi      |       # FIFO
+so      󰆨       # SOCK
+bd      󰆼       # BLK
+cd      󰆸       # CHR
+su      󰞀       # SETUID
+sg      󰞀       # SETGID
+ex              # EXEC
+fi      󰈚       # FILE (matches nvim-tree default icon)
+
+# ============================================================
+# PROGRAMMING LANGUAGES (matches nvim-web-devicons)
+# ============================================================
+
+# JavaScript Ecosystem
+*.js    󰌞
+*.jsx   󰜈
+*.mjs   󰌞
+*.cjs   󰌞
+
+# TypeScript Ecosystem
+*.ts    󰛦
+*.tsx   󰜈
+
+# Python
+*.py    󰌠
+*.pyc   󰌠
+*.pyo   󰌠
+*.pyd   󰌠
+
+# Go
+*.go    󰟓
+
+# Rust
+*.rs    󱘗
+*.rlib  󱘗
+
+# Java/Kotlin
+*.java  󰬈
+*.class 󰬈
+*.jar   󰬈
+*.kt    󱈙
+
+# C/C++
+*.c     󰙱
+*.cpp   󰙲
+*.c++   󰙲
+*.cc    󰙲
+*.cxx   󰙲
+*.h     󰙱
+*.hpp   󰙲
+*.hh    󰙲
+*.hxx   󰙲
+
+# C#
+*.cs    󰌛
+
+# PHP
+*.php   󰌟
+
+# Ruby
+*.rb    󰴭
+*.rake  󰴭
+*.gemspec 󰴭
+
+# Swift
+*.swift 󰛥
+
+# Lua
+*.lua   󰢱
+
+# Vim
+*.vim
+
+# ============================================================
+# WEB TECHNOLOGIES
+# ============================================================
+
+# HTML
+*.html  󰌝
+*.htm   󰌝
+
+# CSS & Preprocessors
+*.css   󰌜
+*.scss  󰟬
+*.sass  󰟬
+*.less  󰌜
+
+# Frontend Frameworks
+*.vue   󰡄
+*.svelte 󰡄
+*.astro 󱓞
+
+# ============================================================
+# CONFIGURATION & DATA FILES
+# ============================================================
+
+# JSON
+*.json  󰘦
+*.jsonc 󰘦
+*.json5 󰘦
+
+# YAML
+*.yaml  󰈙
+*.yml   󰈙
+
+# TOML
+*.toml  󰈙
+
+# XML
+*.xml   󰗀
+
+# INI
+*.ini   󰈙
+
+# ============================================================
+# DOCUMENTATION
+# ============================================================
+
+# Markdown
+*.md    󰍔
+*.mdx   󰍔
+*.markdown 󰍔
+
+# Text & Documentation
+*.txt   󰈙
+*.pdf   󰈦
+*.doc   󰈬
+*.docx  󰈬
+
+# ============================================================
+# SHELL & SCRIPTS
+# ============================================================
+
+*.sh    󰆍
+*.bash  󰆍
+*.zsh   󰆍
+*.fish  󰈺
+*.nu    󰆍
+*.ps1   󰨊
+
+# ============================================================
+# DATABASES
+# ============================================================
+
+*.sql   󰆼
+*.db    󰆼
+*.sqlite 󰆼
+*.sqlite3 󰆼
+
+# ============================================================
+# MEDIA FILES
+# ============================================================
+
+# Images
+*.png   󰈟
+*.jpg   󰈟
+*.jpeg  󰈟
+*.gif   󰵸
+*.svg   󰜡
+*.ico   󰈟
+*.webp  󰈟
+*.bmp   󰈟
+
+# Video
+*.mp4   󰕧
+*.mkv   󰕧
+*.avi   󰕧
+*.mov   󰕧
+*.webm  󰈫
+
+# Audio
+*.mp3   󰎆
+*.wav   󰎆
+*.flac  󰎆
+
+# ============================================================
+# ARCHIVES
+# ============================================================
+
+*.zip   󰗄
+*.rar   󰗄
+*.7z    󰗄
+*.tar   󰗄
+*.gz    󰗄
+*.bz2   󰗄
+
+# ============================================================
+# LOGS & TEMP FILES
+# ============================================================
+
+*.log   󰌱
+*.tmp   󰯃
+*.bak   󰁯
+*.swp   󰁯
+
+# ============================================================
+# SPECIAL FILE NAMES (exact matches)
+# ============================================================
+
+# Package managers
+package.json 󰎙
+package-lock.json 󰎙
+yarn.lock 󰎙
+pnpm-lock.yaml 󰎙
+cargo.toml 󱘗
+cargo.lock 󱘗
+go.mod  󰟓
+go.sum  󰟓
+requirements.txt 󰌠
+pyproject.toml 󰌠
+setup.py 󰌠
+gemfile 󰴭
+gemfile.lock 󰴭
+pom.xml 󰬈
+build.gradle 󰬈
+
+# Docker
+dockerfile 󰡨
+Dockerfile 󰡨
+.dockerignore 󰡨
+docker-compose.yml 󰡨
+
+# Version Control
+.gitignore 󰊢
+.gitmodules 󰊢
+.gitattributes 󰊢
+.gitconfig 󰊢
+
+# Environment
+.env    󰙪
+.env.local 󰙪
+.env.development 󰙪
+.env.production 󰙪
+.env.example 󰙪
+.envrc  󰙪
+
+# Linters & Formatters
+.editorconfig 󰷐
+.prettierrc 󰬗
+.prettierignore 󰬗
+.eslintrc 󰱺
+.eslintrc.js 󰱺
+.eslintrc.json 󰱺
+.eslintignore 󰱺
+.babelrc 󰨥
+
+# Build tools
+makefile 󱁤
+Makefile 󱁤
+
+# Documentation
+readme  󰍔
+README  󰍔
+readme.md 󰍔
+README.md 󰍔
+license 󰿃
+LICENSE 󰿃
+LICENSE.md 󰿃
+changelog 󰷐
+CHANGELOG 󰷐
+changelog.md 󰷐
+CHANGELOG.md 󰷐
+COPYING 󰿃
+
+# CI/CD
+.gitlab-ci.yml 󰮠
+.travis.yml 󰜫
+jenkinsfile 󰜫
+
+# Shell configs
+.bashrc 󰆍
+.zshrc  󰆍
+.zshenv 󰆍
+.zprofile 󰆍
+.bashprofile 󰆍
+
+# Editor configs
+.vimrc
+.gvimrc
+_vimrc
+_gvimrc
+
+# Misc
+.DS_Store
+
+# ============================================================
+# DIRECTORY NAMES (matches nvim-web-devicons override_by_filename)
+# ============================================================
+
+.github
+node_modules
+.git
+src     󰉋
+test    󰙨
+tests   󰙨
+__tests__ 󰙨
+docs    󰈙
+build   󰏗
+dist    󰏗
+config
+.config
+public  󰉋
+assets  󰉏
+images  󰉏
+img     󰉏
+components 󰡀
+lib     󰫮
+utils   󰘧
+scripts 󰥨
+.cache  󰃨
+.cargo
+.neovim
+.npm
+.nvim
+.vim
+.vscode
+bin
+css
+out
+static
+target
+temp    󰃨
+tmp     󰃨
+vendor

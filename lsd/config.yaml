@@ -1,0 +1,37 @@
+# lsd configuration - Matching nvim-tree Monokai Pro Octagon color scheme
+# This ensures lsd (used by lf) displays files with the same colors as nvim
+
+# Display settings
+classic: false
+blocks:
+  - permission
+  - user
+  - group
+  - size
+  - date
+  - name
+color:
+  when: always
+date: relative
+dereference: false
+icons:
+  when: always
+  theme: fancy
+  separator: " "
+ignore-globs: []
+indicators: false
+layout: oneline
+recursion:
+  enabled: false
+  depth: 2
+size: default
+permission: rwx
+sorting:
+  column: name
+  reverse: false
+  dir-grouping: first
+no-symlink: false
+total-size: false
+symlink-arrow: " ➜ "
+hyperlink: never
+header: false
