@@ -1,9 +1,9 @@
 #!/bin/bash
 # Robust 3-column tmux layout (Index-agnostic)
 # Structure:
-# | Left (18%) | Editor (64%) | Right (18%) |
+# | Left (7%)  | Editor (~75%)| Right (18%) |
 # |            |--------------|             |
-# |            | Term (32%)   |             |
+# |            | Term (20%)   |             |
 
 set -e
 
@@ -46,21 +46,21 @@ PANE_LEFT=$(tmux list-panes -t "$SESSION_NAME" -F "#{pane_id}")
 
 # 2. Split LEFT to create the big area on the right
 # New pane becomes the temporary "Center+Right" area
-# We split -h (horizontal) at 82% width
-PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 82 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# We split -h (horizontal) at 93% width (Left is ~7%)
+PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 85 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # 3. Split that Wrapper to create the Right Sidebar
 # We need the Right Sidebar to be 18% of the TOTAL screen.
-# Since the wrapper is 82% of the screen, we take ~22% of IT.
-PANE_RIGHT=$(tmux split-window -t "$PANE_CENTER_WRAPPER" -h -p 22 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# Since the wrapper is 93% of the screen, we take ~20% of IT.
+PANE_RIGHT=$(tmux split-window -t "$PANE_CENTER_WRAPPER" -h -p 20 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # Now, PANE_CENTER_WRAPPER has shrunk and is actually just the CENTER column.
 # Let's rename the variable for clarity.
 PANE_EDITOR="$PANE_CENTER_WRAPPER"
 
 # 4. Split the Editor to create the Terminal at the bottom
-# Split -v (vertical) at 32% height
-PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 32 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# Split -v (vertical) at 20% height
+PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 15 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # --- Setup Pane Text ---
 # Now we have exact IDs: $PANE_LEFT, $PANE_EDITOR, $PANE_TERMINAL, $PANE_RIGHT
