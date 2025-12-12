@@ -475,7 +475,7 @@ end
 
 -- Font configuration - Make everything bold
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "ExtraBold" })
-config.font_size = 19
+config.font_size = 14
 
 -- NEW: Font rules to ensure ALL text renders as bold, including input/output text
 config.font_rules = {
@@ -1175,7 +1175,7 @@ config.keys = {
           pane:send_text("tmux switch-client -t dev\r")
         else
           -- Create dev session in background then switch
-          pane:send_text("tmux new-session -d -s dev -c " .. path .. " && tmux switch-client -t dev\r")
+          pane:send_text(os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh dev " .. path .. "\r")
         end
       else
         -- Not in tmux, attach or create

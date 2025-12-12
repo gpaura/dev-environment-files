@@ -46,8 +46,8 @@ PANE_LEFT=$(tmux list-panes -t "$SESSION_NAME" -F "#{pane_id}")
 
 # 2. Split LEFT to create the big area on the right
 # New pane becomes the temporary "Center+Right" area
-# We split -h (horizontal) at 93% width (Left is ~7%)
-PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 85 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# We split -h (horizontal) at 88% width (Left is ~12%)
+PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 88 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # 3. Split that Wrapper to create the Right Sidebar
 # We need the Right Sidebar to be 18% of the TOTAL screen.
@@ -59,23 +59,23 @@ PANE_RIGHT=$(tmux split-window -t "$PANE_CENTER_WRAPPER" -h -p 20 -c "$TARGET_DI
 PANE_EDITOR="$PANE_CENTER_WRAPPER"
 
 # 4. Split the Editor to create the Terminal at the bottom
-# Split -v (vertical) at 20% height
-PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 15 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# Split -v (vertical) at 13% height
+PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 13 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # --- Setup Pane Text ---
 # Now we have exact IDs: $PANE_LEFT, $PANE_EDITOR, $PANE_TERMINAL, $PANE_RIGHT
 
-tmux send-keys -t "$PANE_LEFT" "clear; echo '📁 LEFT'" Enter
-tmux select-pane -t "$PANE_LEFT" -T "Left"
+tmux send-keys -t "$PANE_LEFT" "yazi" Enter
+tmux select-pane -t "$PANE_LEFT" -T "Files"
 
-tmux send-keys -t "$PANE_EDITOR" "clear; echo '💻 EDITOR'" Enter
+tmux send-keys -t "$PANE_EDITOR" "nvim" Enter
 tmux select-pane -t "$PANE_EDITOR" -T "Editor"
 
-tmux send-keys -t "$PANE_TERMINAL" "clear; echo '⚡ TERMINAL'" Enter
+tmux send-keys -t "$PANE_TERMINAL" "clear" Enter
 tmux select-pane -t "$PANE_TERMINAL" -T "Terminal"
 
-tmux send-keys -t "$PANE_RIGHT" "clear; echo '📊 RIGHT'" Enter
-tmux select-pane -t "$PANE_RIGHT" -T "Right"
+tmux send-keys -t "$PANE_RIGHT" "claude" Enter
+tmux select-pane -t "$PANE_RIGHT" -T "Claude"
 
 # Final focus on Editor
 tmux select-pane -t "$PANE_EDITOR"

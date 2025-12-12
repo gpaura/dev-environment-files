@@ -244,9 +244,11 @@ for widget in backward-char forward-char up-line-or-history down-line-or-history
               beginning-of-line end-of-line backward-word forward-word; do
     eval "
     ${widget}-and-reset() {
-        reset-selection
+        if [[ \$SELECTION_ACTIVE -eq 1 ]]; then
+            reset-selection
+            zle reset-prompt
+        fi
         zle $widget
-        zle reset-prompt
     }
     zle -N ${widget}-and-reset"
 done
