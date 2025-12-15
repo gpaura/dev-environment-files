@@ -22,10 +22,6 @@ foreground = "#2D2A2E"
 foreground = "#F8F8F2"
 background = "#1A1B26"
 
-# Background transparency (0.0-1.0, where 1.0 is fully opaque)
-background-opacity = 0.85
-window-opacity = 0.85
-
 # Cursor
 cursor-color = "#FF79C6"
 cursor-text = "#282A36"
@@ -64,14 +60,6 @@ custom-shader = shaders/bloom025.glsl
 # Command configuration
 command = zsh --login -c "if command -v tmux >/dev/null 2>&1; then tmux attach || tmux; else zsh; fi"
 
-# ============================================================================
-# KEYBINDINGS
-# ============================================================================
-
-# Command+Shift+G - Launch tmux dev session with VS Code-like layout (G for "Go to dev")
-# Using simplified wrapper script
-keybind = super+shift+g=new_tab:/Users/gabrielpaura/.config/scripts/launch-tmux-dev.sh
-
 # Window padding
 window-padding-x = 4,2
 window-padding-y = 6,0
@@ -81,7 +69,7 @@ window-padding-y = 6,0
 # ============================================================================
 # Primary font - use ExtraBold for everything
 font-family = "JetBrainsMono Nerd Font Mono ExtraBold"
-font-size = 14
+font-size = 19
 
 # Additional font settings for better rendering
 font-feature = +liga,+calt,+ss01,+ss02,+ss03

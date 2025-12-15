@@ -45,11 +45,12 @@ local function setup_bold_and_transparency()
 end
 
 return {
-  -- Monokai Pro Filter Octagon Theme (PRIMARY - this is the one you're using)
+  -- Monokai Pro Filter Octagon Theme (DISABLED - dark theme)
   {
     "loctvl842/monokai-pro.nvim",
     priority = 1000,
     lazy = false,
+    enabled = false, -- DISABLED
     config = function()
       require("monokai-pro").setup({
         transparent_background = true,
@@ -122,12 +123,12 @@ return {
     end,
   },
 
-  -- Catppuccin Theme (DISABLED - uncomment if you want to switch)
+  -- Catppuccin Theme (DISABLED - light theme option)
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    enabled = false, -- DISABLED to prevent loading both colorschemes
+    enabled = false, -- DISABLED
     config = function()
       require("catppuccin").setup({
         flavour = "latte", -- latte, frappe, macchiato, mocha
@@ -173,4 +174,49 @@ return {
       transparency.apply()
     end,
   },
+
+  -- Ayu Theme Light (PRIMARY - light theme active)
+  {
+    "Shatur/neovim-ayu",
+    priority = 1000,
+    lazy = false,
+    config = function()
+      require("ayu").setup({
+        mirage = false, -- Set to true for mirage variant
+        terminal = true, -- Set to false if terminal theme doesn't need change
+        overrides = {}, -- Add custom overrides here
+      })
+
+      -- Set to light variant
+      vim.o.background = "light"
+      vim.cmd.colorscheme("ayu-light")
+
+      -- Use the same transparency manager
+      local transparency = setup_bold_and_transparency()
+      package.loaded["transparency_manager"] = transparency
+
+      vim.api.nvim_create_augroup("TransparencyManager", { clear = true })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = "TransparencyManager",
+        callback = function()
+          vim.defer_fn(function()
+            transparency.apply()
+          end, 10)
+        end,
+      })
+
+      transparency.apply()
+
+      -- Apply after VimEnter for consistency
+      vim.api.nvim_create_autocmd("VimEnter", {
+        once = true,
+        callback = function()
+          vim.defer_fn(function()
+            transparency.apply()
+          end, 50)
+        end,
+      })
+    end,
+  },
+
 }
