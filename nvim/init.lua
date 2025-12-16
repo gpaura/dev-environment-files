@@ -6,6 +6,14 @@ vim.loader.enable() -- Enable Lua module cache for faster loading
 -- Early performance settings
 vim.g.loaded_csv = 1 -- Disable csv.vim plugin to prevent conflicts
 
+-- Suppress E35 error on startup by setting a default search pattern
+vim.fn.setreg('/', '')
+
+-- Disable bells and suppress some error messages during startup
+vim.opt.errorbells = false
+vim.opt.visualbell = false
+vim.opt.shortmess:append("I") -- Don't show intro message
+
 -- Load core modules
 require("gabriel.core")
 require("gabriel.lazy")

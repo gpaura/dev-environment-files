@@ -1,7 +1,0 @@
-[manager]
-show_hidden = true
-
-[opener]
-edit = [
-    { run = '~/.config/scripts/yazi-opener.sh "$@"', block = false, desc = "Edit", for = "unix" }
-]

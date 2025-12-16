@@ -50,7 +50,7 @@ return {
     "loctvl842/monokai-pro.nvim",
     priority = 1000,
     lazy = false,
-    enabled = false, -- DISABLED
+    enabled = false,
     config = function()
       require("monokai-pro").setup({
         transparent_background = true,
@@ -179,7 +179,7 @@ return {
   {
     "Shatur/neovim-ayu",
     priority = 1000,
-    lazy = false,
+    enabled = true,
     config = function()
       require("ayu").setup({
         mirage = false, -- Set to true for mirage variant

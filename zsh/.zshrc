@@ -140,15 +140,16 @@ reset-selection() {
     SELECTION_END=-1
     SELECTION_ACTIVE=0
     SELECTION_MODE=""
+    zle reset-prompt 2>/dev/null
 }
 
 show-selection() {
     local start=$1
     local end=$2
     local text="${BUFFER:$start:$((end - start))}"
-    
+
     echo -ne "\r\033[K"
-    
+
     if [[ $start -gt 0 ]]; then
         echo -n "${BUFFER:0:$start}"
     fi
@@ -158,7 +159,30 @@ show-selection() {
     if [[ $end -lt ${#BUFFER} ]]; then
         echo -n "${BUFFER:$end}"
     fi
-    
+
+    echo -ne "\r"
+    if [[ $CURSOR -gt 0 ]]; then
+        echo -ne "\033[${CURSOR}C"
+    fi
+}
+
+show-selection-yellow() {
+    local start=$1
+    local end=$2
+    local text="${BUFFER:$start:$((end - start))}"
+
+    echo -ne "\r\033[K"
+
+    if [[ $start -gt 0 ]]; then
+        echo -n "${BUFFER:0:$start}"
+    fi
+    echo -ne "\033[43;30m"
+    echo -n "$text"
+    echo -ne "\033[0m"
+    if [[ $end -lt ${#BUFFER} ]]; then
+        echo -n "${BUFFER:$end}"
+    fi
+
     echo -ne "\r"
     if [[ $CURSOR -gt 0 ]]; then
         echo -ne "\033[${CURSOR}C"
@@ -167,66 +191,56 @@ show-selection() {
 
 smart-word-select() {
     local direction=$1
-    local orig_cursor=$CURSOR
-    
-    if [[ $SELECTION_ACTIVE -eq 0 ]]; then
-        zle backward-word
-        SELECTION_START=$CURSOR
-        zle forward-word
-        SELECTION_END=$CURSOR
-        SELECTION_ACTIVE=1
-        SELECTION_MODE="word"
-        
-        if [[ $direction == "left" ]]; then
-            CURSOR=$SELECTION_START
-        else
-            CURSOR=$SELECTION_END
-        fi
-    else
-        if [[ $direction == "left" ]]; then
-            if [[ $CURSOR -eq $SELECTION_START ]]; then
-                zle backward-word
-                SELECTION_START=$CURSOR
-            elif [[ $CURSOR -eq $SELECTION_END ]]; then
-                zle backward-word
-                if [[ $CURSOR -le $SELECTION_START ]]; then
-                    SELECTION_END=$SELECTION_START
-                    SELECTION_START=$CURSOR
-                else
-                    SELECTION_END=$CURSOR
-                fi
-            fi
-        else
-            if [[ $CURSOR -eq $SELECTION_END ]]; then
-                zle forward-word
-                SELECTION_END=$CURSOR
-            elif [[ $CURSOR -eq $SELECTION_START ]]; then
-                zle forward-word
-                if [[ $CURSOR -ge $SELECTION_END ]]; then
-                    SELECTION_START=$SELECTION_END
-                    SELECTION_END=$CURSOR
-                else
-                    SELECTION_START=$CURSOR
-                fi
-            fi
+    local current_time=$EPOCHREALTIME
+    local time_threshold=0.3
+
+    # Check if enough time passed since last selection to reset
+    if [[ -n "$LAST_SELECTION_TIME" ]]; then
+        local time_diff=$(( current_time - LAST_SELECTION_TIME ))
+        if (( $(echo "$time_diff > $time_threshold" | bc -l) )); then
+            reset-selection
         fi
     fi
-    
+
+    if [[ $SELECTION_ACTIVE -eq 0 ]]; then
+        # First press - start from cursor position
+        SELECTION_START=$CURSOR
+        if [[ $direction == "left" ]]; then
+            zle backward-word
+            SELECTION_END=$SELECTION_START
+            SELECTION_START=$CURSOR
+        else
+            zle forward-word
+            SELECTION_END=$CURSOR
+        fi
+        SELECTION_ACTIVE=1
+        SELECTION_MODE="word"
+    else
+        # Extending selection
+        if [[ $direction == "left" ]]; then
+            zle backward-word
+            SELECTION_START=$CURSOR
+        else
+            zle forward-word
+            SELECTION_END=$CURSOR
+        fi
+    fi
+
     local selected_text="${BUFFER:$SELECTION_START:$((SELECTION_END - SELECTION_START))}"
     echo -n "$selected_text" | pbcopy
-    
-    show-selection $SELECTION_START $SELECTION_END
-    
-    echo -ne "\r\033[K\033[46;30m"
+
+    echo -ne "\033[43;30m"
     if [[ $direction == "left" ]]; then
         echo -n " ← WORD: '$selected_text' "
     else
         echo -n " → WORD: '$selected_text' "
     fi
     echo -ne "\033[0m"
-    sleep 0.5
-    
-    show-selection $SELECTION_START $SELECTION_END
+    sleep 0.3
+    zle reset-prompt
+
+    # Update timestamp for next call
+    LAST_SELECTION_TIME=$EPOCHREALTIME
 }
 
 smart-word-select-left() {

@@ -1,9 +1,9 @@
 #!/bin/bash
 # Robust 3-column tmux layout (Index-agnostic)
 # Structure:
-# | Left (7%)  | Editor (~75%)| Right (18%) |
+# | Left (6%)  | Editor (~76%)| Right (18%) |
 # |            |--------------|             |
-# |            | Term (20%)   |             |
+# |            | Term (13%)   |             |
 
 set -e
 
@@ -46,13 +46,13 @@ PANE_LEFT=$(tmux list-panes -t "$SESSION_NAME" -F "#{pane_id}")
 
 # 2. Split LEFT to create the big area on the right
 # New pane becomes the temporary "Center+Right" area
-# We split -h (horizontal) at 88% width (Left is ~12%)
-PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 88 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# We split -h (horizontal) at 94% width (Left is ~6%)
+PANE_CENTER_WRAPPER=$(tmux split-window -t "$PANE_LEFT" -h -p 94 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # 3. Split that Wrapper to create the Right Sidebar
 # We need the Right Sidebar to be 18% of the TOTAL screen.
-# Since the wrapper is 93% of the screen, we take ~20% of IT.
-PANE_RIGHT=$(tmux split-window -t "$PANE_CENTER_WRAPPER" -h -p 20 -c "$TARGET_DIR" -P -F "#{pane_id}")
+# Since the wrapper is 94% of the screen, we take ~19% of IT.
+PANE_RIGHT=$(tmux split-window -t "$PANE_CENTER_WRAPPER" -h -p 19 -c "$TARGET_DIR" -P -F "#{pane_id}")
 
 # Now, PANE_CENTER_WRAPPER has shrunk and is actually just the CENTER column.
 # Let's rename the variable for clarity.
@@ -65,15 +65,25 @@ PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 13 -c "$TARGET_DIR" -P
 # --- Setup Pane Text ---
 # Now we have exact IDs: $PANE_LEFT, $PANE_EDITOR, $PANE_TERMINAL, $PANE_RIGHT
 
+# Small delay to let panes fully initialize and avoid escape code leakage
+sleep 0.2
+
+# Clear and setup left pane with yazi
+tmux send-keys -t "$PANE_LEFT" "clear" Enter
+sleep 0.1
 tmux send-keys -t "$PANE_LEFT" "yazi" Enter
 tmux select-pane -t "$PANE_LEFT" -T "Files"
 
-tmux send-keys -t "$PANE_EDITOR" "nvim" Enter
+# Clear and setup editor pane with nvim - use printf to clear escape sequences
+sleep 0.2
+tmux send-keys -t "$PANE_EDITOR" "clear && printf '\\033c' && nvim" Enter
 tmux select-pane -t "$PANE_EDITOR" -T "Editor"
 
 tmux send-keys -t "$PANE_TERMINAL" "clear" Enter
 tmux select-pane -t "$PANE_TERMINAL" -T "Terminal"
 
+tmux send-keys -t "$PANE_RIGHT" "clear" Enter
+sleep 0.1
 tmux send-keys -t "$PANE_RIGHT" "claude" Enter
 tmux select-pane -t "$PANE_RIGHT" -T "Claude"
 
