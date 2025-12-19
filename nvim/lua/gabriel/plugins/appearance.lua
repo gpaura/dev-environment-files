@@ -44,13 +44,19 @@ local function setup_bold_and_transparency()
   return M
 end
 
+-- Load the current theme from a file managed by external scripts (theme.sh)
+local current_theme_name = "monokai-pro" -- Default
+pcall(function()
+  current_theme_name = require("gabriel.current_theme")
+end)
+
 return {
   -- Monokai Pro Filter Octagon Theme (DISABLED - dark theme)
   {
     "loctvl842/monokai-pro.nvim",
     priority = 1000,
     lazy = false,
-    enabled = false,
+    enabled = (current_theme_name == "monokai-pro" or current_theme_name == "dark" or current_theme_name == "lgbt_dark"),
     config = function()
       require("monokai-pro").setup({
         transparent_background = true,
@@ -179,7 +185,7 @@ return {
   {
     "Shatur/neovim-ayu",
     priority = 1000,
-    enabled = true,
+    enabled = (current_theme_name == "ayu-light" or current_theme_name == "light" or current_theme_name == "lgbt_light"),
     config = function()
       require("ayu").setup({
         mirage = false, -- Set to true for mirage variant

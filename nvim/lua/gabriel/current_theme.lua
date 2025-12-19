@@ -1,0 +1,1 @@
+return "lgbt_light"

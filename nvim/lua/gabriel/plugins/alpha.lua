@@ -56,12 +56,12 @@ return {
 
     -- Cache button data for faster updates
     local button_configs = {
-      { shortcut = "e", icon = "", label = "New file", cmd = "<cmd>ene<cr>" },
-      { shortcut = "SPC ee", icon = "", label = "Toggle file explorer", cmd = "<cmd>NvimTreeToggle<cr>" },
+      { shortcut = "e", icon = "", label = "New file", cmd = "<cmd>ene<cr>" },
+      { shortcut = "SPC ee", icon = "", label = "Toggle file explorer", cmd = "<cmd>NvimTreeToggle<cr>" },
       { shortcut = "SPC ff", icon = "󰱼", label = "Find file", cmd = "<cmd>Telescope find_files<cr>" },
-      { shortcut = "SPC fs", icon = "", label = "Find word", cmd = "<cmd>Telescope live_grep<cr>" },
+      { shortcut = "SPC fs", icon = "", label = "Find word", cmd = "<cmd>Telescope live_grep<cr>" },
       { shortcut = "SPC wr", icon = "󰁯", label = "Restore session", cmd = "<cmd>SessionRestore<cr>" },
-      { shortcut = "q", icon = "", label = "Quit Neovim", cmd = "<cmd>qa<cr>" },
+      { shortcut = "q", icon = "", label = "Quit Neovim", cmd = "<cmd>qa<cr>" },
     }
 
     -- Pre-calculate icon lengths for performance
@@ -90,7 +90,24 @@ return {
     dashboard.section.footer.val = function()
       local stats = require("lazy").stats()
       local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-      return string.format("⚡ Neovim loaded %d/%d plugins in %.2f ms", stats.loaded, stats.count, ms)
+      local robot = {
+        "",
+        "                ╭──────╮",
+        "                │ ●  ● │",
+        "                │  ⏖   │",
+        "                ╰──┬┬──╯",
+        "               ┌───┴┴───┐",
+        "               │ ╭────╮ │",
+        "               │ │ AI │ │",
+        "               │ ╰────╯ │",
+        "               └────────┘",
+        "                 │    │",
+        "                👞    👞",
+        "",
+      }
+      local loading_msg = string.format("⚡ Neovim loaded %d/%d plugins in %.2f ms", stats.loaded, stats.count, ms)
+      table.insert(robot, 1, loading_msg)
+      return robot
     end
 
     dashboard.section.footer.opts.hl = "AlphaHeader1"

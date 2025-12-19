@@ -678,6 +678,26 @@ update_claude_theme() {
     echo "ℹ️  (Claude Code inherits terminal colors from WezTerm/Ghostty automatically)"
 }
 
+# Update Neovim theme
+update_nvim_theme() {
+    local nvim_theme_file="$HOME/.config/nvim/lua/gabriel/current_theme.lua"
+    
+    if [ ! -d "$(dirname "$nvim_theme_file")" ]; then
+        echo "⚠️  Neovim config directory not found. Skipping Neovim theme update."
+        return 0
+    fi
+    
+    # Map the theme name to what appearance.lua expects
+    # The logic in appearance.lua handles "light", "dark", "lgbt_light", "lgbt_dark" directly
+    # but we can be explicit here if we want.
+    # The updated appearance.lua checks: 
+    # enabled = (current_theme_name == "monokai-pro" or current_theme_name == "dark" or current_theme_name == "lgbt_dark")
+    # enabled = (current_theme_name == "ayu-light" or current_theme_name == "light" or current_theme_name == "lgbt_light")
+    
+    echo "return \"$NEW_THEME\"" > "$nvim_theme_file"
+    echo "✅ Updated Neovim theme configuration to \"$NEW_THEME\""
+}
+
 # Update Ghostty theme
 update_ghostty_theme
 
@@ -692,6 +712,9 @@ update_gemini_theme
 
 # Update Claude Code theme
 update_claude_theme
+
+# Update Neovim theme
+update_nvim_theme
 
 # Reload Ghostty
 if pgrep ghostty >/dev/null 2>&1; then
