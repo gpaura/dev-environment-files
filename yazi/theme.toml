@@ -1,0 +1,116 @@
+# Yazi Theme Configuration - Using Flexoki Light Flavor with Colorful Enhancements
+[flavor]
+light = "flexoki-light"
+
+# Enhanced colorful file type rules (overrides the flavor)
+[filetype]
+rules = [
+  # Images - Vibrant Purple/Magenta
+  { mime = "image/png", fg = "#A02F6F" },
+  { mime = "image/jpeg", fg = "#A02F6F" },
+  { mime = "image/jpg", fg = "#A02F6F" },
+  { mime = "image/gif", fg = "#5E409D" },
+  { mime = "image/webp", fg = "#A02F6F" },
+  { mime = "image/svg+xml", fg = "#5E409D" },
+  { mime = "image/*", fg = "#A02F6F" },
+
+  # Videos - Bright Orange/Yellow
+  { mime = "video/mp4", fg = "#BC5215" },
+  { mime = "video/x-matroska", fg = "#BC5215" },
+  { mime = "video/*", fg = "#D0A215" },
+
+  # Audio - Yellow
+  { mime = "audio/mpeg", fg = "#AD8301" },
+  { mime = "audio/flac", fg = "#D0A215" },
+  { mime = "audio/*", fg = "#AD8301" },
+
+  # Archives - Red/Orange
+  { mime = "application/zip", fg = "#AF3029" },
+  { mime = "application/x-tar", fg = "#AF3029" },
+  { mime = "application/x-7z-compressed", fg = "#AF3029" },
+  { mime = "application/gzip", fg = "#BC5215" },
+  { mime = "application/x-bzip", fg = "#BC5215" },
+  { mime = "application/x-rar", fg = "#AF3029" },
+
+  # Documents - Blue
+  { mime = "application/pdf", fg = "#205EA6" },
+  { mime = "text/markdown", fg = "#205EA6" },
+  { name = "*.md", fg = "#205EA6" },
+  { name = "*.txt", fg = "#6F6E69" },
+
+  # Code files - Various colors
+  { name = "*.rs", fg = "#24837B" },
+  { name = "*.go", fg = "#3AA99F" },
+  { name = "*.py", fg = "#24837B" },
+  { name = "*.js", fg = "#D0A215" },
+  { name = "*.ts", fg = "#205EA6" },
+  { name = "*.jsx", fg = "#3AA99F" },
+  { name = "*.tsx", fg = "#205EA6" },
+  { name = "*.html", fg = "#BC5215" },
+  { name = "*.css", fg = "#205EA6" },
+  { name = "*.json", fg = "#D0A215" },
+  { name = "*.yaml", fg = "#5E409D" },
+  { name = "*.yml", fg = "#5E409D" },
+  { name = "*.toml", fg = "#5E409D" },
+  { name = "*.xml", fg = "#BC5215" },
+  { name = "*.sh", fg = "#66800B" },
+  { name = "*.bash", fg = "#66800B" },
+  { name = "*.zsh", fg = "#66800B" },
+
+  # Config files - Purple
+  { name = "*.conf", fg = "#5E409D" },
+  { name = "*.config", fg = "#5E409D" },
+  { name = "*.ini", fg = "#5E409D" },
+
+  # Build/Lock files - Gray
+  { name = "Makefile", fg = "#6F6E69" },
+  { name = "Cargo.lock", fg = "#B7B5AC" },
+  { name = "package-lock.json", fg = "#B7B5AC" },
+  { name = "yarn.lock", fg = "#B7B5AC" },
+
+  # Special files
+  { name = ".gitignore", fg = "#AF3029" },
+  { name = ".gitattributes", fg = "#AF3029" },
+  { name = ".env", fg = "#D0A215", bold = true },
+  { name = ".env.*", fg = "#D0A215", bold = true },
+  { name = "README*", fg = "#205EA6", bold = true },
+  { name = "LICENSE*", fg = "#66800B" },
+
+  # Broken symbolic link
+  { name = "*", is = "orphan", fg = "#AF3029", crossed = true },
+  { name = "*/", is = "orphan", fg = "#AF3029", crossed = true },
+
+  # Symbolic links
+  { name = "*", is = "link", fg = "#3AA99F", underline = true },
+  { name = "*/", is = "link", fg = "#3AA99F", underline = true },
+
+  # Executable files
+  { name = "*", is = "exec", fg = "#66800B", bold = true },
+
+  # Empty files
+  { mime = "inode/empty", fg = "#B7B5AC" },
+
+  # Fallback
+  { name = "*", fg = "#6F6E69" },
+  { name = "*/", fg = "#100F0F", bold = true }
+]
+
+# More vibrant permission colors
+[status]
+perm_type = { fg = "#5E409D", bold = true }
+perm_read = { fg = "#205EA6", bold = true }
+perm_write = { fg = "#BC5215", bold = true }
+perm_exec = { fg = "#66800B", bold = true }
+perm_sep = { fg = "#B7B5AC" }
+
+# More colorful marker selections
+[mgr]
+marker_selected = { fg = "#24837B", bg = "#BFE8D9", bold = true }
+marker_copied = { fg = "#66800B", bg = "#E6E4D9", bold = true }
+marker_cut = { fg = "#AF3029", bg = "#F2F0E5", bold = true }
+marker_marked = { fg = "#5E409D", bg = "#E6E4D9", bold = true }
+
+# Colorful count indicators
+count_selected = { fg = "#FFFCF0", bg = "#24837B", bold = true }
+count_copied = { fg = "#FFFCF0", bg = "#66800B", bold = true }
+count_cut = { fg = "#FFFCF0", bg = "#AF3029", bold = true }

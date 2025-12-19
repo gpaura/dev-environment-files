@@ -1,0 +1,26 @@
+{
+  "currentTheme": "lgbt_light",
+  "themes": {
+    "light": {
+      "name": "Light Theme",
+      "description": "Clean light background - Claude Code inherits WezTerm/Ghostty terminal colors",
+      "terminalTheme": "light"
+    },
+    "dark": {
+      "name": "Dark Theme",
+      "description": "Dark background with bright colors - Claude Code inherits WezTerm/Ghostty terminal colors",
+      "terminalTheme": "dark"
+    },
+    "lgbt_light": {
+      "name": "LGBT Light Rainbow Theme",
+      "description": "Pride colors on light background - Claude Code inherits WezTerm/Ghostty terminal colors",
+      "terminalTheme": "lgbt_light"
+    },
+    "lgbt_dark": {
+      "name": "LGBT Dark Rainbow Theme",
+      "description": "Pride colors on dark background - Claude Code inherits WezTerm/Ghostty terminal colors",
+      "terminalTheme": "lgbt_dark"
+    }
+  },
+  "info": "Claude Code inherits colors from your terminal emulator (WezTerm/Ghostty). This file tracks theme preferences for consistency with your theme.sh script."
+}

@@ -229,14 +229,15 @@ smart-word-select() {
     local selected_text="${BUFFER:$SELECTION_START:$((SELECTION_END - SELECTION_START))}"
     echo -n "$selected_text" | pbcopy
 
-    echo -ne "\033[43;30m"
+    echo -ne "\r\033[43;30m"
     if [[ $direction == "left" ]]; then
         echo -n " ← WORD: '$selected_text' "
     else
         echo -n " → WORD: '$selected_text' "
     fi
     echo -ne "\033[0m"
-    sleep 0.3
+    sleep 1
+    echo -ne "\r\033[K"
     zle reset-prompt
 
     # Update timestamp for next call
@@ -282,8 +283,9 @@ simple-select-left() {
         local before_cursor="${BUFFER:0:$CURSOR}"
         echo -n "$before_cursor" | pbcopy
         zle beginning-of-line
-        echo -ne "\033[43;30m ← COPIED: '$before_cursor' \033[0m"
+        echo -ne "\r\033[43;30m ← COPIED: '$before_cursor' \033[0m"
         sleep 1
+        echo -ne "\r\033[K"
         zle reset-prompt
     fi
 }
@@ -295,8 +297,9 @@ simple-select-right() {
         local after_cursor="${BUFFER:$CURSOR}"
         echo -n "$after_cursor" | pbcopy
         zle end-of-line
-        echo -ne "\033[43;30m → COPIED: '$after_cursor' \033[0m"
+        echo -ne "\r\033[43;30m → COPIED: '$after_cursor' \033[0m"
         sleep 1
+        echo -ne "\r\033[K"
         zle reset-prompt
     fi
 }

@@ -539,7 +539,7 @@ config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1" } -- Enable 
 -- Window settings
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.95
 config.macos_window_background_blur = 10
 
 -- macOS Command Key Configuration - COMPLETE FIX
@@ -1153,41 +1153,7 @@ config.keys = {
   {
     key = 'g',
     mods = 'CMD|SHIFT',
-    action = wezterm.action_callback(function(window, pane)
-      wezterm.log_info("Triggered tmux layout via Cmd+Shift+G")
-
-      -- Get current working directory
-      local cwd = pane:get_current_working_dir()
-      local path = cwd and cwd.file_path or os.getenv("HOME")
-      if path then path = path:gsub("^file://", "") end
-
-      -- Check if we're already in tmux
-      local in_tmux = os.getenv("TMUX") ~= nil
-
-      -- Check if session "dev" already exists
-      local success, stdout, stderr = wezterm.run_child_process({
-        "tmux", "has-session", "-t", "dev"
-      })
-
-      if in_tmux then
-        -- Already in tmux, switch to dev session
-        if success then
-          pane:send_text("tmux switch-client -t dev\r")
-        else
-          -- Create dev session in background then switch
-          pane:send_text(os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh dev " .. path .. "\r")
-        end
-      else
-        -- Not in tmux, attach or create
-        if success then
-          pane:send_text("tmux attach-session -t dev\r")
-        else
-          pane:send_text(os.getenv("HOME") .. "/.config/scripts/tmux-dev-layout.sh dev " .. path .. "\r")
-        end
-      end
-
-      window:toast_notification('WezTerm', 'Launching tmux "dev" session 🚀', nil, 2000)
-    end),
+    action = act.SendString(os.getenv("HOME") .. "/.config/scripts/wezterm-tmux-dev.sh \"$PWD\"\r"),
   },
 }
 

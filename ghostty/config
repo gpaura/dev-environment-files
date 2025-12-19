@@ -18,40 +18,40 @@ font-thicken = true
 # ============================================================================
 foreground = "#2D2A2E"
 # THEME_START
-# Dark theme settings - EXACT WEZTERM MATCH
-foreground = "#F8F8F2"
-background = "#1A1B26"
+# LGBT Light Rainbow Theme - Matching WezTerm
+foreground = "#1A1A1A"
+background = "#FEFEFE"
 
 # Cursor
-cursor-color = "#FF79C6"
-cursor-text = "#282A36"
+cursor-color = "#732982"
+cursor-text = "#FFFFFF"
 
 # Selection
-selection-background = "#44475A"
-selection-foreground = "#F8F8F2"
+selection-background = "#E1BEE7"
+selection-foreground = "#1A1A1A"
 
-# ANSI Colors (0-7) - Exact WezTerm Match with enhanced readability
-palette = 0=#414868
-palette = 1=#FF5555
-palette = 2=#50FA7B
-palette = 3=#FF40A3
-palette = 4=#7AA2F7
-palette = 5=#FF79C6
-palette = 6=#8BE9FD
-palette = 7=#ACAAB6
+# ANSI Colors (0-7) - Dark rainbow for excellent contrast on light background
+palette = 0=#212121
+palette = 1=#C62828
+palette = 2=#2E7D32
+palette = 3=#F57F17
+palette = 4=#1565C0
+palette = 5=#4A148C
+palette = 6=#E65100
+palette = 7=#424242
 
-# Bright Colors (8-15) - Exact WezTerm Match with enhanced readability
-palette = 8=#565F89
-palette = 9=#F7768E
-palette = 10=#A9FF68
-palette = 11=#FF66C7
-palette = 12=#BD93F9
-palette = 13=#FC9867
-palette = 14=#78DCE8
-palette = 15=#F8F8F2
+# Bright Colors (8-15) - Medium intensity rainbow for balance
+palette = 8=#9E9E9E
+palette = 9=#E40303
+palette = 10=#008F11
+palette = 11=#FFD700
+palette = 12=#004CFF
+palette = 13=#732982
+palette = 14=#FF8C00
+palette = 15=#212121
 
-# Note: Ghostty only supports palette colors 0-15
-# Extended colors are handled through the base 16 ANSI colors
+# Note: LGBT Light theme uses pride rainbow colors with light background
+# Optimized for excellent contrast on light terminals
 # THEME_END
 
 # Shader configuration

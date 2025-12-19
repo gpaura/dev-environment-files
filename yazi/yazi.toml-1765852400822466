@@ -1,13 +1,10 @@
-[mgr]
+[manager]
 show_hidden = true
 ratio = [1, 4, 0]
 sort_by = "alphabetical"
 sort_sensitive = false
 sort_dir_first = true
-linemode = "size_and_mtime"
-
-[status]
-show = true
+linemode = "size"
 
 [opener]
 edit = [

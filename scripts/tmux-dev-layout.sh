@@ -66,7 +66,7 @@ PANE_TERMINAL=$(tmux split-window -t "$PANE_EDITOR" -v -p 13 -c "$TARGET_DIR" -P
 # Now we have exact IDs: $PANE_LEFT, $PANE_EDITOR, $PANE_TERMINAL, $PANE_RIGHT
 
 # Small delay to let panes fully initialize and avoid escape code leakage
-sleep 0.2
+sleep 0.3
 
 # Clear and setup left pane with yazi
 tmux send-keys -t "$PANE_LEFT" "clear" Enter
@@ -74,9 +74,11 @@ sleep 0.1
 tmux send-keys -t "$PANE_LEFT" "yazi" Enter
 tmux select-pane -t "$PANE_LEFT" -T "Files"
 
-# Clear and setup editor pane with nvim - use printf to clear escape sequences
+# Clear and setup editor pane with nvim
 sleep 0.2
-tmux send-keys -t "$PANE_EDITOR" "clear && printf '\\033c' && nvim" Enter
+tmux send-keys -t "$PANE_EDITOR" "clear" Enter
+sleep 0.1
+tmux send-keys -t "$PANE_EDITOR" "nvim" Enter
 tmux select-pane -t "$PANE_EDITOR" -T "Editor"
 
 tmux send-keys -t "$PANE_TERMINAL" "clear" Enter

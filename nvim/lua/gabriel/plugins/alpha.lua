@@ -98,11 +98,17 @@ return {
     -- Setup Alpha
     alpha.setup(dashboard.opts)
 
-    -- Disable folding efficiently
+    -- Disable folding and fix background for alpha
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "alpha",
       callback = function()
         vim.opt_local.foldenable = false
+        vim.opt_local.signcolumn = "no"  -- Hide sign column
+        -- Ensure proper background for alpha dashboard
+        vim.api.nvim_set_hl(0, "Normal", { bg = "#fafafa" })  -- Light background for ayu-light
+        vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = "#fafafa", bg = "#fafafa" })
+        vim.api.nvim_set_hl(0, "SignColumn", { bg = "#fafafa" })
+        vim.api.nvim_set_hl(0, "LineNr", { bg = "#fafafa" })
       end,
     })
 
@@ -182,6 +188,20 @@ return {
           end
           timer = vim.loop.new_timer()
           timer:start(0, 800, vim.schedule_wrap(animate))
+        end
+      end,
+    })
+
+    -- Restore transparency when leaving alpha dashboard
+    vim.api.nvim_create_autocmd("BufLeave", {
+      pattern = "*",
+      callback = function()
+        if vim.bo.filetype == "alpha" then
+          -- Restore transparency
+          vim.schedule(function()
+            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+            vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+          end)
         end
       end,
     })

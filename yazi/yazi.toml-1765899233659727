@@ -1,13 +1,19 @@
-[mgr]
+[manager]
 show_hidden = true
 ratio = [1, 4, 0]
 sort_by = "alphabetical"
 sort_sensitive = false
 sort_dir_first = true
-linemode = "size_and_mtime"
+linemode = "size"
 
-[status]
-show = true
+# Fix terminal response timeout in tmux
+[plugin]
+fetchers = []
+
+[input]
+# Increase timeout for terminal detection in tmux (default is 500ms)
+# This helps when tmux intercepts terminal capability queries
+timeout_ms = 1000
 
 [opener]
 edit = [

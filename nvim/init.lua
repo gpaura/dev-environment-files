@@ -6,10 +6,19 @@ vim.loader.enable() -- Enable Lua module cache for faster loading
 -- Early performance settings
 vim.g.loaded_csv = 1 -- Disable csv.vim plugin to prevent conflicts
 
--- Suppress E35 error on startup by setting a default search pattern
-vim.fn.setreg('/', '')
+-- Fix E35/E486 errors - initialize early and after session restore
+pcall(vim.fn.setreg, '/', '')
+vim.opt.hlsearch = false
 
--- Disable bells and suppress some error messages during startup
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    pcall(vim.fn.setreg, '/', '')
+    vim.opt.hlsearch = false
+  end,
+})
+
+-- Disable bells
 vim.opt.errorbells = false
 vim.opt.visualbell = false
 vim.opt.shortmess:append("I") -- Don't show intro message

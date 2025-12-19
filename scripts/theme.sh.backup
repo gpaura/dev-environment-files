@@ -353,126 +353,12 @@ EOF
             export EZA_COLORS="di=1;36:fi=1;37:ln=1;33:pi=1;32:so=1;35:bd=1;31:cd=1;34:or=1;31:mi=1;31:ex=1;32"
             ;;
         *)
-            # Use Flexoki Light flavor for light themes with STRONGER colors
-            cat > "$YAZI_THEME" << 'EOF'
-# Yazi Theme Configuration - Using Flexoki Light Flavor with STRONG Colorful Enhancements
-[flavor]
-light = "flexoki-light"
-
-# Enhanced colorful file type rules with STRONGER colors (overrides the flavor)
-[filetype]
-rules = [
-  # Images - Strong Pink/Magenta
-  { mime = "image/png", fg = "#D6006A", bold = true },
-  { mime = "image/jpeg", fg = "#D6006A", bold = true },
-  { mime = "image/jpg", fg = "#D6006A", bold = true },
-  { mime = "image/gif", fg = "#9D00FF", bold = true },
-  { mime = "image/webp", fg = "#D6006A", bold = true },
-  { mime = "image/svg+xml", fg = "#7B00E0", bold = true },
-  { mime = "image/*", fg = "#D6006A", bold = true },
-
-  # Videos - Strong Orange
-  { mime = "video/mp4", fg = "#FF6A00", bold = true },
-  { mime = "video/x-matroska", fg = "#FF6A00", bold = true },
-  { mime = "video/*", fg = "#FF8800", bold = true },
-
-  # Audio - Strong Yellow
-  { mime = "audio/mpeg", fg = "#CCAA00", bold = true },
-  { mime = "audio/flac", fg = "#D4A017", bold = true },
-  { mime = "audio/*", fg = "#CCAA00", bold = true },
-
-  # Archives - Deep Red/Orange
-  { mime = "application/zip", fg = "#CC0000", bold = true },
-  { mime = "application/x-tar", fg = "#CC0000", bold = true },
-  { mime = "application/x-7z-compressed", fg = "#CC0000", bold = true },
-  { mime = "application/gzip", fg = "#FF5500", bold = true },
-  { mime = "application/x-bzip", fg = "#FF5500", bold = true },
-  { mime = "application/x-rar", fg = "#CC0000", bold = true },
-
-  # Documents - Strong Blue
-  { mime = "application/pdf", fg = "#0066CC", bold = true },
-  { mime = "text/markdown", fg = "#0066CC", bold = true },
-  { name = "*.md", fg = "#0066CC", bold = true },
-  { name = "*.txt", fg = "#555555", bold = true },
-
-  # Code files - Strong Varied Colors
-  { name = "*.rs", fg = "#00AA88", bold = true },
-  { name = "*.go", fg = "#00CCAA", bold = true },
-  { name = "*.py", fg = "#0088CC", bold = true },
-  { name = "*.js", fg = "#DDAA00", bold = true },
-  { name = "*.ts", fg = "#0055DD", bold = true },
-  { name = "*.jsx", fg = "#00BBDD", bold = true },
-  { name = "*.tsx", fg = "#0055DD", bold = true },
-  { name = "*.html", fg = "#FF5500", bold = true },
-  { name = "*.css", fg = "#0077DD", bold = true },
-  { name = "*.json", fg = "#DDAA00", bold = true },
-  { name = "*.yaml", fg = "#8800DD", bold = true },
-  { name = "*.yml", fg = "#8800DD", bold = true },
-  { name = "*.toml", fg = "#7700CC", bold = true },
-  { name = "*.xml", fg = "#FF5500", bold = true },
-  { name = "*.sh", fg = "#00AA00", bold = true },
-  { name = "*.bash", fg = "#00AA00", bold = true },
-  { name = "*.zsh", fg = "#00AA00", bold = true },
-
-  # Config files - Strong Purple
-  { name = "*.conf", fg = "#7700CC", bold = true },
-  { name = "*.config", fg = "#7700CC", bold = true },
-  { name = "*.ini", fg = "#8800DD", bold = true },
-
-  # Build/Lock files - Medium Gray
-  { name = "Makefile", fg = "#666666", bold = true },
-  { name = "Cargo.lock", fg = "#888888" },
-  { name = "package-lock.json", fg = "#888888" },
-  { name = "yarn.lock", fg = "#888888" },
-
-  # Special files - Strong Colors
-  { name = ".gitignore", fg = "#DD0000", bold = true },
-  { name = ".gitattributes", fg = "#DD0000", bold = true },
-  { name = ".env", fg = "#DDAA00", bold = true },
-  { name = ".env.*", fg = "#DDAA00", bold = true },
-  { name = "README*", fg = "#0066CC", bold = true },
-  { name = "LICENSE*", fg = "#00AA00", bold = true },
-
-  # Broken symbolic link - Bright Red
-  { name = "*", is = "orphan", fg = "#FF0000", crossed = true, bold = true },
-  { name = "*/", is = "orphan", fg = "#FF0000", crossed = true, bold = true },
-
-  # Symbolic links - Bright Cyan
-  { name = "*", is = "link", fg = "#00BBDD", underline = true, bold = true },
-  { name = "*/", is = "link", fg = "#00BBDD", underline = true, bold = true },
-
-  # Executable files - Strong Green
-  { name = "*", is = "exec", fg = "#00AA00", bold = true },
-
-  # Empty files - Light gray
-  { mime = "inode/empty", fg = "#999999" },
-
-  # Fallback
-  { name = "*", fg = "#555555" },
-  { name = "*/", fg = "#000000", bold = true }
-]
-
-# STRONGER permission colors
-[status]
-perm_type = { fg = "#8800DD", bold = true }
-perm_read = { fg = "#0066CC", bold = true }
-perm_write = { fg = "#FF6A00", bold = true }
-perm_exec = { fg = "#00AA00", bold = true }
-perm_sep = { fg = "#999999" }
-
-# STRONGER marker selections
-[mgr]
-marker_selected = { fg = "#FFFFFF", bg = "#00AAAA", bold = true }
-marker_copied = { fg = "#FFFFFF", bg = "#00AA00", bold = true }
-marker_cut = { fg = "#FFFFFF", bg = "#DD0000", bold = true }
-marker_marked = { fg = "#FFFFFF", bg = "#8800DD", bold = true }
-
-# STRONGER count indicators
-count_selected = { fg = "#FFFFFF", bg = "#00AAAA", bold = true }
-count_copied = { fg = "#FFFFFF", bg = "#00AA00", bold = true }
-count_cut = { fg = "#FFFFFF", bg = "#DD0000", bold = true }
+            # Light theme EZA colors matching WezTerm
+            cat > "$eza_colors_file" << 'EOF'
+# EZA Colors for Light Theme - Matching WezTerm
+di=1;35:fi=1;30:ln=1;36:pi=1;33:so=1;35:bd=1;33:cd=1;33:or=1;31:mi=1;31:ex=1;32
 EOF
-            echo "✅ Updated Yazi theme to Flexoki Light flavor with STRONG colorful enhancements"
+            export EZA_COLORS="di=1;35:fi=1;30:ln=1;36:pi=1;33:so=1;35:bd=1;33:cd=1;33:or=1;31:mi=1;31:ex=1;32"
             ;;
     esac
     
@@ -485,137 +371,94 @@ update_yazi_theme() {
 
     case "$NEW_THEME" in
         "dark"|"lgbt_dark")
-            # Use Dracula flavor for dark themes
+            # Dark theme Yazi colors - Tokyo Night + Dracula
             cat > "$YAZI_THEME" << 'EOF'
-# Yazi Theme Configuration - Using Dracula Flavor
-[flavor]
-dark = "dracula"
+# Yazi Theme Configuration - Matching WezTerm Dark Theme
+# Colors from Tokyo Night + Dracula fusion
+
+[manager]
+cwd = { fg = "#7AA2F7" }
+hovered = { fg = "#1A1B26", bg = "#7AA2F7" }
+preview_hovered = { underline = true }
+find_keyword = { fg = "#FF5555", italic = true }
+find_position = { fg = "#7AA2F7", bg = "reset", italic = true }
+marker_selected = { fg = "#50FA7B", bg = "#50FA7B" }
+marker_copied = { fg = "#FF5555", bg = "#FF5555" }
+tab_active = { fg = "#1A1B26", bg = "#7AA2F7" }
+tab_inactive = { fg = "#F8F8F2", bg = "#44475A" }
+
+[status]
+# Separators
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#44475A", bg = "#44475A" }
+
+# Mode indicators - Tokyo Night blue and Dracula pink
+mode_normal = { fg = "#F8F8F2", bg = "#7AA2F7", bold = true }  # Tokyo Night blue bg
+mode_select = { fg = "#F8F8F2", bg = "#FF79C6", bold = true }  # Dracula pink bg
+mode_unset  = { fg = "#F8F8F2", bg = "#7AA2F7", bold = true }
+
+# Progress display - matching WezTerm theme
+progress_label  = { fg = "#F8F8F2", bg = "#7AA2F7", bold = true }
+progress_normal = { fg = "#F8F8F2", bg = "#44475A", bold = true }
+progress_error  = { fg = "#FF5555", bg = "reset" }  # Dracula red
+
+# Permission display - using WezTerm theme colors
+perm_type = { fg = "#BD93F9" }   # Bright purple
+perm_read = { fg = "#8BE9FD" }   # Cyan
+perm_write = { fg = "#FF5555" }  # Red
+perm_exec = { fg = "#50FA7B" }   # Green
+perm_sep = { fg = "#565F89" }
 EOF
-            echo "✅ Updated Yazi theme to Dracula flavor (dark theme)"
             ;;
         *)
-            # Use Flexoki Light flavor for light themes with colorful customizations
+            # Light theme Yazi colors - FIXED: Dark text on colored backgrounds for visibility
             cat > "$YAZI_THEME" << 'EOF'
-# Yazi Theme Configuration - Using Flexoki Light Flavor with Colorful Enhancements
-[flavor]
-light = "flexoki-light"
+# Yazi Theme Configuration - Matching WezTerm Light Theme
+# FIXED: Dark text on colored backgrounds for maximum visibility
 
-# Enhanced colorful file type rules (overrides the flavor)
-[filetype]
-rules = [
-  # Images - Vibrant Purple/Magenta
-  { mime = "image/png", fg = "#A02F6F" },
-  { mime = "image/jpeg", fg = "#A02F6F" },
-  { mime = "image/jpg", fg = "#A02F6F" },
-  { mime = "image/gif", fg = "#5E409D" },
-  { mime = "image/webp", fg = "#A02F6F" },
-  { mime = "image/svg+xml", fg = "#5E409D" },
-  { mime = "image/*", fg = "#A02F6F" },
+[manager]
+cwd = { fg = "#6B2EC4" }
+hovered = { fg = "#2D2A2E", bg = "#B77BFF" }
+preview_hovered = { underline = true }
+find_keyword = { fg = "#F26F22", italic = true }
+find_position = { fg = "#6B2EC4", bg = "reset", italic = true }
+marker_selected = { fg = "#008F11", bg = "#B3E5B3" }
+marker_copied = { fg = "#C62828", bg = "#FFCDD2" }
+tab_active = { fg = "#2D2A2E", bg = "#B77BFF" }
+tab_inactive = { fg = "#5A5257", bg = "#E0E0E0" }
 
-  # Videos - Bright Orange/Yellow
-  { mime = "video/mp4", fg = "#BC5215" },
-  { mime = "video/x-matroska", fg = "#BC5215" },
-  { mime = "video/*", fg = "#D0A215" },
-
-  # Audio - Yellow
-  { mime = "audio/mpeg", fg = "#AD8301" },
-  { mime = "audio/flac", fg = "#D0A215" },
-  { mime = "audio/*", fg = "#AD8301" },
-
-  # Archives - Red/Orange
-  { mime = "application/zip", fg = "#AF3029" },
-  { mime = "application/x-tar", fg = "#AF3029" },
-  { mime = "application/x-7z-compressed", fg = "#AF3029" },
-  { mime = "application/gzip", fg = "#BC5215" },
-  { mime = "application/x-bzip", fg = "#BC5215" },
-  { mime = "application/x-rar", fg = "#AF3029" },
-
-  # Documents - Blue
-  { mime = "application/pdf", fg = "#205EA6" },
-  { mime = "text/markdown", fg = "#205EA6" },
-  { name = "*.md", fg = "#205EA6" },
-  { name = "*.txt", fg = "#6F6E69" },
-
-  # Code files - Various colors
-  { name = "*.rs", fg = "#24837B" },
-  { name = "*.go", fg = "#3AA99F" },
-  { name = "*.py", fg = "#24837B" },
-  { name = "*.js", fg = "#D0A215" },
-  { name = "*.ts", fg = "#205EA6" },
-  { name = "*.jsx", fg = "#3AA99F" },
-  { name = "*.tsx", fg = "#205EA6" },
-  { name = "*.html", fg = "#BC5215" },
-  { name = "*.css", fg = "#205EA6" },
-  { name = "*.json", fg = "#D0A215" },
-  { name = "*.yaml", fg = "#5E409D" },
-  { name = "*.yml", fg = "#5E409D" },
-  { name = "*.toml", fg = "#5E409D" },
-  { name = "*.xml", fg = "#BC5215" },
-  { name = "*.sh", fg = "#66800B" },
-  { name = "*.bash", fg = "#66800B" },
-  { name = "*.zsh", fg = "#66800B" },
-
-  # Config files - Purple
-  { name = "*.conf", fg = "#5E409D" },
-  { name = "*.config", fg = "#5E409D" },
-  { name = "*.ini", fg = "#5E409D" },
-
-  # Build/Lock files - Gray
-  { name = "Makefile", fg = "#6F6E69" },
-  { name = "Cargo.lock", fg = "#B7B5AC" },
-  { name = "package-lock.json", fg = "#B7B5AC" },
-  { name = "yarn.lock", fg = "#B7B5AC" },
-
-  # Special files
-  { name = ".gitignore", fg = "#AF3029" },
-  { name = ".gitattributes", fg = "#AF3029" },
-  { name = ".env", fg = "#D0A215", bold = true },
-  { name = ".env.*", fg = "#D0A215", bold = true },
-  { name = "README*", fg = "#205EA6", bold = true },
-  { name = "LICENSE*", fg = "#66800B" },
-
-  # Broken symbolic link
-  { name = "*", is = "orphan", fg = "#AF3029", crossed = true },
-  { name = "*/", is = "orphan", fg = "#AF3029", crossed = true },
-
-  # Symbolic links
-  { name = "*", is = "link", fg = "#3AA99F", underline = true },
-  { name = "*/", is = "link", fg = "#3AA99F", underline = true },
-
-  # Executable files
-  { name = "*", is = "exec", fg = "#66800B", bold = true },
-
-  # Empty files
-  { mime = "inode/empty", fg = "#B7B5AC" },
-
-  # Fallback
-  { name = "*", fg = "#6F6E69" },
-  { name = "*/", fg = "#100F0F", bold = true }
-]
-
-# More vibrant permission colors
 [status]
-perm_type = { fg = "#5E409D", bold = true }
-perm_read = { fg = "#205EA6", bold = true }
-perm_write = { fg = "#BC5215", bold = true }
-perm_exec = { fg = "#66800B", bold = true }
-perm_sep = { fg = "#B7B5AC" }
+# Separators
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#E0E0E0", bg = "#E0E0E0" }
 
-# More colorful marker selections
-[mgr]
-marker_selected = { fg = "#24837B", bg = "#BFE8D9", bold = true }
-marker_copied = { fg = "#66800B", bg = "#E6E4D9", bold = true }
-marker_cut = { fg = "#AF3029", bg = "#F2F0E5", bold = true }
-marker_marked = { fg = "#5E409D", bg = "#E6E4D9", bold = true }
+# FIXED: Overall status bar text color
+overall = { fg = "#2D2A2E", bg = "#FAFAFA" }  # Dark text on light background
 
-# Colorful count indicators
-count_selected = { fg = "#FFFCF0", bg = "#24837B", bold = true }
-count_copied = { fg = "#FFFCF0", bg = "#66800B", bold = true }
-count_cut = { fg = "#FFFCF0", bg = "#AF3029", bold = true }
+# Progress display - darker colors for better visibility on light background
+progress_label  = { fg = "#2D2A2E", bg = "#B77BFF", bold = true }
+progress_normal = { fg = "#FFFFFF", bg = "#5A5257", bold = true }  # White on dark gray
+progress_error  = { fg = "#C62828", bg = "reset", bold = true }  # Dark red
+
+# Permission display - using darker colors for contrast
+perm_type = { fg = "#6B2EC4", bold = true }   # Darker purple for visibility
+perm_read = { fg = "#0B7A8F", bold = true }   # Darker cyan
+perm_write = { fg = "#C62828", bold = true }  # Orange-red
+perm_exec = { fg = "#1565C0", bold = true }   # Darker blue
+perm_sep = { fg = "#5A5257" }                 # Darker gray
+
+[mode]
+# Mode indicators - FIXED: Moved to separate [mode] section with dark text
+mode_normal = { fg = "#2D2A2E", bg = "#B77BFF", bold = true }  # Dark text on light purple
+mode_select = { fg = "#2D2A2E", bg = "#FFB3D9", bold = true }  # Dark text on light pink
+mode_unset  = { fg = "#2D2A2E", bg = "#B77BFF", bold = true }
 EOF
-            echo "✅ Updated Yazi theme to Flexoki Light flavor with colorful enhancements"
             ;;
     esac
+
+    echo "✅ Updated Yazi theme for $NEW_THEME theme"
 }
 
 # Update Gemini CLI theme
@@ -656,28 +499,6 @@ update_gemini_theme() {
     echo "⚠️  (You may need to restart the Gemini CLI for changes to take effect)"
 }
 
-# Update Claude Code theme tracking
-update_claude_theme() {
-    local claude_config="$HOME/.config/claude-code/theme-config.json"
-
-    if [ ! -f "$claude_config" ]; then
-        echo "⚠️  Claude Code theme config not found. Skipping Claude Code theme update."
-        return 0
-    fi
-
-    if ! command -v jq >/dev/null 2>&1; then
-        echo "⚠️  jq not found. Skipping Claude Code theme update."
-        return 0
-    fi
-
-    # Update the current theme in the config file
-    local temp_json="${claude_config}.tmp"
-    jq --arg theme "$NEW_THEME" '.currentTheme = $theme' "$claude_config" > "$temp_json" && mv "$temp_json" "$claude_config"
-
-    echo "✅ Updated Claude Code theme tracking to $NEW_THEME"
-    echo "ℹ️  (Claude Code inherits terminal colors from WezTerm/Ghostty automatically)"
-}
-
 # Update Ghostty theme
 update_ghostty_theme
 
@@ -689,9 +510,6 @@ update_yazi_theme
 
 # Update Gemini theme
 update_gemini_theme
-
-# Update Claude Code theme
-update_claude_theme
 
 # Reload Ghostty
 if pgrep ghostty >/dev/null 2>&1; then
@@ -722,7 +540,6 @@ echo "   • Ghostty: $NEW_THEME theme active with EXACT WezTerm colors"
 echo "   • Yazi: Status bar colors updated to match theme"
 echo "   • EZA: Colors updated to match terminal theme"
 echo "   • Gemini: Theme updated to match terminal theme (restart required)"
-echo "   • Claude Code: Theme tracking updated (inherits terminal colors automatically)"
 echo ""
 echo "🌈 Available Themes (cycle with this script):"
 echo "   • Light Theme 🌞 - Clean light background"

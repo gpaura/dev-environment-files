@@ -166,9 +166,6 @@ vim.api.nvim_create_user_command("Magic", function()
     return
   end
   
-  vim.cmd("normal! i")
-  vim.cmd("normal! u")
-  
   local aligned = align_content(lines, sep)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, aligned)
   vim.bo.modified = false
@@ -183,9 +180,6 @@ vim.api.nvim_create_user_command("UnMagic", function()
     vim.notify("No content to unalign!", vim.log.levels.WARN)
     return
   end
-  
-  vim.cmd("normal! i")
-  vim.cmd("normal! u")
   
   local unaligned_lines = {}
   for _, line in ipairs(lines) do
