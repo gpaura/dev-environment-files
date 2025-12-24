@@ -1,1 +1,1 @@
-return "lgbt_light"
+return "dark"
